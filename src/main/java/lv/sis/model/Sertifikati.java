@@ -2,12 +2,15 @@ package lv.sis.model;
 
 import java.awt.Window.Type;
 import java.sql.Date;
+import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -48,4 +51,8 @@ public class Sertifikati {
 	@NotNull
 	@Column(name = "irParakstits")
 	private boolean irParakstits;
+	
+	@ManyToOne
+	@JoinColumn(name = "kdid")
+	private KursaDalibnieki dalibnieks;
 }
