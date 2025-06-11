@@ -83,4 +83,17 @@ public class KursaDalibnieki {
 	@Pattern(regexp = "^[A-Z]{0,3}[-\\s]?\\d{3,6}([-\\s]?\\d{0,4})?[A-Z]{0,3}$")
 	@Column(name = "pastaIndekss")
 	private String pastaIndekss;
+	
+	public KursaDalibnieki(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) {
+		setVards(vards);
+		setUzvards(uzvards);
+		setEpasts(epasts);
+		setTelefonaNr(telefonaNr);
+		setPersonasId(personasId);
+		setPilseta(pilseta);
+		setValsts(valsts);
+		setIelasNosaukumsNumurs(ielasNosaukumsNumurs);
+		setDzivoklaNr(dzivoklaNr);
+		setPastaIndekss(pastaIndekss);
+	}
 }
