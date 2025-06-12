@@ -1,10 +1,13 @@
 package lv.sis.model;
 
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -83,6 +86,11 @@ public class KursaDalibnieki {
 	@Pattern(regexp = "^[A-Z]{0,3}[-\\s]?\\d{3,6}([-\\s]?\\d{0,4})?[A-Z]{0,3}$")
 	@Column(name = "pastaIndekss")
 	private String pastaIndekss;
+	
+	
+	@ToString.Exclude
+	@OneToMany(mappedBy = "kursaDalibnieki")
+	private Collection<Vertejumi> vertejumi;
 	
 	public KursaDalibnieki(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) {
 		setVards(vards);

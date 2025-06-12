@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -32,8 +34,7 @@ public class Vertejumi {
 	
 	
 	//private KursaDatumi kursaDatumi;
-	
-	private KursaDalibnieki kursaDalibnieki;
+
 	
 	@Min(0)
 	@Max(10)
@@ -45,6 +46,10 @@ public class Vertejumi {
 	@Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[-.](0[1-9]|1[0-2])[-.](19|20)\\d{2}$/gm")
 	@Column(name = "PhoneNo")
 	private String datums;
+	
+	@ManyToOne
+	@JoinColumn(name = "Kdid")
+	private KursaDalibnieki kursaDalibnieki;
 	
 	public Vertejumi(float vertejumi, String datums) {
 		setVertejums(vertejumi);
