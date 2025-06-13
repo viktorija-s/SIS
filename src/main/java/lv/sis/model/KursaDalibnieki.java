@@ -87,6 +87,10 @@ public class KursaDalibnieki {
 	@Column(name = "pastaIndekss")
 	private String pastaIndekss;
 	
+
+	@OneToMany(mappedBy = "dalibnieks")
+	private Collection<Sertifikati> sertifikati;
+
 	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "kursaDalibnieki")
@@ -104,4 +108,5 @@ public class KursaDalibnieki {
 		setDzivoklaNr(dzivoklaNr);
 		setPastaIndekss(pastaIndekss);
 	}
+
 }
