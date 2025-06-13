@@ -51,9 +51,10 @@ public class Vertejumi {
 	@JoinColumn(name = "Kdid")
 	private KursaDalibnieki kursaDalibnieki;
 	
-	public Vertejumi(float vertejumi, String datums) {
+	public Vertejumi(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki) {
 		setVertejums(vertejumi);
 		setDatums(datums);
+		setKursaDalibnieki(kursaDalibnieki);
 	}
 
 }

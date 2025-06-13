@@ -36,5 +36,9 @@ public class MacibuRezultati {
 	private int macibuRezultats;
 	
 	//private Kurss kid
+	
+	public MacibuRezultati(int macibuRezultats) {
+		setMacibuRezultats(macibuRezultats);
+	}
 
 }
