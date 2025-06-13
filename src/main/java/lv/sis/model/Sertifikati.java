@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lv.sis.model.enums.CertificateType;
 
 @Setter
 @Getter
@@ -55,4 +56,11 @@ public class Sertifikati {
 	private KursaDalibnieki dalibnieks;
 	
 	// TODO pievienot saiti ar kursu
+	
+	public Sertifikati(CertificateType tips, Date izdosanasDatums, int registracijasNr, boolean irParakstits) {
+		setTips(tips);
+		setIzdosanasDatums(izdosanasDatums);
+		setRegistracijasNr(registracijasNr);
+		setIrParakstits(irParakstits);
+	}
 }
