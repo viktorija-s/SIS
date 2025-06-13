@@ -38,4 +38,9 @@ public class KursaDatumi {
 	
 	// TODO saite ar kursu
 	// TODO saite ar pasniedzeju
+	
+	public KursaDatumi(Date sakumaDatums, Date beiguDatums) {
+		setSakumaDatums(sakumaDatums);
+		setBeiguDatums(beiguDatums);
+	}
 }
