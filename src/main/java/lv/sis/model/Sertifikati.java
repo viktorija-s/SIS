@@ -1,8 +1,6 @@
 package lv.sis.model;
 
-import java.awt.Window.Type;
 import java.sql.Date;
-import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,4 +53,6 @@ public class Sertifikati {
 	@ManyToOne
 	@JoinColumn(name = "kdid")
 	private KursaDalibnieki dalibnieks;
+	
+	// TODO pievienot saiti ar kursu
 }
