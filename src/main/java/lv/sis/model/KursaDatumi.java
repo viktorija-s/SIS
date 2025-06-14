@@ -21,7 +21,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "Sertifikati")
+@Table(name = "KursaDatumi")
 @Entity
 public class KursaDatumi {
 	@Setter(value = AccessLevel.NONE)

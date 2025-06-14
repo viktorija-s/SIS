@@ -39,7 +39,7 @@ public class Vertejumi {
 	
 	@NotNull
 	@Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[-.](0[1-9]|1[0-2])[-.](19|20)\\d{2}$/gm")
-	@Column(name = "PhoneNo")
+	@Column(name = "Datums")
 	private String datums;
 	
 	@ManyToOne
@@ -50,8 +50,8 @@ public class Vertejumi {
 	@JoinColumn(name = "kursaDatId")
 	private KursaDatumi kursaDatumi;
 	
-	public Vertejumi(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
-		setVertejums(vertejumi);
+	public Vertejumi(float vertejums, String datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
+		setVertejums(vertejums);
 		setDatums(datums);
 		setKursaDalibnieki(kursaDalibnieki);
 		setKursaDatumi(kursaDatumi);
