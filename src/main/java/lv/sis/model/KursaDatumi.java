@@ -1,12 +1,14 @@
 package lv.sis.model;
 
 import java.sql.Date;
+import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -35,6 +37,10 @@ public class KursaDatumi {
 	@Column(name = "beiguDatums")
 	@NotNull
 	private Date beiguDatums;
+	
+	@ToString.Exclude
+	@OneToMany(mappedBy = "kursaDatumi")
+	private Collection<Vertejumi> vertejumi;
 	
 	// TODO saite ar kursu
 	// TODO saite ar pasniedzeju

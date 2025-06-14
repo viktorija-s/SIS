@@ -32,29 +32,29 @@ public class Vertejumi {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int vid;
 	
-	
-	//private KursaDatumi kursaDatumi;
-
-	
 	@Min(0)
 	@Max(10)
 	@Column(name = "Vertejums")
 	private float vertejums;
 	
-
 	@NotNull
 	@Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[-.](0[1-9]|1[0-2])[-.](19|20)\\d{2}$/gm")
 	@Column(name = "PhoneNo")
 	private String datums;
 	
 	@ManyToOne
-	@JoinColumn(name = "Kdid")
+	@JoinColumn(name = "kdid")
 	private KursaDalibnieki kursaDalibnieki;
 	
-	public Vertejumi(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki) {
+	@ManyToOne
+	@JoinColumn(name = "kursaDatId")
+	private KursaDatumi kursaDatumi;
+	
+	public Vertejumi(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
 		setVertejums(vertejumi);
 		setDatums(datums);
 		setKursaDalibnieki(kursaDalibnieki);
+		setKursaDatumi(kursaDatumi);
 	}
 
 }
