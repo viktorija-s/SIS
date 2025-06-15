@@ -33,31 +33,30 @@ public class Vertejumi {
 	@Column(name = "Vid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int vid;
-	
-	@ManyToOne
-	@JoinColumn(name = "KursaDatId")
-	private KursaDatumi kursaDatumi;
 
-	
 	@Min(0)
 	@Max(10)
 	@Column(name = "Vertejums")
 	private float vertejums;
 	
-
 	@NotNull
 	@PastOrPresent
 	@Column(name = "Datums")
 	private Date datums;
 	
 	@ManyToOne
-	@JoinColumn(name = "Kdid")
+	@JoinColumn(name = "kdid")
 	private KursaDalibnieki kursaDalibnieki;
 	
-	public Vertejumi(float vertejumi, Date datums, KursaDalibnieki kursaDalibnieki) {
-		setVertejums(vertejumi);
+	@ManyToOne
+	@JoinColumn(name = "kursaDatId")
+	private KursaDatumi kursaDatumi;
+	
+	public Vertejumi(float vertejums, Date datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
+		setVertejums(vertejums);
 		setDatums(datums);
 		setKursaDalibnieki(kursaDalibnieki);
+		setKursaDatumi(kursaDatumi);
 	}
 
 }

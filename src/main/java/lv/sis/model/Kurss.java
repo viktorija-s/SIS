@@ -1,12 +1,13 @@
 package lv.sis.model;
 
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,28 +19,18 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "MacibuRezultatiTable")
+@Table(name = "Kurss")
 @Entity
-public class MacibuRezultati {
+public class Kurss {
 	
 	@Setter(value = AccessLevel.NONE)
 	@Id
-	@Column(name = "Mrid")
+	@Column(name = "Kid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int mrid;
+	private int kid;
 	
-	
-	@Column(name = "MacibuRezultats")
-	private String macibuRezultats;
-	
-	@ManyToOne
-	@JoinColumn(name = "kid")
-	private Kurss kurss;
-	
-	public MacibuRezultati(String macibuRezultats, Kurss kurss) {
-		setMacibuRezultats(macibuRezultats);
-		setKurss(kurss);
-	}
-
+	@ToString.Exclude
+	@OneToMany(mappedBy = "kurss")
+	private Collection<Vertejumi> vertejumi;
 
 }
