@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDKursaDalibniekiService;
-import lv.venta.model.Product;
 
 public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiService{
 	
@@ -18,6 +17,13 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception{
 		if(vards == null || uzvards == null || epasts == null || telefonaNr == null || personasId == null || pilseta == null || valsts == null || ielasNosaukumsNumurs == null || dzivoklaNr < 0 || pastaIndekss == null) {
 			throw new Exception("Ievades parametri nav pareizi");
+		}
+		
+		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss)) {
+			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
+		} else {
+			KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
+			kursaDalibniekiRepo.save(newKursaDalibnieki);
 		}
 	}
 

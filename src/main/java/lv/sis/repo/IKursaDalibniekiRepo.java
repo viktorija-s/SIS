@@ -1,19 +1,16 @@
 package lv.sis.repo;
 
-import java.util.ArrayList;
+import org.springframework.data.repository.CrudRepository;
 
 import lv.sis.model.KursaDalibnieki;
 
-public interface IKursaDalibniekiRepo {
+public interface IKursaDalibniekiRepo extends CrudRepository<KursaDalibnieki, Integer>{
 
-	int count();
+	boolean existsByVardsAndUzvards(String vards, String uzvards, String epasts, String telefonaNr, String personasId,
+			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss);
 
-	ArrayList<KursaDalibnieki> findAll();
-
-	boolean existsById(int kdid);
-
-	Object findById(int kdid);
-
-	void deleteById(int kdid);
+	KursaDalibnieki findByVardsAndUzvards(String vards, String uzvards, String epasts, String telefonaNr,
+			String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr,
+			String pastaIndekss);
 
 }

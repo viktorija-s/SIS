@@ -18,7 +18,7 @@ public interface ICRUDVertejumiService {
 	public abstract Vertejumi retrieveById(int vid) throws Exception;
 		
 	//U - update
-	public abstract void updateById(int vid, float vertejumi) throws Exception;
+	public abstract void updateById(int vid, float vertejums) throws Exception;
 		
 	//D - delete
 	public abstract void deleteById(int vid) throws Exception;
