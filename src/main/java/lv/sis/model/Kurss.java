@@ -9,6 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +33,11 @@ public class Kurss {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int kid;
 	
+	
+	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "kurss")
 	private Collection<Vertejumi> vertejumi;
-
+	
+	
 }
