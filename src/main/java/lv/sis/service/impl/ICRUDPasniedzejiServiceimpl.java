@@ -2,11 +2,16 @@ package lv.sis.service.impl;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import lv.sis.model.Pasniedzeji;
 import lv.sis.repo.ICRUDPasniedzejiRepo;
 import lv.sis.service.ICRUDPasniedzejiService;
 
+@Service
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
+	@Autowired
 	ICRUDPasniedzejiRepo pasnRepo;
 
 	@Override
