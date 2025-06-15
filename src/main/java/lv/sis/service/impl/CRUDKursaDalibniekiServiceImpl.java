@@ -3,11 +3,13 @@ package lv.sis.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDKursaDalibniekiService;
 
+@Service
 public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiService{
 	
 	@Autowired

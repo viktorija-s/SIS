@@ -3,12 +3,14 @@ package lv.sis.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lv.sis.model.Kurss;
 import lv.sis.model.MacibuRezultati;
 import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.service.ICRUDMacibuRezultatiService;
 
+@Service
 public class CRUDMacibuRezultatiServiceImpl implements ICRUDMacibuRezultatiService{
 
 	@Autowired
