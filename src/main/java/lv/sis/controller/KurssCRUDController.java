@@ -33,7 +33,7 @@ public class KurssCRUDController {
 		}
 	}
 	@GetMapping("/show/all/{id}")
-	public String getControllerShowDoctorByID(@PathVariable(name = "id") Integer id, Model model) {
+	public String getControllerShowKurssByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
 			Kurss kurss = kurssserviss.retrieveById(id);
 			model.addAttribute("package", kurss);
@@ -45,7 +45,7 @@ public class KurssCRUDController {
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveDoctor(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
 			kurssserviss.deleteById(id);
 			model.addAttribute("package", kurssserviss.retrieveAll());
@@ -57,14 +57,14 @@ public class KurssCRUDController {
 	}
 	
 	@GetMapping("/add")
-	public String getControllerAddDoctor(Model model) {
+	public String getControllerAddKurss(Model model) {
 		Kurss kurss = new Kurss();
 		model.addAttribute("Limeni", Limeni.values());
 		model.addAttribute("kurss", kurss);
 		return "kurss-add-page";
 	}
 	@PostMapping("/add")
-	public String postControllerAddDoctor(@ModelAttribute Kurss kurss, Model model) {
+	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model) {
 		if (kurss == null) {
 			model.addAttribute("package", "The kurss is not given");
 		}
@@ -80,7 +80,7 @@ public class KurssCRUDController {
 		}
 	}
 	@GetMapping("/update/{id}")
-	public String getControllerUpdateDoctor(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerUpdateKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Kurss kurss = kurssserviss.retrieveById(id);
 			model.addAttribute("kurss", kurss);
@@ -92,7 +92,7 @@ public class KurssCRUDController {
 	}
 	
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateDoctor(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
+	public String postControllerUpdateKurss(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
 		try {
 			kurssserviss.updateById(id, kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
 			return "redirect:/kurss/CRUD/show/all";

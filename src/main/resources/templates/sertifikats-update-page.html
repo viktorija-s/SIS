@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<p> Ievadi informaciju par sertifikatu! </p>
+	<p> Rediģējiet informāciju par sertifikatu! </p>
 
 	<form action="#"  th:action="@{/sertifikati/CRUD/update/{id}(id=${sertifikats.sid})}" th:object="${sertifikats}" method="post" >
 		<table>
