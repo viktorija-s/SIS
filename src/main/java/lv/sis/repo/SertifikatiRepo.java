@@ -1,5 +1,6 @@
 package lv.sis.repo;
 
+
 import org.springframework.data.repository.CrudRepository;
 
 import lv.sis.model.Sertifikati;
