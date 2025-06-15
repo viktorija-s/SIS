@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<p> Ievadiet informaciju par pasniedzēju! </p>
+
+	<form action="#"  th:action="@{/pasniedzeji/CRUD/add}" th:object="${pasniedzejs}" method="post" >
+		<table>
+			<tr>
+				<td>Vards: </td>
+				<td> <input type="text"  th:field="*{vards}"   /> </td>
+			</tr>
+			
+			<tr>
+				<td>Uzvards: </td>
+				<td> <input  type="text" th:field="*{uzvards}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Epasts: </td>
+				<td> <input  type="text" th:field="*{epasts}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Telefona numurs: </td>
+				<td> <input  type="text" th:field="*{telnummurs}"  />    </td>
+			</tr>
+			
+			
+			<tr>
+				
+				<td> <button type="submit"> Save </button>     </td>
+				
+			</tr>
+			
+		</table>
+		
+		
+		
+	</form>
+</body>
+
+</html>

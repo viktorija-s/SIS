@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
@@ -11,6 +12,7 @@ import lv.sis.model.Vertejumi;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.ICRUDVertejumiService;
 
+@Service
 public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService{
 
 	@Autowired
