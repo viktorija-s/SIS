@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<p> Ievadi informaciju par sertifikatu! </p>
+
+	<form action="#"  th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post" >
+		<table>
+			<tr>
+				<td>Tips: </td>
+				<td> <input type="text"  th:field="*{tips}"   /> </td>
+			</tr>
+			
+			<tr>
+				<td>Izdosanas datums: </td>
+				<td> <input  type="date" th:field="*{izdosanasDatums}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Registracijas numurs: </td>
+				<td> <input  type="number" th:field="*{registracijasNr}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Ir parakstits: </td>
+				<td> <input  type="checkbox" th:field="*{irParakstits}"  />    </td>
+			</tr>
+			
+			
+			<tr>
+				
+				<td> <button type="submit"> Save </button>     </td>
+				
+			</tr>
+			
+		</table>
+		
+		
+		
+	</form>
+</body>
+
+</html>

@@ -1,31 +1,40 @@
 package lv.sis.service.impl;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
+import lv.sis.model.Kurss;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
+import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.repo.SertifikatiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
 @Service
 public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
+	@Autowired
 	private SertifikatiRepo sertRepo;
+	@Autowired
+	private IKursaDalibniekiRepo dalibniekiRepo; 
+	@Autowired
+	private ICRUDKurssRepo kurssRepo;
 
 	@Override
-	public void create(CertificateType tips, Date izdosanasDatums, int regNr, boolean irParakstits,
+	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
 			KursaDalibnieki dalibnieks) throws Exception {
-		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0 || dalibnieks.equals(null)) {
+		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
 		}
 		
-		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits, dalibnieks);
+		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits);
 		sertRepo.save(newSert);
 	}
 
@@ -51,7 +60,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	}
 
 	@Override
-	public void updateById(int id, boolean irParakstits, KursaDalibnieki dalibnieks) throws Exception {
+	public void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits) throws Exception { 
 		if (id < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -61,8 +70,10 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		
 		Sertifikati selectedSert = sertRepo.findById(id).get();
 		
+		selectedSert.setTips(tips);
+		selectedSert.setIzdosanasDatums(izdosanasDatums);
+		selectedSert.setRegistracijasNr(regNr);
 		selectedSert.setIrParakstits(irParakstits);
-		selectedSert.setDalibnieks(dalibnieks);
 		
 		sertRepo.save(selectedSert);
 	}
@@ -76,6 +87,23 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
 		}
 		
+		Sertifikati sert = sertRepo.findById(id).get();
 		
+		// atsaista sertifikatu citas klases
+		ArrayList<KursaDalibnieki> dalibnieki = dalibniekiRepo.findByKdid(id);
+		
+		for (KursaDalibnieki dalibnieks: dalibnieki) {
+			dalibnieks.setSertifikati(null);
+			dalibniekiRepo.save(dalibnieks);
+		}
+		
+		ArrayList<Kurss> kursi = kurssRepo.findByKid(id);
+		for (Kurss kurss: kursi) {
+			kurss.setSertifikati(null);
+			kurssRepo.save(kurss);
+		}
+	
+		
+		sertRepo.delete(sert);
 	}	
 }

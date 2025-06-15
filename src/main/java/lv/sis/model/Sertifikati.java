@@ -1,6 +1,6 @@
 package lv.sis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,7 +41,7 @@ public class Sertifikati {
 	@NotNull
 	@Column(name = "IzdosanasDatums")
 	@PastOrPresent // datums nevar būt nākotnē
-	private Date izdosanasDatums;
+	private LocalDate izdosanasDatums;
 	
 	@NotNull
 	@Column(name = "RegistracijasNumurs")
@@ -60,7 +60,7 @@ public class Sertifikati {
 	@JoinColumn(name = "Kid")
 	private Kurss kurss;
 	
-	public Sertifikati(CertificateType tips, Date izdosanasDatums, int registracijasNr, boolean irParakstits, KursaDalibnieki dalibnieks) {
+	public Sertifikati(CertificateType tips, LocalDate izdosanasDatums, int registracijasNr, boolean irParakstits) {
 		setTips(tips);
 		setIzdosanasDatums(izdosanasDatums);
 		setRegistracijasNr(registracijasNr);
