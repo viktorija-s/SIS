@@ -8,8 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,18 +28,18 @@ public class MacibuRezultati {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mrid;
 	
-	@Min(0)
-	@Max(10)
+	
 	@Column(name = "MacibuRezultats")
-	private int macibuRezultats;
+	private String macibuRezultats;
 	
 	@ManyToOne
 	@JoinColumn(name = "kid")
 	private Kurss kurss;
 	
-	public MacibuRezultati(int macibuRezultats, Kurss kurss) {
+	public MacibuRezultati(String macibuRezultats, Kurss kurss) {
 		setMacibuRezultats(macibuRezultats);
 		setKurss(kurss);
 	}
+
 
 }

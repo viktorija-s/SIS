@@ -26,24 +26,24 @@ import lombok.ToString;
 public class KursaDatumi {
 	@Setter(value = AccessLevel.NONE)
 	@Id
-	@Column(name = "kursaDatId")
+	@Column(name = "KursaDatId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int kursaDatId;
 	
-	@Column(name = "sakumaDatums")
+	@Column(name = "SakumaDatums")
 	@NotNull
 	private Date sakumaDatums;
 	
-	@Column(name = "beiguDatums")
+	@Column(name = "BeiguDatums")
 	@NotNull
 	private Date beiguDatums;
 	
-	@ToString.Exclude
-	@OneToMany(mappedBy = "kursaDatumi")
-	private Collection<Vertejumi> vertejumi;
-	
 	// TODO saite ar kursu
 	// TODO saite ar pasniedzeju
+	
+	@OneToMany(mappedBy = "kursaDatumi")
+	@ToString.Exclude
+	private Collection<Vertejumi> vertejumi;
 	
 	public KursaDatumi(Date sakumaDatums, Date beiguDatums) {
 		setSakumaDatums(sakumaDatums);

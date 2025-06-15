@@ -7,8 +7,8 @@ import lv.sis.model.MacibuRezultati;
 
 public interface IMacibuRezultatiRepo extends CrudRepository<MacibuRezultati, Integer>{
 
-	boolean existsByMacibuRezultatsAndKurss(int macibuRezultats, Kurss kurss);
+	boolean existsByMacibuRezultatsAndKurss(String macibuRezultats, Kurss kurss);
 
-	MacibuRezultati findByMacibuRezultatsAndKurss(int macibuRezultats, Kurss kurss);	
+	MacibuRezultati findByMacibuRezultatsAndKurss(String macibuRezultats, Kurss kurss);	
 
 }

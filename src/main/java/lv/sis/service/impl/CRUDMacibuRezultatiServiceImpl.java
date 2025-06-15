@@ -15,8 +15,8 @@ public class CRUDMacibuRezultatiServiceImpl implements ICRUDMacibuRezultatiServi
 	private IMacibuRezultatiRepo macibuRezultatiRepo;
 	
 	@Override
-	public void create(int macibuRezultats, Kurss kurss) throws Exception {
-		if(macibuRezultats < 0 || kurss == null) {
+	public void create(String macibuRezultats, Kurss kurss) throws Exception {
+		if(macibuRezultats == null || kurss == null) {
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 		
@@ -53,7 +53,7 @@ public class CRUDMacibuRezultatiServiceImpl implements ICRUDMacibuRezultatiServi
 	}
 
 	@Override
-	public void updateById(int mrid, int macibuRezultats, Kurss kurss) throws Exception {
+	public void updateById(int mrid, String macibuRezultats, Kurss kurss) throws Exception {
 		MacibuRezultati retrievedMacibuRezultati = retrieveById(mrid);
 		
 		if(retrievedMacibuRezultati.getMacibuRezultats() != macibuRezultats) {

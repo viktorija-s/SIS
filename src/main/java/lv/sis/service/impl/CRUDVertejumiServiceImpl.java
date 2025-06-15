@@ -1,5 +1,6 @@
 package lv.sis.service.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService{
 	private IVertejumiRepo vertejumiRepo;
 	
 	@Override
-	public void create(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi)
+	public void create(float vertejumi, Date datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi)
 			throws Exception {
 		if(vertejumi < 0 || datums == null || kursaDalibnieki == null || kursaDatumi == null) {
 			throw new Exception("Ievades parametri nav pareizi");

@@ -29,38 +29,40 @@ import lv.sis.model.enums.CertificateType;
 public class Sertifikati {
 	@Setter(value = AccessLevel.NONE)
 	@Id
-	@Column(name = "sid")
+	@Column(name = "Sid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int sid;
 	
 	@NotNull
-	@Column(name = "tips")
+	@Column(name = "Tips")
 	private CertificateType tips; 
+	// private Limeni limenis 
 	
 	@NotNull
-	@Column(name = "izdosanasDatums")
+	@Column(name = "IzdosanasDatums")
 	@PastOrPresent // datums nevar būt nākotnē
 	private Date izdosanasDatums;
 	
 	@NotNull
-	@Column(name = "registracijasNumurs")
+	@Column(name = "RegistracijasNumurs")
 	@Min(1) // nevar būt negatīvs vai nulle
 	private int registracijasNr;
 	
 	@NotNull
-	@Column(name = "irParakstits")
+	@Column(name = "IrParakstits")
 	private boolean irParakstits;
 	
 	@ManyToOne
-	@JoinColumn(name = "kdid")
+	@JoinColumn(name = "Kdid")
 	private KursaDalibnieki dalibnieks;
 	
 	// TODO pievienot saiti ar kursu
 	
-	public Sertifikati(CertificateType tips, Date izdosanasDatums, int registracijasNr, boolean irParakstits) {
+	public Sertifikati(CertificateType tips, Date izdosanasDatums, int registracijasNr, boolean irParakstits, KursaDalibnieki dalibnieks) {
 		setTips(tips);
 		setIzdosanasDatums(izdosanasDatums);
 		setRegistracijasNr(registracijasNr);
 		setIrParakstits(irParakstits);
+		setDalibnieks(dalibnieks);
 	}
 }
