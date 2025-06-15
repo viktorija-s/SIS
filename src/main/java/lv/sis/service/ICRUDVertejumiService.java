@@ -1,6 +1,6 @@
 package lv.sis.service;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import lv.sis.model.KursaDalibnieki;
@@ -10,7 +10,7 @@ import lv.sis.model.Vertejumi;
 public interface ICRUDVertejumiService {
 	
 	//C - create
-	public abstract void create(float vertejumi, Date datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) throws Exception;
+	public abstract void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) throws Exception;
 	
 	//R - retrieve all
 	public abstract ArrayList<Vertejumi> retrieveAll() throws Exception;

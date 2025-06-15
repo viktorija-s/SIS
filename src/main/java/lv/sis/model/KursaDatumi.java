@@ -1,6 +1,6 @@
 package lv.sis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import jakarta.persistence.Column;
@@ -34,11 +34,11 @@ public class KursaDatumi {
 	
 	@Column(name = "SakumaDatums")
 	@NotNull
-	private Date sakumaDatums;
+	private LocalDate sakumaDatums;
 	
 	@Column(name = "BeiguDatums")
 	@NotNull
-	private Date beiguDatums;
+	private LocalDate beiguDatums;
 	
 	// TODO saite ar kursu
 	@ManyToOne
@@ -53,7 +53,7 @@ public class KursaDatumi {
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
-	public KursaDatumi(Date sakumaDatums, Date beiguDatums) {
+	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums) {
 		setSakumaDatums(sakumaDatums);
 		setBeiguDatums(beiguDatums);
 	}

@@ -1,6 +1,6 @@
 package lv.sis.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +42,7 @@ public class Vertejumi {
 	@NotNull
 	@PastOrPresent
 	@Column(name = "Datums")
-	private Date datums;
+	private LocalDate datums;
 	
 	@ManyToOne
 	@JoinColumn(name = "kdid")
@@ -52,7 +52,7 @@ public class Vertejumi {
 	@JoinColumn(name = "kursaDatId")
 	private KursaDatumi kursaDatumi;
 	
-	public Vertejumi(float vertejums, Date datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
+	public Vertejumi(float vertejums, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) {
 		setVertejums(vertejums);
 		setDatums(datums);
 		setKursaDalibnieki(kursaDalibnieki);
