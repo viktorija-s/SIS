@@ -1,5 +1,7 @@
 package lv.sis.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +34,9 @@ public class Vertejumi {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int vid;
 	
-	
-	//private KursaDatumi kursaDatumi;
+	@ManyToOne
+	@JoinColumn(name = "KursaDatId")
+	private KursaDatumi kursaDatumi;
 
 	
 	@Min(0)
@@ -43,15 +46,15 @@ public class Vertejumi {
 	
 
 	@NotNull
-	@Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])[-.](0[1-9]|1[0-2])[-.](19|20)\\d{2}$/gm")
-	@Column(name = "PhoneNo")
-	private String datums;
+	@PastOrPresent
+	@Column(name = "Datums")
+	private Date datums;
 	
 	@ManyToOne
 	@JoinColumn(name = "Kdid")
 	private KursaDalibnieki kursaDalibnieki;
 	
-	public Vertejumi(float vertejumi, String datums, KursaDalibnieki kursaDalibnieki) {
+	public Vertejumi(float vertejumi, Date datums, KursaDalibnieki kursaDalibnieki) {
 		setVertejums(vertejumi);
 		setDatums(datums);
 		setKursaDalibnieki(kursaDalibnieki);

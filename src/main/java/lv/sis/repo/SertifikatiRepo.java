@@ -6,4 +6,6 @@ import lv.sis.model.Sertifikati;
 
 public interface SertifikatiRepo extends CrudRepository<Sertifikati, Integer> {
 
+	boolean existsByRegNr(int regNr);
+
 }
