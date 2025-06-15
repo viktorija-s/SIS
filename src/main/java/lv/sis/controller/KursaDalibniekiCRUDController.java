@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lv.sis.model.KursaDalibnieki;
-import lv.sis.model.Kurss;
-import lv.sis.model.enums.Limeni;
 import lv.sis.service.ICRUDKursaDalibniekiService;
 
 @Controller
