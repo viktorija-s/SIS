@@ -47,15 +47,17 @@ public class Kurss {
 	@Column(name = "Limenis")
 	@NotNull
 	private String limenis; 
+
 	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "kurss")
 	private Collection<Vertejumi> vertejumi;
-	
+
 	public Kurss(String nosaukums, int stundas, String limenis) {
 		setNosaukums(nosaukums);
 		setStundas(stundas);
 		setLimenis(limenis);
 	}
+
 	
 }
