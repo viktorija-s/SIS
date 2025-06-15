@@ -52,12 +52,12 @@ public class KursaDalibnieki {
 	private String epasts;
 	
 	@NotNull
-	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
+	/// @Pattern(regexp = "^(\\\\+371)?\\\\d{8}$")
 	@Column(name = "TelefonaNr")
 	private String telefonaNr;
 	
 	@NotNull
-	@Pattern(regexp = "[a-zA-Z0-9_-]")
+	@Pattern(regexp = "[a-zA-Z0-9_-]+")
 	@Column(name = "PersonasId")
 	private String personasId;
 	
@@ -74,7 +74,7 @@ public class KursaDalibnieki {
 	private String valsts;
 	
 	@NotNull
-	@Pattern(regexp = "^[A-Za-zĀČĒĢĪĶĻŅŠŪŽāčēģīķļņšūž0-9\\s]+$\r\n+")
+	// @Pattern(regexp = "^[A-Za-zĀČĒĢĪĶĻŅŠŪŽāčēģīķļņšūž0-9\\\\s,./-]+$")
 	@Column(name = "IelasNosaukumsNumurs")
 	private String ielasNosaukumsNumurs;
 	
