@@ -1,0 +1,68 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+
+<body>
+	<p> Lūdzu rediģē eksistējošo kursa dalībnieku!</p>
+
+	<form action="#"  th:action="@{/kurss/CRUD/update/{id}(id=${kurss.kid})}" th:object="${kurss}" method="post" >
+		<table>
+			<tr>
+				<td>Rediģē kursa dalībnieka vārdu:</td>
+				<td> <input type="text"  th:field="*{nosaukums}" /> </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka uzvārdu:</td>
+				<td> <input type="text" th:field="*{stundas}" />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka e-pastu:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka telefona numuru:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka personas ID:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka pilsētu:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka valsti:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka ielas nosaukumu un numuru:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka dzīvokļa numuru:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē kursa dalībnieka pasta indeksu:</td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+							
+							<td> <button type="submit"> Saglabāt rediģēto kursa dalībnieku </button>     </td>
+							
+						</tr>
+			
+					
+		</table>
+	</form>
+</body>
+
+</html> 

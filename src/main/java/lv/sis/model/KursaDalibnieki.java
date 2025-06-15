@@ -85,7 +85,7 @@ public class KursaDalibnieki {
 	
 
 	@Pattern(regexp = "^[A-Z]{0,3}[-\\s]?\\d{3,6}([-\\s]?\\d{0,4})?[A-Z]{0,3}$")
-	@Column(name = "pastaIndekss")
+	@Column(name = "PastaIndekss")
 	private String pastaIndekss;
 	
 
