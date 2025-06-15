@@ -46,12 +46,15 @@ public class Kurss {
 	
 	@Column(name = "Limenis")
 	@NotNull
+
 	private Limeni limenis; 
 	
 	public Kurss(String nosaukums, int stundas, Limeni limenis) {
+
 		setNosaukums(nosaukums);
 		setStundas(stundas);
 		setLimenis(limenis);
 	}
+
 	
 }
