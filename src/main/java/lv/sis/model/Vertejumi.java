@@ -48,8 +48,6 @@ public class Vertejumi {
 	@JoinColumn(name = "kdid")
 	private KursaDalibnieki kursaDalibnieki;
 
-	
-	
 	@ManyToOne
 	@JoinColumn(name = "kursaDatId")
 	private KursaDatumi kursaDatumi;

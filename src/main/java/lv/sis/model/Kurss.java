@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,6 @@ import lv.sis.model.enums.Limeni;
 @Table(name = "Kurss")
 @Entity
 public class Kurss {
-	
 	@Setter(value = AccessLevel.NONE)
 	@Id
 	@Column(name = "Kid")
@@ -46,11 +44,18 @@ public class Kurss {
 	
 	@Column(name = "Limenis")
 	@NotNull
-
 	private Limeni limenis; 
 	
+	@OneToMany(mappedBy = "kurss")
+	private Collection<Sertifikati> sertifikati;
+	
+	@OneToMany(mappedBy = "kurss") 
+	private Collection<KursaDatumi> kursaDatumi;
+	
+	@OneToMany(mappedBy = "kurss")
+	private Collection<MacibuRezultati> macibuRezultati;
+	
 	public Kurss(String nosaukums, int stundas, Limeni limenis) {
-
 		setNosaukums(nosaukums);
 		setStundas(stundas);
 		setLimenis(limenis);

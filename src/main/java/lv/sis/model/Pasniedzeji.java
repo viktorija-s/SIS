@@ -1,16 +1,16 @@
 package lv.sis.model;
 
-import java.sql.Date;
+
+import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -53,6 +53,9 @@ public class Pasniedzeji {
 	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
 	@Column(name = "telnummurs")
 	private String telnummurs; 
+	
+	@OneToMany(mappedBy = "pasniedzejs")
+	private Collection<KursaDatumi> kursaDatumi;
 
     public Pasniedzeji(String vards, String uzvards, String epasts, String telnummurs) {
     	setVards(vards);
