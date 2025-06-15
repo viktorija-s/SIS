@@ -28,7 +28,6 @@ public class MacibuRezultati {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int mrid;
 	
-	
 	@Column(name = "MacibuRezultats")
 	private String macibuRezultats;
 	

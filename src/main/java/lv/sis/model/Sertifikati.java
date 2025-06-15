@@ -45,7 +45,7 @@ public class Sertifikati {
 	
 	@NotNull
 	@Column(name = "RegistracijasNumurs")
-	@Min(1) // nevar būt negatīvs vai nulle
+	@Min(1) 
 	private int registracijasNr;
 	
 	@NotNull
@@ -56,7 +56,9 @@ public class Sertifikati {
 	@JoinColumn(name = "Kdid")
 	private KursaDalibnieki dalibnieks;
 	
-	// TODO pievienot saiti ar kursu
+	@ManyToOne
+	@JoinColumn(name = "Kid")
+	private Kurss kurss;
 	
 	public Sertifikati(CertificateType tips, Date izdosanasDatums, int registracijasNr, boolean irParakstits, KursaDalibnieki dalibnieks) {
 		setTips(tips);
