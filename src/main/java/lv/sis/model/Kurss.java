@@ -33,11 +33,31 @@ public class Kurss {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int kid;
 	
+	@Column(name = "Nosaukums")
+	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")
+	@NotNull
+	private String nosaukums;
 	
+	@Column(name = "Stundas")
+	@NotNull
+	@Min(1)
+	@Max(20)
+	private int stundas;
+	
+	@Column(name = "Limenis")
+	@NotNull
+	private String limenis; 
+
 	
 	@ToString.Exclude
 	@OneToMany(mappedBy = "kurss")
 	private Collection<Vertejumi> vertejumi;
-	
+
+	public Kurss(String nosaukums, int stundas, String limenis) {
+		setNosaukums(nosaukums);
+		setStundas(stundas);
+		setLimenis(limenis);
+	}
+
 	
 }
