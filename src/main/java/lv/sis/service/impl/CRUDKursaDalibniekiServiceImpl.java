@@ -98,6 +98,7 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 			retrievedKursaDalibnieki.setPastaIndekss(pastaIndekss);
 		}
 		
+		kursaDalibniekiRepo.save(retrievedKursaDalibnieki);
 	}
 
 	@Override
