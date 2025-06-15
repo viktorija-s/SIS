@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+
+<body>
+	<p> Lūdzu rediģē eksistējošo vērtējumu!</p>
+
+	<form action="#"  th:action="@{/kurss/CRUD/update/{id}(id=${kurss.kid})}" th:object="${kurss}" method="post" >
+		<table>
+			<tr>
+				<td>Rediģē vērtējumu:</td>
+				<td> <input type="number" step="0.01" th:field="*{vertejums}" /> </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē vērtējuma datumu:</td>
+				<td> <input type="date" th:field="*{Datums}" />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē vērtējuma kursa dalībniekus:</td>
+				<td> <input  type="text" th:field="*{kdid}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Rediģē vērtējuma kursa datumus:</td>
+				<td> <input  type="text" th:field="*{kursaDatId}"  />    </td>
+			</tr>
+			
+			<tr>
+							
+							<td> <button type="submit"> Saglabāt rediģēto vērtējumu </button>     </td>
+							
+						</tr>
+			
+					
+		</table>
+	</form>
+</body>
+
+</html> 
