@@ -23,8 +23,8 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService{
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 		
-		if (vertejumiRepo.existsByVertejumiAndDatums(vertejumi, datums, kursaDalibnieki, kursaDatumi)) {
-			Vertejumi existingVertejumi = vertejumiRepo.findByVertejumiAndDatums(vertejumi, datums, kursaDalibnieki, kursaDatumi);
+		if (vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums)) {
+			Vertejumi existingVertejumi = vertejumiRepo.findByVertejumsAndDatums(vertejumi, datums);
 		} else {
 			Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
 			vertejumiRepo.save(newVertejumi);

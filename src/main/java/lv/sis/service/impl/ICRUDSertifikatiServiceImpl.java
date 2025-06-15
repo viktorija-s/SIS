@@ -21,7 +21,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0 || dalibnieks.equals(null)) {
 			throw new Exception("Dati nav pareizi");
 		}
-		if (sertRepo.existsByRegNr(regNr)) {
+		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
 		}
 		

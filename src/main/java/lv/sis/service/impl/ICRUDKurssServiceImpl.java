@@ -2,16 +2,21 @@ package lv.sis.service.impl;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import lv.sis.model.Kurss;
 import lv.sis.model.Pasniedzeji;
+import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.service.ICRUDKurssService;
 
+@Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
-
+	@Autowired
 	ICRUDKurssRepo kurssRepo;
 	@Override
-	public void create(String nosaukums, int stundas, String limenis) throws Exception {
+	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
 		if (nosaukums.equals(null) || stundas<0 || limenis.equals(null)) {
 			throw new Exception("Dati nav pareizi");
@@ -51,7 +56,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	}
 
 	@Override
-	public void updateById(int kdid, String nosaukums, int stundas, String limenis) throws Exception {
+	public void updateById(int kdid, String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");

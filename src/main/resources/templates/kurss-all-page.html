@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+	
+	<p>Information about Kurss:</p>
+	
+	<table border="1px" border-collapse="collapse">
+		<tr>
+			<th>ID</th>
+			<th>Nosaukums</th>
+			<th>Stundas</th>
+			<th>Limenis</th>
+			
+		</tr>
+		<tr th:each = "temp : ${package}">
+			<td th:text="${temp.getKid()}" ></td>
+			<td th:text="${temp.getNosaukums()}" ></td>
+			<td th:text="${temp.getStundas()}" ></td>
+			<td th:text="${temp.getLimenis()}" ></td>
+			
+		</tr>
+		
+		
+	</table>
+	
+	
+</body>
+</html> 

@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+
+<body>
+	<p> Enter information about the kurss! </p>
+
+	<form action="#"  th:action="@{/kurss/CRUD/add}" th:object="${kurss}" method="post" >
+		<table>
+			<tr>
+				<td>Nosaukums: </td>
+				<td> <input type="text"  th:field="*{nosaukums}"   /> </td>
+			</tr>
+			
+			<tr>
+				<td>Stundas: </td>
+				<td> <input  type="number" th:field="*{stundas}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Līmenis: </td>
+				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			</tr>
+			
+			
+			<tr>
+				
+				<td> <button type="submit"> Save </button>     </td>
+				
+			</tr>
+			
+		</table>
+		
+		
+		
+	</form>
+</body>
+
+</html>

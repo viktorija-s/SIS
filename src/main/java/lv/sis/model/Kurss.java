@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lv.sis.model.enums.Limeni;
 
 @Setter
 @Getter
@@ -34,7 +35,6 @@ public class Kurss {
 	private int kid;
 	
 	@Column(name = "Nosaukums")
-	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")
 	@NotNull
 	private String nosaukums;
 	
@@ -46,14 +46,11 @@ public class Kurss {
 	
 	@Column(name = "Limenis")
 	@NotNull
-	private String limenis; 
 
+	private Limeni limenis; 
 	
-	@ToString.Exclude
-	@OneToMany(mappedBy = "kurss")
-	private Collection<Vertejumi> vertejumi;
+	public Kurss(String nosaukums, int stundas, Limeni limenis) {
 
-	public Kurss(String nosaukums, int stundas, String limenis) {
 		setNosaukums(nosaukums);
 		setStundas(stundas);
 		setLimenis(limenis);
