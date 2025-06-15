@@ -19,8 +19,8 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 		
-		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss)) {
-			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
+		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
+			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
 		} else {
 			KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
 			kursaDalibniekiRepo.save(newKursaDalibnieki);

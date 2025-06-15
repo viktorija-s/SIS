@@ -3,11 +3,11 @@ package lv.sis.service;
 import java.util.ArrayList;
 
 import lv.sis.model.Kurss;
-import lv.sis.model.Pasniedzeji;
+import lv.sis.model.enums.Limeni;
 
 public interface ICRUDKurssService {
 	//C - create
-		public abstract void create(String nosaukums, int stundas, String limenis)throws Exception;
+		public abstract void create(String nosaukums, int stundas, Limeni limenis)throws Exception;
 		//R - retrieve all
 		public abstract ArrayList<Kurss> retrieveAll() throws Exception;
 				
@@ -15,7 +15,7 @@ public interface ICRUDKurssService {
 		public abstract Kurss retrieveById(int kdid) throws Exception;
 				
 		//U - update
-		public abstract void updateById(int kdid, String nosaukums,int stundas, String limenis) throws Exception;
+		public abstract void updateById(int kdid, String nosaukums,int stundas, Limeni limenis) throws Exception;
 				
 		//D - delete
 		public abstract void deleteById(int kdid) throws Exception; 

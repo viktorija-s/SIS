@@ -39,7 +39,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		// TODO Auto-generated method stub
 		
 		if (kdid < 0) {
-			throw new Exception("ID nav pareizs");
+			throw new Exception("ID nav pareizs"); 
 		}
 		if (!pasnRepo.existsById(kdid)) {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
@@ -77,7 +77,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		}
 		
 		if(!pasnRepo.existsById(kdid)) {
-			throw new Exception("Mācību rezultāti ar tādu id neeksistē");
+			throw new Exception("Pasniedzējs ar tādu id neeksistē");
 		}
 		
 		pasnRepo.deleteById(kdid);

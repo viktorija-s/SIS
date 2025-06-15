@@ -47,6 +47,8 @@ public class Vertejumi {
 	@ManyToOne
 	@JoinColumn(name = "kdid")
 	private KursaDalibnieki kursaDalibnieki;
+
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "kursaDatId")
