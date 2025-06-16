@@ -4,7 +4,7 @@
 <body>
 	<p> Lūdzu rediģē eksistējošo vērtējumu!</p>
 
-	<form action="#"  th:action="@{/kurss/CRUD/update/{id}(id=${kurss.kid})}" th:object="${kurss}" method="post" >
+	<form action="#"  th:action="@{/vertejumi/CRUD/update/{id}(id=${vertejumi.vid})}" th:object="${vertejumi}" method="post" >
 		<table>
 			<tr>
 				<td>Rediģē vērtējumu:</td>
@@ -13,17 +13,17 @@
 			
 			<tr>
 				<td>Rediģē vērtējuma datumu:</td>
-				<td> <input type="date" th:field="*{Datums}" />    </td>
+				<td> <input type="date" th:field="*{datums}" />    </td>
 			</tr>
 			
 			<tr>
 				<td>Rediģē vērtējuma kursa dalībniekus:</td>
-				<td> <input  type="text" th:field="*{kdid}"  />    </td>
+				<td> <input  type="text" th:field="*{kursaDalibnieki.kdid}"  />    </td>
 			</tr>
 			
 			<tr>
 				<td>Rediģē vērtējuma kursa datumus:</td>
-				<td> <input  type="text" th:field="*{kursaDatId}"  />    </td>
+				<td> <input  type="text" th:field="*{kursaDatumi.kursaDatId}"  />    </td>
 			</tr>
 			
 			<tr>

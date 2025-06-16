@@ -66,8 +66,8 @@ public class SisApplication {
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				
-				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 16), kd1, kdat1);
-				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 7, 2), kd2, kdat2);
+				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
 			}

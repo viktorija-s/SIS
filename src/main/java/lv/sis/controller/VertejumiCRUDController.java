@@ -69,6 +69,7 @@ public class VertejumiCRUDController {
 		
 		try {
 			System.out.println(vertejumi);
+			
 			vertejumiServiss.create(vertejumi.getVertejums(), vertejumi.getDatums(), vertejumi.getKursaDalibnieki(), vertejumi.getKursaDatumi());
 			return "redirect:/vertejumi/CRUD/show/all";
 		} catch (Exception e) {
@@ -81,7 +82,7 @@ public class VertejumiCRUDController {
 	public String getControllerUpdateVertejums(@PathVariable(name = "id") int id, Model model) {
 		try {
 			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
-			model.addAttribute("kurss", vertejumi);
+			model.addAttribute("vertejumi", vertejumi);
 			return "vertejumi-update-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

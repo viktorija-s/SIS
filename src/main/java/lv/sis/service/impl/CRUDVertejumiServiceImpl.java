@@ -65,6 +65,8 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService{
 			retrievedVertejumi.setVertejums(vertejums);
 		}
 		
+		
+		vertejumiRepo.save(retrievedVertejumi);
 	}
 
 	@Override
