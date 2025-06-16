@@ -12,6 +12,8 @@
 			<th>Izdosanas datums</th>
 			<th>Registracijas numurs</th>
 			<th>Ir parakstits?</th>
+			<th>Dalibnieks</th>
+			<th>Kurss</th>
 			
 		</tr>
 		<tr th:each = "temp : ${package}">
@@ -20,6 +22,8 @@
 			<td th:text="${temp.getIzdosanasDatums()}" ></td>
 			<td th:text="${temp.getRegistracijasNr()}" ></td>
 			<td th:text="${temp.isIrParakstits()}" ></td>
+			<td th:text="${temp.getDalibnieks().getUzvards()}" ></td>
+			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
 		</tr>
 	</table>
 	

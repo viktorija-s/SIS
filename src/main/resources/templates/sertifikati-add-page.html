@@ -7,7 +7,14 @@
 		<table>
 			<tr>
 				<td>Tips: </td>
-				<td> <input type="text"  th:field="*{tips}"   /> </td>
+				<td>
+					<select th:field="*{tips}">
+					    <option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
+					            th:value="${tips}"
+					            th:text="${tips}">
+					    </option>
+					</select>
+				</td>
 			</tr>
 			
 			<tr>
@@ -25,6 +32,29 @@
 				<td> <input  type="checkbox" th:field="*{irParakstits}"  />    </td>
 			</tr>
 			
+			<tr>
+			    <td>Dalībnieks:</td>
+			    <td>
+			        <select th:field="*{dalibnieks}">
+			            <option th:each="d : ${dalibnieki}" 
+			                    th:value="${d.kdid}" 
+			                    th:text="${d.vards} + ' ' + ${d.uzvards}"> 
+			            </option>
+			        </select>
+			    </td>
+			</tr>
+
+			<tr>
+			    <td>Kurss:</td>
+			    <td>
+			        <select th:field="*{kurss}">
+			            <option th:each="k : ${kursi}" 
+			                    th:value="${k.kid}" 
+			                    th:text="${k.nosaukums}">
+			            </option>
+			        </select>
+			    </td>
+			</tr>
 			
 			<tr>
 				
