@@ -51,8 +51,8 @@ public class SisApplication {
 				kursaDalibniekiRepo.save(kd1);
 				kursaDalibniekiRepo.save(kd2);
 
-				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true);
-				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false);
+				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
+				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
 				sertRepo.save(s1);
 				sertRepo.save(s2);
 
@@ -66,8 +66,8 @@ public class SisApplication {
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				
-				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 16), kd1, kdat1);
-				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 7, 2), kd2, kdat2);
+				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
 			}

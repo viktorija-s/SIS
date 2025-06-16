@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
+import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
 @Controller
@@ -20,6 +22,10 @@ import lv.sis.service.ICRUDSertifikatiService;
 public class SertifikatiCRUDController {
 	@Autowired 
 	private ICRUDSertifikatiService sertService;
+	@Autowired
+	private IKursaDalibniekiRepo dalibniekiRepo;
+	@Autowired
+	private ICRUDKurssRepo kurssRepo;
 	
 	@GetMapping("/show/all")
 	public String getControllerShowAllSertifikati(Model model) {
@@ -60,6 +66,8 @@ public class SertifikatiCRUDController {
 	public String getControllerAddSertifikats(Model model) {
 		Sertifikati sertifikats = new Sertifikati();
 		model.addAttribute("tips", CertificateType.values());
+		model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
+	    model.addAttribute("kursi", kurssRepo.findAll());
 		model.addAttribute("sertifikats", sertifikats);
 		return "sertifikati-add-page";
 	}
@@ -71,7 +79,7 @@ public class SertifikatiCRUDController {
 		
 		try {
 			System.out.println(sertifikats);
-			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks());
+			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
 			return "redirect:/sertifikati/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

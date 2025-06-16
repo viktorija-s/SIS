@@ -60,11 +60,12 @@ public class Sertifikati {
 	@JoinColumn(name = "Kid")
 	private Kurss kurss;
 	
-	public Sertifikati(CertificateType tips, LocalDate izdosanasDatums, int registracijasNr, boolean irParakstits) {
+	public Sertifikati(CertificateType tips, LocalDate izdosanasDatums, int registracijasNr, boolean irParakstits, KursaDalibnieki dalibnieks, Kurss kurss) {
 		setTips(tips);
 		setIzdosanasDatums(izdosanasDatums);
 		setRegistracijasNr(registracijasNr);
 		setIrParakstits(irParakstits);
 		setDalibnieks(dalibnieks);
+		setKurss(kurss);
 	}
 }

@@ -47,6 +47,7 @@ public class Kurss {
 	private Limeni limenis; 
 	
 	@OneToMany(mappedBy = "kurss")
+	@ToString.Exclude
 	private Collection<Sertifikati> sertifikati;
 	
 	@OneToMany(mappedBy = "kurss") 

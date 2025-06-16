@@ -26,15 +26,15 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
-			KursaDalibnieki dalibnieks) throws Exception {
-		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0) {
+			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
+		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0 || dalibnieks.equals(null) || kurss.equals(null)) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
 		}
 		
-		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits);
+		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits, dalibnieks, kurss);
 		sertRepo.save(newSert);
 	}
 

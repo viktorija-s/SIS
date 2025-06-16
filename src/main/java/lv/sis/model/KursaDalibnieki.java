@@ -90,6 +90,7 @@ public class KursaDalibnieki {
 	
 
 	@OneToMany(mappedBy = "dalibnieks")
+	@ToString.Exclude
 	private Collection<Sertifikati> sertifikati;
 
 	
