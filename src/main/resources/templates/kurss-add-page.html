@@ -18,7 +18,13 @@
 			
 			<tr>
 				<td>Līmenis: </td>
-				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+				<td> 				
+					<select th:field="*{limenis}">
+						<option th:each="limenis : ${T(lv.sis.model.enums.Limeni).values()}"
+							th:value="${limenis}" th:text="${limenis}">
+						</option>    
+					</select>
+				</td>
 			</tr>
 			
 			

@@ -1,8 +1,8 @@
 package lv.sis.service.impl;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Kurss;
@@ -30,13 +30,13 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	}
 
 	@Override
-	public ArrayList<Kurss> retrieveAll() throws Exception {
+	public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
 		// TODO Auto-generated method stub
 			if (kurssRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return (ArrayList<Kurss>)kurssRepo.findAll();
+		return kurssRepo.findAll(pageable);
 	
 	}
 

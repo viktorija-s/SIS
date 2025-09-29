@@ -13,17 +13,21 @@
 			<th>Līmenis</th>
 			
 		</tr>
-		<tr th:each = "temp : ${package}">
+		<tr th:each = "temp : ${kursi}">
 			<td th:text="${temp.getKid()}" ></td>
 			<td th:text="${temp.getNosaukums()}" ></td>
 			<td th:text="${temp.getStundas()}" ></td>
 			<td th:text="${temp.getLimenis()}" ></td>
-			
 		</tr>
 		
 		
 	</table>
 	
+	<div>
+	    <a th:if="${!kursi.first}" th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${kursi.number - 1}, size=${kursi.size})}">Iepriekšējā</a>
+	    <span>Lapa <span th:text="${kursi.number + 1}"></span> no <span th:text="${kursi.totalPages}"></span></span>
+	    <a th:if="${!kursi.last}" th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${kursi.number + 1}, size=${kursi.size})}">Nākamā</a>
+	</div>
 	
 </body>
 </html> 

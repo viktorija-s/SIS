@@ -1,8 +1,10 @@
 package lv.sis.controller;
 
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.Kurss;
 import lv.sis.model.enums.Limeni;
@@ -21,11 +24,12 @@ public class KurssCRUDController {
 	@Autowired 
 	private ICRUDKurssService kurssserviss;
 	
-	@GetMapping("/show/all")
-	public String getControllerShowAllKursi(Model model) {
+	@GetMapping("/show/all") // localhost:8080/kurss/CRUD/show/all?page=0&size=3
+	public String getControllerShowAllKursi(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 		try {
-			ArrayList<Kurss> visiKursi = kurssserviss.retrieveAll(); 
-			model.addAttribute("package", visiKursi);
+			Pageable pageable = PageRequest.of(page, size);
+			Page<Kurss> visiKursi = kurssserviss.retrieveAll(pageable); 
+			model.addAttribute("kursi", visiKursi);
 			return "kurss-all-page"; 
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -36,7 +40,7 @@ public class KurssCRUDController {
 	public String getControllerShowKurssByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
 			Kurss kurss = kurssserviss.retrieveById(id);
-			model.addAttribute("package", kurss);
+			model.addAttribute("kursi", kurss);
 			return "kurss-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -45,11 +49,12 @@ public class KurssCRUDController {
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 		try {
+			Pageable pageable = PageRequest.of(page, size);
 			kurssserviss.deleteById(id);
-			model.addAttribute("package", kurssserviss.retrieveAll());
-			return "kurss-all-page";
+			model.addAttribute("package", kurssserviss.retrieveAll(pageable));
+			return "redirect:/kurss/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -59,12 +64,12 @@ public class KurssCRUDController {
 	@GetMapping("/add")
 	public String getControllerAddKurss(Model model) {
 		Kurss kurss = new Kurss();
-		model.addAttribute("Limeni", Limeni.values());
+		model.addAttribute("limeni", Limeni.values());
 		model.addAttribute("kurss", kurss);
 		return "kurss-add-page";
 	}
 	@PostMapping("/add")
-	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model) {
+	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 		if (kurss == null) {
 			model.addAttribute("package", "The kurss is not given");
 		}
@@ -72,7 +77,7 @@ public class KurssCRUDController {
 		try {
 			System.out.println(kurss);
 			kurssserviss.create(kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
-			return "redirect:/kurss/CRUD/show/all";
+			return "redirect:/kurss/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			e.printStackTrace();
@@ -95,7 +100,7 @@ public class KurssCRUDController {
 	public String postControllerUpdateKurss(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
 		try {
 			kurssserviss.updateById(id, kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
-			return "redirect:/kurss/CRUD/show/all";
+			return "redirect:/kurss/CRUD/show/all/" + id;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage()); 
 			e.printStackTrace();

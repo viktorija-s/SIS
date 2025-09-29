@@ -2,11 +2,11 @@ package lv.sis.repo;
 
 import java.util.ArrayList;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import lv.sis.model.Kurss;
 
-public interface ICRUDKurssRepo extends CrudRepository<Kurss, Integer> {
+public interface ICRUDKurssRepo extends JpaRepository<Kurss, Integer> {
 
 	boolean existsByNosaukums(String nosaukums);
 
