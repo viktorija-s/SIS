@@ -1,8 +1,8 @@
 package lv.sis.service.impl;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
@@ -30,12 +30,11 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	}
 
 	@Override
-	public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
+	public Page<KursaDalibnieki> retrieveAll(Pageable pageable) throws Exception {
 		if(kursaDalibniekiRepo.count()==0) {
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		ArrayList<KursaDalibnieki> allKursaDalibnieki = (ArrayList<KursaDalibnieki>) kursaDalibniekiRepo.findAll();
-		return allKursaDalibnieki;
+		return kursaDalibniekiRepo.findAll(pageable);
 	}
 
 	@Override

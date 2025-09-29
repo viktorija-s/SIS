@@ -41,15 +41,39 @@ public class SisApplication {
 
 			@Override
 			public void run(String... args) throws Exception {
-				Kurss k1 = new Kurss("Test", 1, Limeni.Beginner);
-				Kurss k2 = new Kurss("Test2", 2, Limeni.Advanced);
+				Kurss k1 = new Kurss("Introduction to Python", 15, Limeni.Beginner);
+				Kurss k2 = new Kurss("Web Development with HTML & CSS", 12, Limeni.Junior);
+				Kurss k3 = new Kurss("Introduction to SQL", 15, Limeni.Intermediate);
+				Kurss k4 = new Kurss("Data Analysis with Excel", 10, Limeni.Intermediate);
+				Kurss k5 = new Kurss("Java Programming Basics", 18, Limeni.Beginner);
+				Kurss k6 = new Kurss("Digital Marketing Fundamentals", 8, Limeni.Junior);
+				Kurss k7 = new Kurss("Project Management Essentials", 20, Limeni.Intermediate);
+				Kurss k8 = new Kurss("Graphic Design Basics", 16, Limeni.Junior);
 				kurssRepo.save(k1);
 				kurssRepo.save(k2);
+				kurssRepo.save(k3);
+				kurssRepo.save(k4);
+				kurssRepo.save(k5);
+				kurssRepo.save(k6);
+				kurssRepo.save(k7);
+				kurssRepo.save(k8);
 
 				KursaDalibnieki kd1 = new KursaDalibnieki("Anna", "Liepiņa", "anna@liepina.lv", "25651234", "111111-11111", "Liepāja", "Latvija", "Lāčplēša 2", 12, "LV-1234");
 				KursaDalibnieki kd2 = new KursaDalibnieki("Ieva", "Varenā", "ieva@varena.lv", "21234567", "222222-22222", "Balvi", "Latvija", "Partizānu 4", 31, "LV-4580");
+				KursaDalibnieki kd3 = new KursaDalibnieki("Elīna", "Muceniece", "elina.muceniece@example.com", "+37129123456", "010101-12345", "Rīga", "Latvija", "Dzirnavu iela 15", 4, "LV-1050");
+				KursaDalibnieki kd4 = new KursaDalibnieki("Raimonds", "Kalniņš", "raimonds.kalnins@example.com", "+37129876543", "020202-23456", "Liepāja", "Latvija", "Brīvības iela 23", 8, "LV-3401");
+				KursaDalibnieki kd5 = new KursaDalibnieki("Maija", "Ozola", "maija.ozola@example.com", "+37129223344", "030303-34567", "Daugavpils", "Latvija", "Stacijas iela 7", 12, "LV-5401");
+				KursaDalibnieki kd6 = new KursaDalibnieki("Jānis", "Bērziņš", "janis.berzins@example.com", "+37129556677", "040404-45678", "Valmiera", "Latvija", "Pils iela 2", 3, "LV-4201");
+				KursaDalibnieki kd7 = new KursaDalibnieki("Līga", "Zariņa", "liga.zarina@example.com", "+37129667788", "050505-56789", "Jelgava", "Latvija", "Saules iela 19", 10, "LV-3005");
+				KursaDalibnieki kd8 = new KursaDalibnieki("Roberts", "Grīnbergs", "roberts.grinbergs@example.com", "+37129778899", "060606-67890", "Cēsis", "Latvija", "Meža iela 6", 1, "LV-4100");
 				kursaDalibniekiRepo.save(kd1);
 				kursaDalibniekiRepo.save(kd2);
+				kursaDalibniekiRepo.save(kd3);
+				kursaDalibniekiRepo.save(kd4);
+				kursaDalibniekiRepo.save(kd5);
+				kursaDalibniekiRepo.save(kd6);
+				kursaDalibniekiRepo.save(kd7);
+				kursaDalibniekiRepo.save(kd8);
 
 				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
 				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
