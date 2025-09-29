@@ -39,10 +39,10 @@
 	</table>
 	
 	<div>
-		    <a th:if="${!kursaDal.first}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number - 1}, size=${kursaDal.size})}">Iepriekšējā</a>
-		    <span>Lapa <span th:text="${kursaDal.number + 1}"></span> no <span th:text="${kursaDal.totalPages}"></span></span>
-		    <a th:if="${!kursaDal.last}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number + 1}, size=${kursaDal.size})}">Nākamā</a>
-		</div>
-	
+	    <a th:if="${!kursaDal.first}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number - 1}, size=${kursaDal.size})}">Iepriekšējā</a>
+	    <span>Lapa <span th:text="${kursaDal.number + 1}"></span> no <span th:text="${kursaDal.totalPages}"></span></span>
+	    <a th:if="${!kursaDal.last}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number + 1}, size=${kursaDal.size})}">Nākamā</a>
+	</div>
+
 </body>
 </html> 

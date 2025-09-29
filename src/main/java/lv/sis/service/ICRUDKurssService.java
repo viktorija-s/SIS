@@ -19,5 +19,5 @@ public interface ICRUDKurssService {
 		public abstract void updateById(int kdid, String nosaukums,int stundas, Limeni limenis) throws Exception;
 				
 		//D - delete
-		public abstract void deleteById(int kdid) throws Exception; 
+		public abstract void deleteById(int kdid) throws Exception;
 }

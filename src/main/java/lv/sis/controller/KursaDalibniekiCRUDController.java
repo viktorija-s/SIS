@@ -23,7 +23,9 @@ public class KursaDalibniekiCRUDController {
 	private ICRUDKursaDalibniekiService kursaDalibniekiServiss;
  
 	@GetMapping("/show/all")
-	public String getControllerShowAllKursaDalibnieki(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String getControllerShowAllKursaDalibnieki(Model model, 
+			@RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "3") int size) {
 		try {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<KursaDalibnieki> visiKursaDalibnieki = kursaDalibniekiServiss.retrieveAll(pageable);
@@ -48,12 +50,10 @@ public class KursaDalibniekiCRUDController {
 	}
 
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveKursaDalibnieku(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String getControllerRemoveKursaDalibnieku(@PathVariable(name = "id") int id, Model model) {
 		try {
 			kursaDalibniekiServiss.deleteById(id);
-			Pageable pageable = PageRequest.of(page, size);
-			model.addAttribute("kursaDal", kursaDalibniekiServiss.retrieveAll(pageable));
-			return "redirect:/kursaDalibnieki/CRUD/show/all?page=" + page + "&size=" + size;
+			return "redirect:/kursaDalibnieki/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -68,7 +68,7 @@ public class KursaDalibniekiCRUDController {
 	}
 
 	@PostMapping("/add")
-	public String postControllerAddKursaDalibnieku(@ModelAttribute KursaDalibnieki kursaDalibnieki, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String postControllerAddKursaDalibnieku(@ModelAttribute KursaDalibnieki kursaDalibnieki, Model model) {
 		if (kursaDalibnieki == null) {
 			model.addAttribute("package", "The kursa dalibnieks is not given");
 		}
@@ -80,7 +80,7 @@ public class KursaDalibniekiCRUDController {
 					kursaDalibnieki.getPilseta(), kursaDalibnieki.getValsts(),
 					kursaDalibnieki.getIelasNosaukumsNumurs(), kursaDalibnieki.getDzivoklaNr(),
 					kursaDalibnieki.getPastaIndekss());
-			return "redirect:/kursaDalibnieki/CRUD/show/all?page=" + page + "&size=" + size;
+			return "redirect:/kursaDalibnieki/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			e.printStackTrace();

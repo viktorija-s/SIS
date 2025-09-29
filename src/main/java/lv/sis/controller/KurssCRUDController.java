@@ -49,12 +49,10 @@ public class KurssCRUDController {
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Pageable pageable = PageRequest.of(page, size);
 			kurssserviss.deleteById(id);
-			model.addAttribute("package", kurssserviss.retrieveAll(pageable));
-			return "redirect:/kurss/CRUD/show/all?page=" + page + "&size=" + size;
+			return "redirect:/kurss/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -69,7 +67,7 @@ public class KurssCRUDController {
 		return "kurss-add-page";
 	}
 	@PostMapping("/add")
-	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model) {
 		if (kurss == null) {
 			model.addAttribute("package", "The kurss is not given");
 		}
@@ -77,7 +75,7 @@ public class KurssCRUDController {
 		try {
 			System.out.println(kurss);
 			kurssserviss.create(kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
-			return "redirect:/kurss/CRUD/show/all?page=" + page + "&size=" + size;
+			return "redirect:/kurss/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			e.printStackTrace();

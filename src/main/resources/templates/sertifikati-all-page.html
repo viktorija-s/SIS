@@ -16,7 +16,7 @@
 			<th>Kurss</th>
 			
 		</tr>
-		<tr th:each = "temp : ${package}">
+		<tr th:each = "temp : ${sertifikati}">
 			<td th:text="${temp.getSid()}" ></td>
 			<td th:text="${temp.getTips()}" ></td>
 			<td th:text="${temp.getIzdosanasDatums()}" ></td>
@@ -27,6 +27,10 @@
 		</tr>
 	</table>
 	
-	
+	<div>
+	    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
+	    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
+	    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>
+	</div>
 </body>
 </html> 

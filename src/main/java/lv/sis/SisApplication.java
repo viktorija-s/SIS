@@ -77,9 +77,21 @@ public class SisApplication {
 
 				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
 				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
+				Sertifikati s3 = new Sertifikati(CertificateType.full, LocalDate.of(2023, 5, 10), 101, true, kd1, k1);
+				Sertifikati s4 = new Sertifikati(CertificateType.participant, LocalDate.of(2024, 1, 15), 102, false, kd2, k2);
+				Sertifikati s5 = new Sertifikati(CertificateType.full, LocalDate.of(2022, 11, 2), 103, true, kd3, k3);
+				Sertifikati s6 = new Sertifikati(CertificateType.participant, LocalDate.of(2021, 6, 18), 104, true, kd4, k7);
+				Sertifikati s7 = new Sertifikati(CertificateType.full, LocalDate.of(2020, 9, 30), 105, false, kd5, k5);
+				Sertifikati s8 = new Sertifikati(CertificateType.participant, LocalDate.of(2023, 3, 25), 106, true, kd6, k1);
 				sertRepo.save(s1);
 				sertRepo.save(s2);
-
+				sertRepo.save(s3);
+				sertRepo.save(s4);
+				sertRepo.save(s5);
+				sertRepo.save(s7);
+				sertRepo.save(s6);
+				sertRepo.save(s8);
+				
 				Pasniedzeji p1 = new Pasniedzeji("Anna", "Znotiņa", "anna.znotina@tdl.com", "+37120000000");
 				Pasniedzeji p2 = new Pasniedzeji("Jānis", "Ozoliņš", "janis.ozolins@tdl.com", "+37121111111");
 				pasnRepo.save(p1);
