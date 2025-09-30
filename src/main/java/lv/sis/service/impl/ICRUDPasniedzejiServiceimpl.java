@@ -1,8 +1,8 @@
 package lv.sis.service.impl;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Pasniedzeji;
@@ -29,14 +29,14 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	}
 
 	@Override
-	public ArrayList<Pasniedzeji> retrieveAll() throws Exception {
+	public Page<Pasniedzeji> retrieveAll(Pageable pageable) throws Exception {
 		// TODO Auto-generated method stub
 		
 		if (pasnRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return (ArrayList<Pasniedzeji>)pasnRepo.findAll();
+		return pasnRepo.findAll(pageable);
 	}
 
 	@Override

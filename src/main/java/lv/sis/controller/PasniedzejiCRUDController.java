@@ -1,8 +1,9 @@
 package lv.sis.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.Pasniedzeji;
 import lv.sis.service.ICRUDPasniedzejiService;
@@ -21,9 +23,10 @@ public class PasniedzejiCRUDController {
 	private ICRUDPasniedzejiService pasnService;
 	
 	@GetMapping("/show/all")
-	public String getControllerShowAllPasniedzeji(Model model) {
+	public String getControllerShowAllPasniedzeji(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 		try {
-			ArrayList<Pasniedzeji> visiKursi = pasnService.retrieveAll(); 
+			Pageable pageable = PageRequest.of(page, size);
+			Page<Pasniedzeji> visiKursi = pasnService.retrieveAll(pageable); 
 			model.addAttribute("package", visiKursi);
 			return "pasniedzeji-all-page"; 
 		} catch (Exception e) {
@@ -47,8 +50,7 @@ public class PasniedzejiCRUDController {
 	public String getControllerRemovePasniedzejs(@PathVariable(name = "id") int id, Model model) {
 		try {
 			pasnService.deleteById(id);
-			model.addAttribute("package", pasnService.retrieveAll());
-			return "pasniedzeji-all-page";
+			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";

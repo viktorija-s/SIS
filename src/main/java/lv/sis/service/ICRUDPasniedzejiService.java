@@ -1,6 +1,7 @@
 package lv.sis.service;
 
-import java.util.ArrayList;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import lv.sis.model.Pasniedzeji;
 
@@ -9,8 +10,6 @@ public interface ICRUDPasniedzejiService {
 
 //C - create
 	public abstract void create(String vards, String uzvards, String epasts, String telefonaNr)throws Exception;
-	//R - retrieve all
-	public abstract ArrayList<Pasniedzeji> retrieveAll() throws Exception;
 			
 	//R - retrieve by id
 	public abstract Pasniedzeji retrieveById(int kdid) throws Exception;
@@ -20,4 +19,5 @@ public interface ICRUDPasniedzejiService {
 			
 	//D - delete
 	public abstract void deleteById(int kdid) throws Exception;
+	Page<Pasniedzeji> retrieveAll(Pageable pageable) throws Exception;
 }

@@ -94,8 +94,20 @@ public class SisApplication {
 				
 				Pasniedzeji p1 = new Pasniedzeji("Anna", "Znotiņa", "anna.znotina@tdl.com", "+37120000000");
 				Pasniedzeji p2 = new Pasniedzeji("Jānis", "Ozoliņš", "janis.ozolins@tdl.com", "+37121111111");
+				Pasniedzeji p3 = new Pasniedzeji("Ilze", "Bērziņa", "ilze.berzina@tdl.com", "+37122222222");
+				Pasniedzeji p4 = new Pasniedzeji("Jānis", "Kalniņš", "janis.kalnins@tdl.com", "+37123333333");
+				Pasniedzeji p5 = new Pasniedzeji("Līga", "Ozoliņa", "liga.ozolina@tdl.com", "+37124444444");
+				Pasniedzeji p6 = new Pasniedzeji("Andris", "Liepa", "andris.liepa@tdl.com", "+37125555555");
+				Pasniedzeji p7 = new Pasniedzeji("Eva", "Zariņa", "eva.zarina@tdl.com", "+37126666666");
+				Pasniedzeji p8 = new Pasniedzeji("Mārtiņš", "Grīnbergs", "martins.grinbergs@tdl.com", "+37127777777");
 				pasnRepo.save(p1);
 				pasnRepo.save(p2);
+				pasnRepo.save(p3);
+				pasnRepo.save(p4);
+				pasnRepo.save(p5);
+				pasnRepo.save(p6);
+				pasnRepo.save(p7);
+				pasnRepo.save(p8);
 				
 				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20));
 				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10));
