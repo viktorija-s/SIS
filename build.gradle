@@ -1,12 +1,15 @@
+// Plugini, kas nepieciešami projektam
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.5.0'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
+// Projekta identifikācija
 group = 'lv.sis'
 version = '0.0.1-SNAPSHOT'
 
+// Java versijas konfigurācija
 java {
     sourceCompatibility = '17'
 }
