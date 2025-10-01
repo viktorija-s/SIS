@@ -2,6 +2,8 @@ package lv.sis.service;
 
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lv.sis.model.KursaDalibnieki;
 
 public interface ICRUDKursaDalibniekiService {
@@ -20,5 +22,7 @@ public interface ICRUDKursaDalibniekiService {
 			
 	//D - delete
 	public abstract void deleteById(int kdid) throws Exception;
+
+	void importCourseParticipants(MultipartFile file) throws Exception;
 
 }
