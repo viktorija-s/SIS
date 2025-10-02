@@ -23,7 +23,9 @@ public class PasniedzejiCRUDController {
 	private ICRUDPasniedzejiService pasnService;
 	
 	@GetMapping("/show/all")
-	public String getControllerShowAllPasniedzeji(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String getControllerShowAllPasniedzeji(Model model, 
+			@RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "3") int size) {
 		try {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<Pasniedzeji> visiKursi = pasnService.retrieveAll(pageable); 

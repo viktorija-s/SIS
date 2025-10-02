@@ -2,11 +2,11 @@ package lv.sis.repo;
 
 import java.time.LocalDate;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import lv.sis.model.Vertejumi;
 
-public interface IVertejumiRepo extends CrudRepository<Vertejumi, Integer>{
+public interface IVertejumiRepo extends JpaRepository<Vertejumi, Integer>{
 
 	boolean existsByVertejumsAndDatums(float vertejumi, LocalDate datums);
 
