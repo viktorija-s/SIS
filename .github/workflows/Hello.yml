@@ -1,1 +1,11 @@
 name: Hello Workflow
+on: [push]
+env:
+  ENVIRONMENT: PROD
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Hello
+        run: echo "Sveiciens no GitHub Actions!"
+
