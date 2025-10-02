@@ -1,0 +1,8 @@
+name: SisApplicationReview
+on: [push]
+env:
+  ENVIRONMENT: PROD
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
