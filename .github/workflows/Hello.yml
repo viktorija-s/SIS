@@ -1,7 +1,8 @@
 name: Hello Workflow
-on: [push]
-env:
-  ENVIRONMENT: PROD
+on: 
+  push:
+    branches:
+      -viktorija/GitHubActions
 jobs:
   test:
     runs-on: ubuntu-latest
