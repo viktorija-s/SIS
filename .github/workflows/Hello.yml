@@ -2,7 +2,7 @@ name: Hello Workflow
 on: 
   push:
     branches:
-      -viktorija/GitHubActions
+      - viktorija/GitHubActions
 jobs:
   test:
     runs-on: ubuntu-latest
