@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check model objects
-      uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Jauna kursa pievienošana
-      run: |
-       grep "new Kurss" src/main/java/lv/sis/SisApplication.java
+        run: |
+         grep "new Kurss" src/main/java/lv/sis/SisApplication.java
 
       - name: Izvade
-      run:
-        echo "Jauns kurss ir pievienots"
+        run:
+          echo "Jauns kurss ir pievienots"
         if: success()
       
       
