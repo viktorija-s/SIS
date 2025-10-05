@@ -11,8 +11,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Jauna kursa pievienošana
-        run: |
-         grep "new Kurss" src/main/java/lv/sis/SisApplication.java
+        run: 
+         grep "new MacibuRezultati" src/main/java/lv/sis/SisApplication.java
 
       - name: Izvade
         run:
