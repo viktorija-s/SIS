@@ -10,11 +10,11 @@ jobs:
       - name: check model objects
         uses: actions/checkout@v4
 
-      - name: Jauna kursa pievienošana
+      - name: Vai ir pievienoti kursi
         run: |
-         if grep "new Kurss" src/main/java/lv/sis/SisApplication.java;
-           then echo "Jauns kurss ir pievienots"
-         else
-           echo "Nav pievienots neviens kurss"
-         fi
+           if grep "new MacibuRezultati" src/main/java/lv/sis/SisApplication.java; then
+             echo "Kurss/i ir pievienots/i"
+           else
+             echo "Nav pievienots neviens kurss"
+           fi
       
