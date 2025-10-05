@@ -10,11 +10,63 @@ jobs:
       - name: check model objects
         uses: actions/checkout@v4
 
-      - name: Vai ir pievienoti kursi
+      - name: Vai ir pievienoti kursi?
         run: |
-           if grep "new MacibuRezultati" src/main/java/lv/sis/SisApplication.java; then
+           if grep "new Kurss" src/main/java/lv/sis/SisApplication.java; then
              echo "Kurss/i ir pievienots/i"
            else
              echo "Nav pievienots neviens kurss"
+           fi
+
+      - name: Vai ir pievienoti kursa dalibnieki?
+        run: |
+           if grep "new KursaDalibnieki" src/main/java/lv/sis/SisApplication.java; then
+             echo "Kursa dalibnieks/i ir pievienots/i"
+           else
+             echo "Nav pievienots neviens kursa dalibnieks"
+           fi
+
+      - name: Vai ir pievienoti kursa datumi?
+        run: |
+           if grep "new KursaDatumi" src/main/java/lv/sis/SisApplication.java; then
+             echo "Kursa datumi ir pievienoti"
+           else
+             echo "Kursa datumi nav pievienoti"
+           fi
+
+
+      - name: Vai ir pievienoti mācību rezultāti?
+        run: |
+           if grep "new MacibuRezultati" src/main/java/lv/sis/SisApplication.java; then
+             echo "Macibu rezultati ir pievienoti"
+           else
+             echo "Macibu rezultati nav pievienoti"
+           fi
+
+
+      - name: Vai ir pievienoti pasniedzēji?
+        run: |
+           if grep "new Pasniedzeji" src/main/java/lv/sis/SisApplication.java; then
+             echo "Pasniedzējs/i ir pievienots/i"
+           else
+             echo "Nav pievienots neviens pasniedzējs"
+           fi
+
+
+      - name: Vai ir pievienoti sertifikāti?
+        run: |
+           if grep "new Sertifikati" src/main/java/lv/sis/SisApplication.java; then
+             echo "Sertifikāts/i ir pievienots/i"
+           else
+             echo "Nav pievienots neviens sertifikāts"
+           fi
+
+
+      - name: Vai ir pievienoti vērtējumi?
+        run: |
+           if grep "new Vertejumi" src/main/java/lv/sis/SisApplication.java; then
+             echo "Vērtējumi ir pievienoti"
+           else
+             echo "Nav pievienots neviens vērtējums"
            fi
       
