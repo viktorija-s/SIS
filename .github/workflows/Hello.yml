@@ -1,8 +1,6 @@
 name: Hello Workflow
 on: 
-  push:
-    branches:
-      - viktorija/GitHubActions
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
