@@ -36,7 +36,7 @@ jobs:
           if [ "$RESPONSE" -eq 200 ]; then
             echo "✅ Lapa ir pieejama (status 200)"
           else
-            echo "❌ Lapa nav pieejama! Status: $RESPONSE"
+            echo "❌Lapa nav pieejama! Status: $RESPONSE"
             echo "======== Application logs ========"
             cat app.log
             exit 1
