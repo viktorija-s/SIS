@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
+import lv.sis.model.MacibuRezultati;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
@@ -17,6 +18,7 @@ import lv.sis.model.enums.CertificateType;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.repo.KursaDatumiRepo;
 import lv.sis.repo.ICRUDPasniedzejiRepo;
@@ -36,7 +38,8 @@ public class SisApplication {
 			SertifikatiRepo sertRepo,
 			ICRUDPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo) {
+			KursaDatumiRepo kursaDatumiRepo,
+			IMacibuRezultatiRepo macibuRezultatiRepo) {
 		return new CommandLineRunner() {
 
 			@Override
@@ -70,6 +73,8 @@ public class SisApplication {
 				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
+				
+				MacibuRezultati m1 = new MacibuRezultati("Iegūtas pamatzināšanas JAVA", k1);
 			}
 		};
 	}
