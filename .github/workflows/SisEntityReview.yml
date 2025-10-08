@@ -12,18 +12,18 @@ jobs:
       - name: load a code
         uses: actions/checkout@v4
 
-      - name: Saite starp KursaDalibnieki un Sertifikati
+      - name: Vai eksistē saite starp KursaDalibnieki un Sertifikati?
         run: |
-          echo "Vai eksistē saite starp KursaDalibnieki un Sertifikati?"
+          echo "Tiek pārbaudīts fails 'KursaDalibnieki.java'"
           if grep -q "Sertifikati" "src/main/java/lv/sis/model/KursaDalibnieki.java"; then
             echo "Ir izveidota saite starp KursaDalibnieki un  Sertifikati"
           else
             echo "Saite starp KursaDalibnieki un Sertifikati neeksistē"
           fi
 
-      - name: Saite starp Vertejumi un Sertifikati
+      - name: Vai eksistē saite starp Vertejumi un Sertifikati?
         run: |
-          echo "Vai eksistē saite starp Vertejumi un Sertifikati?"
+          echo "Tiek pārbaudīts fails 'Vertejumi.java"
           if grep -q "Sertifikati" "src/main/java/lv/sis/model/Vertejumi.java"; then
             echo "Ir izveidota saite starp Vertejumi un  Sertifikati"
           else
