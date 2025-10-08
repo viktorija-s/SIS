@@ -1,0 +1,22 @@
+name: check entitys
+
+on:
+  push:
+    branches:
+      - viktorija/gitHubActions
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: load a code
+        uses: actions/checkout@v4
+
+      - name: Entity between KursaDalibnieki and Setifikati
+        run: |
+          echo "Vai eksistē saite starp KursaDalibnieki un Sertifikati"
+          if grep -q "Sertifikati" "src/main/java/lv/sis/model/KursaDalibnieki.java"; then
+            echo "Ir izveidota saite starp KursaDalibnieki un  Sertifikati"
+          else
+            echo "Saite starp KursaDalibnieki un Sertifikati neeksistē"
+          fi
