@@ -3,7 +3,7 @@ name: check entitys
 on:
   push:
     branches:
-      - viktorija/gitHubActions
+      - viktorija/GitHubActions
 
 jobs:
   test:
