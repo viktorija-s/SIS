@@ -74,7 +74,7 @@ public class SisApplication {
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
 				
-				MacibuRezultati m1 = new MacibuRezultati("Iegūtas pamatzināšanas JAVA", k1);
+				//MacibuRezultati m1 = new MacibuRezultati("Iegūtas pamatzināšanas JAVA", k1);
 			}
 		};
 	}
