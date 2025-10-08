@@ -73,8 +73,6 @@ public class SisApplication {
 				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
-				
-				//MacibuRezultati m1 = new MacibuRezultati("Iegūtas pamatzināšanas JAVA", k1);
 			}
 		};
 	}
