@@ -55,8 +55,18 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 
 				if (row != null) {
 					String personasId = formatter.formatCellValue(row.getCell(4));
-					KursaDalibnieki participant = kursaDalibniekiRepo.findByPersonasId(personasId)
-							.orElse(new KursaDalibnieki());
+					KursaDalibnieki participant = kursaDalibniekiRepo.findByPersonasId(personasId) // ja persona jau ir
+																									// datubaze, tad
+																									// tiek atgriezts
+																									// esosais objekts
+																									// un atjaunoti
+																									// parejie lauki /
+																									// ja persona netiek
+																									// atrasta, tad
+																									// atgriezas
+																									// Optional.empty()
+							.orElse(new KursaDalibnieki()); // ja datubaze nekas netika atrasts (Optional ir tukss), tad
+															// tiek izveidots jauns KursaDalibnieki objekts.
 					participant.setPersonasId(personasId);
 					participant.setVards(formatter.formatCellValue(row.getCell(0)));
 					participant.setUzvards(formatter.formatCellValue(row.getCell(1)));
@@ -72,12 +82,12 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 					} else {
 						participant.setDzivoklaNr(null);
 					}
-					
+
 					String pastaIndekss = formatter.formatCellValue(row.getCell(9));
 					if (pastaIndekss.isEmpty()) {
-					    participant.setPastaIndekss(null);
+						participant.setPastaIndekss(null);
 					} else {
-					    participant.setPastaIndekss(pastaIndekss);
+						participant.setPastaIndekss(pastaIndekss);
 					}
 
 					kursaDalibniekiRepo.save(participant);
