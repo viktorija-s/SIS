@@ -21,6 +21,10 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 		
+		if (kursaDalibniekiRepo.existsByPersonasId(personasId)) {
+	        throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
+	    }
+		
 		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
 			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
 		} else {
