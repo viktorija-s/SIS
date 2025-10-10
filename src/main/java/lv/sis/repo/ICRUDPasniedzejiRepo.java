@@ -7,4 +7,6 @@ public interface ICRUDPasniedzejiRepo extends CrudRepository<Pasniedzeji, Intege
 
 	boolean existsByVardsAndUzvards(String vards, String uzvards);
 
+	boolean existsByEpasts(String epasts);
+
 }
