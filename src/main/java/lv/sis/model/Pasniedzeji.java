@@ -51,17 +51,17 @@ public class Pasniedzeji {
 	
 	@NotNull
 	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
-	@Column(name = "telnummurs")
-	private String telnummurs; 
+	@Column(name = "TelefonaNr")
+	private String telefonaNr; 
 	
 	@OneToMany(mappedBy = "pasniedzejs")
 	private Collection<KursaDatumi> kursaDatumi;
 
-    public Pasniedzeji(String vards, String uzvards, String epasts, String telnummurs) {
+    public Pasniedzeji(String vards, String uzvards, String epasts, String telefonaNr) {
     	setVards(vards);
     	setUzvards(uzvards);
         setEpasts(epasts);
-        setTelnummurs(telnummurs); 
+        setTelefonaNr(telefonaNr); 
         
     }
 

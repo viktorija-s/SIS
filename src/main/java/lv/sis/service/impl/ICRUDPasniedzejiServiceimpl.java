@@ -20,7 +20,10 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (pasnRepo.existsByVardsAndUzvards(vards, uzvards) && pasnRepo.existsByEpasts(epasts)) {
-			throw new Exception("Tads pasniedzējs jau eksistē");
+			throw new Exception("Pasniedzējs ar e-pastu " + epasts + " jau eksistē");
+		}
+		if (pasnRepo.existsByTelefonaNr(telefonaNr)) {
+			throw new Exception("Pasniedzējs ar numuru " + telefonaNr + " jau eksistē");
 		}
 
 		Pasniedzeji newSert = new Pasniedzeji(vards, uzvards, epasts, telefonaNr);
@@ -67,7 +70,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		selectedSert.setVards(vards);
 		selectedSert.setUzvards(uzvards);
 		selectedSert.setEpasts(epasts);
-		selectedSert.setTelnummurs(telefonaNr);
+		selectedSert.setTelefonaNr(telefonaNr);
 
 		pasnRepo.save(selectedSert);
 
