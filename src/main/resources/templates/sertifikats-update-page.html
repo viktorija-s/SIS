@@ -8,7 +8,7 @@
 			<tr>
 				<td>Tips: </td>
 				<td>
-					<select name="tips">
+					<select th:field="*{tips}">
 						<option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
 					            th:value="${tips}"
 					            th:text="${tips}">
@@ -19,7 +19,7 @@
 			
 			<tr>
 				<td>Izdosanas datums: </td>
-				<td> <input  type="date" th:field="*{izdosanasDatums}"  />    </td>
+				<td> <input  type="date" th:field="*{izdosanasDatums}" th:value="*{izdosanasDatums}" />    </td>
 			</tr>
 			
 			<tr>
@@ -29,16 +29,21 @@
 			
 			<tr>
 				<td>Ir parakstits: </td>
-				<td> <input  type="checkbox" th:field="*{irParakstits}"  />    </td>
+				<td> 
+					<input type="hidden" th:if="${irParakstits}" name="irParakstits" value="true" />
+					<input  type="checkbox" th:field="*{irParakstits}" th:disabled="${irParakstits}" />   
+					<span th:if="${irParakstits}" style="color: gray; font-size: 0.9em;">Šis sertifikāts jau ir parakstīts</span>
+
+				</td>
 			</tr>
 			
 			<tr>
 				<td>Dalibnieks: </td>
 				<td>
-					<select name="kdid">
-						<option th:each="dalibnieks : ${dalibnieki}"
+					<select th:name="kdid">
+						<option th:each="dalibnieks : ${sertifikats.getDalibnieks()}"
 					            th:value="${dalibnieks.getKdid()}"
-					            th:text="${dalibnieks.getName() + ' ' + doctor.getSurname()}">
+					            th:text="${dalibnieks.getVards()} + ' ' + ${dalibnieks.getUzvards()} + ' (' + ${dalibnieks.getPersonasId()} + ')'"> 
 					    </option>
 					</select>
 				</td>

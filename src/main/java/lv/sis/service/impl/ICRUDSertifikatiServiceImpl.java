@@ -33,6 +33,11 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
 		}
+		LocalDate minDate = LocalDate.of(2010, 1, 1);
+		LocalDate now = LocalDate.now();
+		if (izdosanasDatums.isBefore(minDate) || izdosanasDatums.isAfter(now)) {
+			throw new Exception("Izdosanas datums nav pareizs: ir jabut starp " + minDate + " un " + now);
+		}
 		
 		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits, dalibnieks, kurss);
 		sertRepo.save(newSert);
@@ -67,12 +72,20 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		if (!sertRepo.existsById(id)) {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
 		}
+		LocalDate minDate = LocalDate.of(2010, 1, 1);
+		LocalDate now = LocalDate.now();
+		if (izdosanasDatums.isBefore(minDate) || izdosanasDatums.isAfter(now)) {
+			throw new Exception("Izdosanas datums nav pareizs: ir jabut starp " + minDate + " un " + now);
+		}
 		
 		Sertifikati selectedSert = sertRepo.findById(id).get();
 		
 		selectedSert.setTips(tips);
+		
+		
 		selectedSert.setIzdosanasDatums(izdosanasDatums);
 		selectedSert.setRegistracijasNr(regNr);
+		
 		selectedSert.setIrParakstits(irParakstits);
 		
 		sertRepo.save(selectedSert);
