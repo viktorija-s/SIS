@@ -2,6 +2,8 @@ package lv.sis.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,6 +43,7 @@ public class Sertifikati {
 	@NotNull
 	@Column(name = "IzdosanasDatums")
 	@PastOrPresent // datums nevar būt nākotnē
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate izdosanasDatums;
 	
 	@NotNull
