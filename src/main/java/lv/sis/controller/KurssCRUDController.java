@@ -59,7 +59,7 @@ public class KurssCRUDController {
 	@GetMapping("/add")
 	public String getControllerAddKurss(Model model) {
 		Kurss kurss = new Kurss();
-		model.addAttribute("Limeni", Limeni.values());
+		model.addAttribute("limeni", Limeni.values());
 		model.addAttribute("kurss", kurss);
 		return "kurss-add-page";
 	}
