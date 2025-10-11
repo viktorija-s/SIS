@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Kurss;
+import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.SertifikatiRepo;
 import lv.sis.service.ICRUDKurssService;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
 	ICRUDKurssRepo kurssRepo;
+	
+	@Autowired
+	SertifikatiRepo sertRepo;
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
@@ -74,18 +79,23 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	}
 
 	@Override
-	public void deleteById(int kdid) throws Exception {
+	public void deleteById(int kid) throws Exception {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		if(kdid < 0) {
+		if(kid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
 		
-		if(!kurssRepo.existsById(kdid)) {
+		if(!kurssRepo.existsById(kid)) {
 			throw new Exception("Kurss ar tādu id neeksistē");
 		}
 		
-		kurssRepo.deleteById(kdid);
+		ArrayList<Sertifikati> sertifikati = sertRepo.findByKurssKid(kid);
+		for (Sertifikati s: sertifikati) {
+			sertRepo.delete(s);
+		}
+		
+		kurssRepo.deleteById(kid);
 	}
 
 }
