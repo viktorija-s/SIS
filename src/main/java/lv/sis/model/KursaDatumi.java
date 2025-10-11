@@ -53,8 +53,10 @@ public class KursaDatumi {
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
-	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums) {
+	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) {
 		setSakumaDatums(sakumaDatums);
 		setBeiguDatums(beiguDatums);
+		setKurss(kurss);
+		setPasniedzejs(pasniedzejs);
 	}
 }
