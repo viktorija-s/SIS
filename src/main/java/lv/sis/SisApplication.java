@@ -65,7 +65,9 @@ public class SisApplication {
 				pasnRepo.save(p2);
 				
 				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
+				kdat1.setKurss(k1);
 				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
+				kdat2.setKurss(k2);
 
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
