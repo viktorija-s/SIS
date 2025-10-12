@@ -10,19 +10,19 @@ import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.Kurss;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
 @Service
 public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	@Autowired
-	private SertifikatiRepo sertRepo;
+	private ISertifikatiRepo sertRepo;
 	@Autowired
 	private IKursaDalibniekiRepo dalibniekiRepo; 
 	@Autowired
-	private ICRUDKurssRepo kurssRepo;
+	private IKurssRepo kurssRepo;
 
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,

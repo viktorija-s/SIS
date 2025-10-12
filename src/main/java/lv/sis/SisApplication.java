@@ -15,12 +15,12 @@ import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
 import lv.sis.model.enums.CertificateType;
 import lv.sis.model.enums.Limeni;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.repo.IVertejumiRepo;
-import lv.sis.repo.KursaDatumiRepo;
-import lv.sis.repo.ICRUDPasniedzejiRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
+import lv.sis.repo.ISertifikatiRepo;
 
 @SpringBootApplication
 public class SisApplication {
@@ -31,12 +31,12 @@ public class SisApplication {
 
 	@Bean
 	public CommandLineRunner testModelLayer(
-			ICRUDKurssRepo kurssRepo,
+			IKurssRepo kurssRepo,
 			IKursaDalibniekiRepo kursaDalibniekiRepo,
-			SertifikatiRepo sertRepo,
-			ICRUDPasniedzejiRepo pasnRepo,
+			ISertifikatiRepo sertRepo,
+			IPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo) {
+			IKursaDatumiRepo kursaDatumiRepo) {
 		return new CommandLineRunner() {
 
 			@Override
