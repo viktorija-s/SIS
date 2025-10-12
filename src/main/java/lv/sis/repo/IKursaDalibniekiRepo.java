@@ -16,4 +16,5 @@ public interface IKursaDalibniekiRepo extends CrudRepository<KursaDalibnieki, In
 	ArrayList<KursaDalibnieki> findByKdid(int id);
 
 
+    boolean existsByEpasts(String epasts);
 }
