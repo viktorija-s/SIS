@@ -1,5 +1,7 @@
 package lv.sis.controller;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,8 @@ public class EmailController {
 	
 	@GetMapping("/email")
 	public String sendEmail(Model model) {
-		emailService.sendSimpleMsg("vetaskovaelizaveta741@gmail.com", "s24vetajeli@venta.lv", "Test message", "Test message sent!", null);
+		
+		emailService.sendSimpleMsg("vetaskovaelizaveta741@gmail.com", "s24vetajeli@venta.lv", "Test message", "Test message sent!", new File("src\\main\\resources\\fox.jpg"));
 		model.addAttribute("package", "Email to s24vetajeli@venta.lv sent.");
 		return "info";
 	}

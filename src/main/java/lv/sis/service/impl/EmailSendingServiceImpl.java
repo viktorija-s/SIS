@@ -3,9 +3,12 @@ package lv.sis.service.impl;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class EmailSendingServiceImpl {
@@ -14,12 +17,22 @@ public class EmailSendingServiceImpl {
 	JavaMailSender mailSender;
 	
 	public void sendSimpleMsg(String from, String to, String subject, String text, File attachment) {
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom(from);
-		msg.setTo(to);
-		msg.setSubject(subject);
-		msg.setText(text);
+
+		MimeMessage msg = mailSender.createMimeMessage();
 		
-		mailSender.send(msg);
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+			helper.setFrom(from);
+			helper.setTo(to);
+			helper.setSubject(subject);
+			helper.setText(text);
+			
+			FileSystemResource file = new FileSystemResource(attachment);
+			helper.addAttachment(file.getFilename(), file);
+			
+			mailSender.send(msg);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
