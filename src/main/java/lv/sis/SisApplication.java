@@ -46,15 +46,15 @@ public class SisApplication {
 				kurssRepo.save(k1);
 				kurssRepo.save(k2);
 
-				KursaDalibnieki kd1 = new KursaDalibnieki("Anna", "Liepiņa", "anna@liepina.lv", "25651234", "111111-11111", "Liepāja", "Latvija", "Lāčplēša 2", 12, "LV-1234");
-				KursaDalibnieki kd2 = new KursaDalibnieki("Ieva", "Varenā", "ieva@varena.lv", "21234567", "222222-22222", "Balvi", "Latvija", "Partizānu 4", 31, "LV-4580");
-				kursaDalibniekiRepo.save(kd1);
-				kursaDalibniekiRepo.save(kd2);
+//				KursaDalibnieki kd1 = new KursaDalibnieki("Anna", "Liepiņa", "anna@liepina.lv", "25651234", "111111-11111", "Liepāja", "Latvija", "Lāčplēša 2", 12, "LV-1234");
+//				KursaDalibnieki kd2 = new KursaDalibnieki("Ieva", "Varenā", "ieva@varena.lv", "21234567", "222222-22222", "Balvi", "Latvija", "Partizānu 4", 31, "LV-4580");
+//				kursaDalibniekiRepo.save(kd1);
+//				kursaDalibniekiRepo.save(kd2);
 
-				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
-				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
-				sertRepo.save(s1);
-				sertRepo.save(s2);
+//				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
+//				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
+//				sertRepo.save(s1);
+//				sertRepo.save(s2);
 
 				Pasniedzeji p1 = new Pasniedzeji("Anna", "Znotiņa", "anna.znotina@tdl.com", "+37120000000");
 				Pasniedzeji p2 = new Pasniedzeji("Jānis", "Ozoliņš", "janis.ozolins@tdl.com", "+37121111111");
@@ -66,10 +66,10 @@ public class SisApplication {
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				
-				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
-				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
-				vertejumiRepo.save(v1);
-				vertejumiRepo.save(v2);
+//				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+//				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
+//				vertejumiRepo.save(v1);
+//				vertejumiRepo.save(v2);
 			}
 		};
 	}
