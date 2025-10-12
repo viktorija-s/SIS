@@ -61,7 +61,7 @@ public class Pasniedzeji {
     	setVards(vards);
     	setUzvards(uzvards);
         setEpasts(epasts);
-        setTelefonaNr(telefonaNr); 
+        setTelefonaNr(telefonaNr);
     }
 
 

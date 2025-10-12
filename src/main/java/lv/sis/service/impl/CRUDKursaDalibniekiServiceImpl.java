@@ -10,31 +10,28 @@ import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDKursaDalibniekiService;
 
 @Service
-public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiService {
-
-    @Autowired
-    private IKursaDalibniekiRepo kursaDalibniekiRepo;
-
-    @Override
-    public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception {
-        if (vards == null || uzvards == null || epasts == null || telefonaNr == null || personasId == null || pilseta == null || valsts == null || ielasNosaukumsNumurs == null || dzivoklaNr < 0 || pastaIndekss == null) {
-            throw new Exception("Ievades parametri nav pareizi");
-        }
-
-        if (kursaDalibniekiRepo.existsByPersonasId(personasId)) {
-            throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
-        }
-        if (kursaDalibniekiRepo.existsByEpasts(epasts)) {
-            throw new Exception("Kursa dalībnieks ar tādu e-pastu jau eksistē: " + epasts);
-        }
-
-        if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
-            KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
-        } else {
-            KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
-            kursaDalibniekiRepo.save(newKursaDalibnieki);
-        }
-    }
+public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiService{
+	
+	@Autowired
+	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+	
+	@Override
+	public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception{
+		if(vards == null || uzvards == null || epasts == null || telefonaNr == null || personasId == null || pilseta == null || valsts == null || ielasNosaukumsNumurs == null || dzivoklaNr < 0 || pastaIndekss == null) {
+			throw new Exception("Ievades parametri nav pareizi");
+		}
+		
+		if (kursaDalibniekiRepo.existsByPersonasId(personasId)) {
+	        throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
+	    }
+		
+		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
+			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
+		} else {
+			KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId, pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
+			kursaDalibniekiRepo.save(newKursaDalibnieki);
+		}
+	}
 
     @Override
     public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
