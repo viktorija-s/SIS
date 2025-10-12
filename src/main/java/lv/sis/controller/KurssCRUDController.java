@@ -58,27 +58,31 @@ public class KurssCRUDController {
 	
 	@GetMapping("/add")
 	public String getControllerAddKurss(Model model) {
-		Kurss kurss = new Kurss();
-		model.addAttribute("limeni", Limeni.values());
-		model.addAttribute("kurss", kurss);
-		return "kurss-add-page";
+        model.addAttribute("kurss", new Kurss());
+        model.addAttribute("limeni", Limeni.values());
+        return "kurss-add-page";
 	}
 	@PostMapping("/add")
 	public String postControllerAddKurss(@ModelAttribute Kurss kurss, Model model) {
-		if (kurss == null) {
-			model.addAttribute("package", "The kurss is not given");
-		}
-		
-		try {
-			System.out.println(kurss);
+        if (kurss == null || kurss.getStundas() < 1) {
+            model.addAttribute("message", "Nav ievadīts kursa nosaukums vai stundas!");
+            model.addAttribute("limeni", Limeni.values());
+            return "kurss-add-page";
+        }
+
+        try {
 			kurssserviss.create(kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
+            model.addAttribute("kurss", new Kurss());
+            model.addAttribute("limeni", Limeni.values());
 			return "redirect:/kurss/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
-			return "error-page";
+            model.addAttribute("message", e.getMessage());
+            model.addAttribute("limeni", Limeni.values());
+            e.printStackTrace();
+            return "kurss-add-page";
 		}
 	}
+
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKurss(@PathVariable(name = "id") int id, Model model) {
 		try {

@@ -16,21 +16,19 @@ import lv.sis.service.ICRUDKurssService;
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
 	ICRUDKurssRepo kurssRepo;
-	
-	@Autowired
-	SertifikatiRepo sertRepo;
+
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
-		if (nosaukums.equals(null) || stundas<0 || limenis.equals(null)) {
+		if (nosaukums == null || stundas<0 || limenis == null) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (kurssRepo.existsByNosaukums(nosaukums)) {
-			throw new Exception("Tads pasniedzējs jau eksistē");
+			throw new Exception("Tads kurss jau eksistē");
 		}
 		
-		Kurss newSert = new Kurss(nosaukums, stundas, limenis);
-		kurssRepo.save(newSert);
+		Kurss newKurss = new Kurss(nosaukums, stundas, limenis);
+		kurssRepo.save(newKurss);
 	
 	}
 
@@ -53,7 +51,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			throw new Exception("ID nav pareizs");
 		}
 		if (!kurssRepo.existsById(kdid)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
+			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
 		return kurssRepo.findById(kdid).get();
@@ -66,36 +64,28 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			throw new Exception("ID nav pareizs");
 		}
 		if (!kurssRepo.existsById(kdid)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
+			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
-		Kurss selectedSert = kurssRepo.findById(kdid).get();
+		Kurss selectedKurss = kurssRepo.findById(kdid).get();
 		
-		selectedSert.setNosaukums(nosaukums);
-		selectedSert.setStundas(stundas);
-		selectedSert.setLimenis(limenis);
+		selectedKurss.setNosaukums(nosaukums);
+		selectedKurss.setStundas(stundas);
+		selectedKurss.setLimenis(limenis);
 		
-		kurssRepo.save(selectedSert);
+		kurssRepo.save(selectedKurss);
 	}
 
 	@Override
-	public void deleteById(int kid) throws Exception {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-		if(kid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
-		
-		if(!kurssRepo.existsById(kid)) {
-			throw new Exception("Kurss ar tādu id neeksistē");
-		}
-		
-		ArrayList<Sertifikati> sertifikati = sertRepo.findByKurssKid(kid);
-		for (Sertifikati s: sertifikati) {
-			sertRepo.delete(s);
-		}
-		
-		kurssRepo.deleteById(kid);
-	}
+    public void deleteById(int kid) throws Exception {
+        if (kid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
+        if (!kurssRepo.existsById(kid)) {
+            throw new Exception("Kurss ar tādu ID neeksistē");
+        }
+        kurssRepo.deleteById(kid);
+    }
+
 
 }
