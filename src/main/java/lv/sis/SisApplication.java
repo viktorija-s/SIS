@@ -6,10 +6,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
+import lv.sis.model.MyAuthority;
+import lv.sis.model.MyUser;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
@@ -17,6 +21,8 @@ import lv.sis.model.enums.CertificateType;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IMyAuthorityRepo;
+import lv.sis.repo.IMyUserRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.repo.KursaDatumiRepo;
 import lv.sis.repo.ICRUDPasniedzejiRepo;
@@ -36,7 +42,9 @@ public class SisApplication {
 			SertifikatiRepo sertRepo,
 			ICRUDPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo) {
+			KursaDatumiRepo kursaDatumiRepo,
+			IMyAuthorityRepo authRepo,
+			IMyUserRepo userRepo) {
 		return new CommandLineRunner() {
 
 			@Override
@@ -70,6 +78,18 @@ public class SisApplication {
 				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
+				
+				MyAuthority auth1 = new MyAuthority("USER");
+				MyAuthority auth2 = new MyAuthority("ADMIN");
+				authRepo.save(auth1);
+				authRepo.save(auth2);
+				
+				PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+				
+				MyUser u1 = new MyUser("user", encoder.encode("user"), auth1);
+				MyUser u2 = new MyUser("lisa", encoder.encode("somepass"), auth2);
+				userRepo.save(u1);
+				userRepo.save(u2);
 			}
 		};
 	}
