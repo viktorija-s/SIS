@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
@@ -25,7 +25,7 @@ public class SertifikatiCRUDController {
 	@Autowired
 	private IKursaDalibniekiRepo dalibniekiRepo;
 	@Autowired
-	private ICRUDKurssRepo kurssRepo;
+	private IKurssRepo kurssRepo;
 	
 	@GetMapping("/show/all")
 	public String getControllerShowAllSertifikati(Model model) {

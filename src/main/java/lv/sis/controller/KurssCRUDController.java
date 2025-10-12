@@ -2,14 +2,11 @@ package lv.sis.controller;
 
 import java.util.ArrayList;
 
+import lv.sis.service.IFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import lv.sis.model.Kurss;
 import lv.sis.model.enums.Limeni;
@@ -19,23 +16,37 @@ import lv.sis.service.ICRUDKurssService;
 @RequestMapping("kurss/CRUD")
 public class KurssCRUDController {
 	@Autowired 
-	private ICRUDKurssService kurssserviss;
-	
-	@GetMapping("/show/all")
-	public String getControllerShowAllKursi(Model model) {
-		try {
-			ArrayList<Kurss> visiKursi = kurssserviss.retrieveAll(); 
-			model.addAttribute("package", visiKursi);
-			return "kurss-all-page"; 
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
-	@GetMapping("/show/all/{id}")
+	private ICRUDKurssService kurssService;
+
+    @Autowired
+    private IFilterService filterService;
+
+    @GetMapping("/show/all")
+    public String getControllerShowAllKursi(
+            @RequestParam(required = false) String search,
+            Model model) {
+        try {
+            ArrayList<Kurss> kursi;
+            if (search != null && !search.trim().isEmpty()) {
+                kursi = filterService.findByNosaukumsContainingIgnoreCase(search.trim());
+                model.addAttribute("search", search);
+            } else {
+                kursi = kurssService.retrieveAll();
+            }
+
+            model.addAttribute("package", kursi);
+            return "kurss-all-page";
+
+        } catch (Exception e) {
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/show/all/{id}")
 	public String getControllerShowKurssByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Kurss kurss = kurssserviss.retrieveById(id);
+			Kurss kurss = kurssService.retrieveById(id);
 			model.addAttribute("package", kurss);
 			return "kurss-all-page";
 		} catch (Exception e) {
@@ -47,8 +58,8 @@ public class KurssCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
-			kurssserviss.deleteById(id);
-			model.addAttribute("package", kurssserviss.retrieveAll());
+			kurssService.deleteById(id);
+			model.addAttribute("package", kurssService.retrieveAll());
 			return "kurss-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -71,7 +82,7 @@ public class KurssCRUDController {
         }
 
         try {
-			kurssserviss.create(kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
+			kurssService.create(kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
             model.addAttribute("kurss", new Kurss());
             model.addAttribute("limeni", Limeni.values());
 			return "redirect:/kurss/CRUD/show/all";
@@ -86,7 +97,7 @@ public class KurssCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Kurss kurss = kurssserviss.retrieveById(id);
+			Kurss kurss = kurssService.retrieveById(id);
 			model.addAttribute("kurss", kurss);
 			return "kurss-update-page";
 		} catch (Exception e) {
@@ -98,7 +109,7 @@ public class KurssCRUDController {
 	@PostMapping("/update/{id}")
 	public String postControllerUpdateKurss(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
 		try {
-			kurssserviss.updateById(id, kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
+			kurssService.updateById(id, kurss.getNosaukums(), kurss.getStundas(), kurss.getLimenis());
 			return "redirect:/kurss/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage()); 
@@ -106,4 +117,18 @@ public class KurssCRUDController {
 			return "error-page"; 
 		}
 	}
+
+//    @GetMapping("/filter/kurss")
+//    public String getControllerFilterKurssByName(String text, Model model) {
+//        try {
+//            ArrayList<Kurss> visiKursi = filterService.findByNameContainingText(text);
+//            model.addAttribute("package", visiKursi);
+//            return kurss
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        model.addAttribute("package", kursiPecNosaukuma);
+//    }
+
+
 }
