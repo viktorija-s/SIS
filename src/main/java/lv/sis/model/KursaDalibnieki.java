@@ -82,7 +82,7 @@ public class KursaDalibnieki {
 	@Min(0)
 	@Max(250)
 	@Column(name = "DzivoklaNr")
-	private int dzivoklaNr;
+	private Integer dzivoklaNr;
 	
 
 	@Pattern(regexp = "^[A-Z]{0,3}[-\\s]?\\d{3,6}([-\\s]?\\d{0,4})?[A-Z]{0,3}$")
