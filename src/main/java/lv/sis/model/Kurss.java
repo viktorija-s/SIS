@@ -51,9 +51,11 @@ public class Kurss {
 	private Collection<Sertifikati> sertifikati;
 	
 	@OneToMany(mappedBy = "kurss") 
+	@ToString.Exclude
 	private Collection<KursaDatumi> kursaDatumi;
 	
 	@OneToMany(mappedBy = "kurss")
+	@ToString.Exclude
 	private Collection<MacibuRezultati> macibuRezultati;
 	
 	public Kurss(String nosaukums, int stundas, Limeni limenis) {

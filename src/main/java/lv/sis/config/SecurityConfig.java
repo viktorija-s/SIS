@@ -40,6 +40,7 @@ public class SecurityConfig {
 	public SecurityFilterChain configureUrlsSecurity(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(auth -> auth 
 				.requestMatchers("/home").permitAll() // main lapai
+				.requestMatchers("/").permitAll()
 				
 				.requestMatchers("/email").hasAnyAuthority("ADMIN", "USER")
 				
@@ -66,6 +67,12 @@ public class SecurityConfig {
 				.requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
+				
+				.requestMatchers("/vertejumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers("/vertejumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers("/vertejumi/CRUD/remove/**").hasAuthority("ADMIN")
+				.requestMatchers("/vertejumi/CRUD/add").hasAuthority("ADMIN")
+				.requestMatchers("/vertejumi/CRUD/update/**").hasAuthority("ADMIN")
 				);
 		
 		http.formLogin(auth -> auth.permitAll());

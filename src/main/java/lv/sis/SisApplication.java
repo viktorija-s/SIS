@@ -44,7 +44,7 @@ public class SisApplication {
 			ISertifikatiRepo sertRepo,
 			IPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo,
+			IKursaDatumiRepo kursaDatumiRepo,
 			IMyAuthorityRepo authRepo,
 			IMyUserRepo userRepo,
 			IMacibuRezultatiRepo macibuRezRepo) {

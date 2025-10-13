@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lv.sis.model.KursaDatumi;
 import lv.sis.model.Pasniedzeji;
+import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDPasniedzejiService;
 
@@ -13,6 +15,9 @@ import lv.sis.service.ICRUDPasniedzejiService;
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	@Autowired
     IPasniedzejiRepo pasnRepo;
+	
+	@Autowired
+	IKursaDatumiRepo kursaDatRepo;
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
@@ -77,17 +82,22 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	}
 
 	@Override
-	public void deleteById(int kdid) throws Exception {
+	public void deleteById(int pid) throws Exception {
 		// TODO Auto-generated method stub
-		if (kdid < 0) {
+		if (pid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
 
-		if (!pasnRepo.existsById(kdid)) {
+		if (!pasnRepo.existsById(pid)) {
 			throw new Exception("Pasniedzējs ar tādu id neeksistē");
 		}
+		
+		ArrayList<KursaDatumi> datumi = kursaDatRepo.findByPasniedzejsPid(pid);
+        for (KursaDatumi kd: datumi) {
+        	kd.setPasniedzejs(null);
+        }
 
-		pasnRepo.deleteById(kdid);
+		pasnRepo.deleteById(pid);
 	}
 
 }

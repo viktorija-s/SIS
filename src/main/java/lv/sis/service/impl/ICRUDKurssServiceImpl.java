@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
+import lv.sis.model.MacibuRezultati;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
+import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.repo.IKurssRepo;
+import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.ICRUDKurssService;
 
@@ -20,6 +24,13 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	
 	@Autowired
 	ISertifikatiRepo sertRepo;
+	
+	@Autowired
+	IKursaDatumiRepo kursaDatRepo;
+	
+	@Autowired
+	IMacibuRezultatiRepo macRezRepo;
+	
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
@@ -78,7 +89,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		kurssRepo.save(selectedKurss);
 	}
-
+ 
 	@Override
     public void deleteById(int kid) throws Exception {
         if (kid < 0) {
@@ -86,6 +97,19 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
         }
         if (!kurssRepo.existsById(kid)) {
             throw new Exception("Kurss ar tādu ID neeksistē");
+        }
+        
+        ArrayList<Sertifikati> sertifikati = sertRepo.findByKurssKid(kid);
+        for (Sertifikati s: sertifikati) {
+        	sertRepo.delete(s);
+        }
+        ArrayList<KursaDatumi> datumi = kursaDatRepo.findByKurssKid(kid);
+        for (KursaDatumi kd: datumi) {
+        	kd.setKurss(null);
+        }
+        ArrayList<MacibuRezultati> rezultati = macRezRepo.findByKurssKid(kid);
+        for (MacibuRezultati mr: rezultati) {
+        	mr.setKurss(null);
         }
         kurssRepo.deleteById(kid);
     }
