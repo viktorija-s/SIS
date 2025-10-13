@@ -1,6 +1,7 @@
 package lv.sis.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lv.sis.model.KursaDatumi;
+import lv.sis.model.Kurss;
+import lv.sis.model.Pasniedzeji;
+import lv.sis.repo.IKurssRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDKursaDatumiService;
 
 @Controller
@@ -20,6 +25,12 @@ public class KursaDatumiCRUDController {
 
 	@Autowired
 	private ICRUDKursaDatumiService kursaDatumiService;
+	
+	@Autowired
+	private IPasniedzejiRepo pasniedzejiRepo;
+	
+	@Autowired
+	private IKurssRepo kurssRepo;
 	
 	@GetMapping("/show/all")
 	public String getControllerShowAllKursaDatumi(Model model) {
@@ -61,6 +72,14 @@ public class KursaDatumiCRUDController {
     public String getControllerAddKursaDatumi(Model model) {
         KursaDatumi kursaDatumi = new KursaDatumi();
         model.addAttribute("kursaDatumi", kursaDatumi);
+        
+        List<Kurss> kurssList = kurssRepo.findAll();
+        model.addAttribute("kurssList", kurssList);
+
+        List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
+        pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
+        model.addAttribute("pasniedzejiList", pasniedzejiList);
+        
         return "kursa-datumi-add-page";
     }
 	
@@ -89,6 +108,11 @@ public class KursaDatumiCRUDController {
         try {
             KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
             model.addAttribute("kursaDatumi", kursaDatumi);
+            
+            List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
+            pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
+            model.addAttribute("pasniedzejiList", pasniedzejiList);
+            
             return "kursa-datumi-update-page";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -100,7 +124,7 @@ public class KursaDatumiCRUDController {
 	 public String postControllerUpdateKursaDatumi(@PathVariable(name = "id") int id, KursaDatumi kursaDatumi, Model model) {
 	     try {
 	         kursaDatumiService.updateById(id, kursaDatumi);
-	         return "redirect:/kursadatumi/CRUD/show/all";
+	         return "redirect:/kursaDatumi/CRUD/show/all";
 	     } catch (Exception e) {
 	         model.addAttribute("package", e.getMessage());
 	         e.printStackTrace();
