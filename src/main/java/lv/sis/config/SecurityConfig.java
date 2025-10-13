@@ -19,18 +19,6 @@ import lv.sis.service.impl.MyUserDetailsManagerServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-//	@Bean
-//	public UserDetailsManager createUsers() {
-//		PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//		
-//		String encPassword = passEnc.encode("somepassword");
-//		UserDetails user1 = User.builder().username("lisa").password(encPassword).authorities("ADMIN").build();
-//		UserDetails user2 = User.builder().username("user").password(passEnc.encode("user")).authorities("USER").build();
-//		
-//		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(user1, user2);
-//		return manager;
-//	}
-	
 	@Bean
 	public MyUserDetailsManagerServiceImpl loadMyUserDetailsManager() {
 		return new MyUserDetailsManagerServiceImpl();
