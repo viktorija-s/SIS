@@ -2,6 +2,7 @@ package lv.sis.model;
 
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,15 +47,15 @@ public class Kurss {
 	@NotNull
 	private Limeni limenis; 
 	
-	@OneToMany(mappedBy = "kurss")
+	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
 	private Collection<Sertifikati> sertifikati;
 	
-	@OneToMany(mappedBy = "kurss") 
+	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true) 
 	@ToString.Exclude
 	private Collection<KursaDatumi> kursaDatumi;
 	
-	@OneToMany(mappedBy = "kurss")
+	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
 	private Collection<MacibuRezultati> macibuRezultati;
 	

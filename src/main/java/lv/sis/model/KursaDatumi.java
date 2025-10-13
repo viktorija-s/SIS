@@ -51,7 +51,7 @@ public class KursaDatumi {
 	@ToString.Exclude
 	private Pasniedzeji pasniedzejs;
 	
-	@OneToMany(mappedBy = "kursaDatumi", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "kursaDatumi", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
