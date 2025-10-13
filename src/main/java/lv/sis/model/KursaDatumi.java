@@ -3,12 +3,14 @@ package lv.sis.model;
 import java.time.LocalDate;
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -46,16 +48,23 @@ public class KursaDatumi {
 	
 	@ManyToOne
 	@JoinColumn(name = "Pid")
+	@ToString.Exclude
 	private Pasniedzeji pasniedzejs;
 	
-	@OneToMany(mappedBy = "kursaDatumi")
+	@OneToMany(mappedBy = "kursaDatumi", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
-
+	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss) {
+		setSakumaDatums(sakumaDatums);
+		setBeiguDatums(beiguDatums);
+		setKurss(kurss);
+	}
+	
 	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) {
 		setSakumaDatums(sakumaDatums);
 		setBeiguDatums(beiguDatums);
 		setKurss(kurss);
-		setPasniedzejs(pasniedzeji);
+		setPasniedzejs(pasniedzejs);
+	}
 }
