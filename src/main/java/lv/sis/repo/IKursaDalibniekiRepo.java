@@ -16,7 +16,6 @@ public interface IKursaDalibniekiRepo extends CrudRepository<KursaDalibnieki, In
 	
 	ArrayList<KursaDalibnieki> findByKdid(int id);
 
-	boolean existsByPersonasId(String personasId);
 
 	Optional<KursaDalibnieki> findByPersonasId(String personasId);
 
