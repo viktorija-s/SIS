@@ -8,15 +8,18 @@ import org.springframework.stereotype.Service;
 import lv.sis.model.Kurss;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
-import lv.sis.repo.ICRUDKurssRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.IKurssRepo;
+import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.ICRUDKurssService;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
-	ICRUDKurssRepo kurssRepo;
+    IKurssRepo kurssRepo;
 
+	
+	@Autowired
+	ISertifikatiRepo sertRepo;
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
 		// TODO Auto-generated method stub
@@ -86,6 +89,5 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
         }
         kurssRepo.deleteById(kid);
     }
-
 
 }
