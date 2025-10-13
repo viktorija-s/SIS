@@ -66,12 +66,14 @@ public class SisApplication {
 				
 
 				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k1, p2);
-				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p1);
-
-				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
 				kdat1.setKurss(k1);
-				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
+				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p1);
 				kdat2.setKurss(k2);
+
+//				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
+//				kdat1.setKurss(k1);
+//				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
+//				kdat2.setKurss(k2);
 
 
 				kursaDatumiRepo.save(kdat1);

@@ -9,19 +9,19 @@ import org.springframework.stereotype.Service;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.Pasniedzeji;
-import lv.sis.repo.KursaDatumiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.service.ICRUDKursaDatumiService;
 
 @Service
 public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	
 	@Autowired
-	private KursaDatumiRepo kursaDatumiRepo;
+	private IKursaDatumiRepo kursaDatumiRepo;
 
 	@Override
 	public void create(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) throws Exception {	
 		if (sakumaDatums == null || beiguDatums == null || kurss == null || pasniedzejs == null) {
-            throw new Exception("Kļūda: visi lauki ir obligāti!");
+            throw new Exception("Ievades parametri nav pareizi");
         }
 
         if (beiguDatums.isBefore(sakumaDatums)) {
