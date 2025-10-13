@@ -3,6 +3,7 @@ package lv.sis.model;
 
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,7 +55,8 @@ public class Pasniedzeji {
 	@Column(name = "TelefonaNr")
 	private String telefonaNr; 
 	
-	@OneToMany(mappedBy = "pasniedzejs")
+	@OneToMany(mappedBy = "pasniedzejs", cascade = CascadeType.REMOVE)
+	@ToString.Exclude
 	private Collection<KursaDatumi> kursaDatumi;
 
     public Pasniedzeji(String vards, String uzvards, String epasts, String telefonaNr) {
