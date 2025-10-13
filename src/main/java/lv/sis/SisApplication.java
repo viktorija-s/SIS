@@ -10,17 +10,19 @@ import org.springframework.context.annotation.Bean;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
+import lv.sis.model.MacibuRezultati;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
 import lv.sis.model.enums.CertificateType;
 import lv.sis.model.enums.Limeni;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.IVertejumiRepo;
-import lv.sis.repo.KursaDatumiRepo;
-import lv.sis.repo.ICRUDPasniedzejiRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
+import lv.sis.repo.ISertifikatiRepo;
 
 @SpringBootApplication
 public class SisApplication {
@@ -31,12 +33,13 @@ public class SisApplication {
 
 	@Bean
 	public CommandLineRunner testModelLayer(
-			ICRUDKurssRepo kurssRepo,
+			IKurssRepo kurssRepo,
 			IKursaDalibniekiRepo kursaDalibniekiRepo,
-			SertifikatiRepo sertRepo,
-			ICRUDPasniedzejiRepo pasnRepo,
+			ISertifikatiRepo sertRepo,
+			IPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo) {
+			IKursaDatumiRepo kursaDatumiRepo,
+			IMacibuRezultatiRepo macibuRezRepo) {
 		return new CommandLineRunner() {
 
 			@Override
@@ -51,8 +54,8 @@ public class SisApplication {
 				kursaDalibniekiRepo.save(kd1);
 				kursaDalibniekiRepo.save(kd2);
 
-				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
-				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
+				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd2, k2);
+				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd1, k1);
 				sertRepo.save(s1);
 				sertRepo.save(s2);
 
@@ -61,15 +64,29 @@ public class SisApplication {
 				pasnRepo.save(p1);
 				pasnRepo.save(p2);
 				
+
 				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k1, p2);
 				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p1);
+
+				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
+				kdat1.setKurss(k1);
+				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
+				kdat2.setKurss(k2);
+
+
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				
-				Vertejumi v1 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+				Vertejumi v1 = new Vertejumi(0f, LocalDate.of(2025, 6, 12), kd1, kdat1);
 				Vertejumi v2 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
+				
+				MacibuRezultati mr1 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k1);
+				macibuRezRepo.save(mr1);
+				
+				MacibuRezultati mr2 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k2);
+				macibuRezRepo.save(mr2);
 			}
 		};
 	}

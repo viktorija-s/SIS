@@ -40,7 +40,6 @@ public class KursaDatumi {
 	@NotNull
 	private LocalDate beiguDatums;
 	
-	// TODO saite ar kursu
 	@ManyToOne
 	@JoinColumn(name = "Kid")
 	private Kurss kurss;
@@ -53,10 +52,10 @@ public class KursaDatumi {
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
+
 	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) {
 		setSakumaDatums(sakumaDatums);
 		setBeiguDatums(beiguDatums);
 		setKurss(kurss);
-		setPasniedzejs(pasniedzejs);
-	}
+		setPasniedzejs(pasniedzeji);
 }

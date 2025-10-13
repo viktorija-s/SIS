@@ -1,38 +1,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-
+<head>
+    <meta charset="UTF-8">
+    <title>Pievienot kursu</title>
+</head>
 <body>
-	<p> Ievadiet informāciju par kursu!' </p>
+<h3>Ievadiet informāciju par kursu!</h3>
 
-	<form action="#"  th:action="@{/kurss/CRUD/add}" th:object="${kurss}" method="post" >
-		<table>
-			<tr>
-				<td>Nosaukums: </td>
-				<td> <input type="text"  th:field="*{nosaukums}"   /> </td>
-			</tr>
-			
-			<tr>
-				<td>Stundas: </td>
-				<td> <input  type="number" th:field="*{stundas}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Līmenis: </td>
-				<td> <input  type="text" th:field="*{limenis}"  />    </td>
-			</tr>
-			
-			
-			<tr>
-				
-				<td> <button type="submit"> Save </button>     </td>
-				
-			</tr>
-			
-		</table>
-		
-		
-		
-	</form>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+
+<form th:action="@{/kurss/CRUD/add}" th:object="${kurss}" method="post">
+    <table>
+        <tr>
+            <td>Nosaukums:</td>
+            <td><input type="text" th:field="*{nosaukums}"/></td>
+        </tr>
+        <tr>
+            <td>Stundas:</td>
+            <td><input type="number" th:field="*{stundas}"/></td>
+        </tr>
+        <tr>
+            <td>Līmenis:</td>
+            <td>
+                <select th:field="*{limenis}">
+                    <option th:each="lvl : ${limeni}"
+                            th:value="${lvl}"
+                            th:text="${lvl}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Saglabāt</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
 </body>
-
 </html>

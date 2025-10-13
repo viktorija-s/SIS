@@ -61,13 +61,9 @@ public class Pasniedzeji {
     	setVards(vards);
     	setUzvards(uzvards);
         setEpasts(epasts);
-        setTelefonaNr(telefonaNr); 
-        
+        setTelefonaNr(telefonaNr);
     }
 
 
 
-}// skatiities sheemaa mainiigos 
-// uztaisiit visu kaa ir sertifikātos bet ar pasniedzējiem.. 
-// tas pats ar kursss.. 
-
+}

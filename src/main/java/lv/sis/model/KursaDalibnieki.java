@@ -2,6 +2,7 @@ package lv.sis.model;
 
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -68,7 +69,7 @@ public class KursaDalibnieki {
 	private String pilseta;
 	
 	@NotNull
-	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")
+	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅa-zēūīļķģšāžčņ ]+")
 	@Size(min = 3, max = 20)
 	@Column(name = "Valsts")
 	private String valsts;
@@ -89,13 +90,13 @@ public class KursaDalibnieki {
 	private String pastaIndekss;
 	
 
-	@OneToMany(mappedBy = "dalibnieks")
+	@OneToMany(mappedBy = "dalibnieks", cascade = CascadeType.REMOVE)
 	@ToString.Exclude
 	private Collection<Sertifikati> sertifikati;
 
 	
 	@ToString.Exclude
-	@OneToMany(mappedBy = "kursaDalibnieki")
+	@OneToMany(mappedBy = "kursaDalibnieki", cascade = CascadeType.REMOVE)
 	private Collection<Vertejumi> vertejumi;
 	
 	public KursaDalibnieki(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) {

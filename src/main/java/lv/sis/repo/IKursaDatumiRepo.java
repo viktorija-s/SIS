@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import lv.sis.model.KursaDatumi;
 
-public interface KursaDatumiRepo extends CrudRepository<KursaDatumi, Integer> {
+public interface IKursaDatumiRepo extends CrudRepository<KursaDatumi, Integer> {
 
 }

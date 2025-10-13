@@ -21,6 +21,10 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 		
+		if (kursaDalibniekiRepo.existsByPersonasId(personasId)) {
+	        throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
+	    }
+		
 		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
 			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
 		} else {
@@ -29,90 +33,89 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 	}
 
-	@Override
-	public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
-		if(kursaDalibniekiRepo.count()==0) {
-			throw new Exception("Tabulā nav neviena ieraksta");
-		}
-		ArrayList<KursaDalibnieki> allKursaDalibnieki = (ArrayList<KursaDalibnieki>) kursaDalibniekiRepo.findAll();
-		return allKursaDalibnieki;
-	}
+    @Override
+    public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
+        if (kursaDalibniekiRepo.count() == 0) {
+            throw new Exception("Tabulā nav neviena ieraksta");
+        }
+        ArrayList<KursaDalibnieki> allKursaDalibnieki = (ArrayList<KursaDalibnieki>) kursaDalibniekiRepo.findAll();
+        return allKursaDalibnieki;
+    }
 
-	@Override
-	public KursaDalibnieki retrieveById(int kdid) throws Exception {
-		if(kdid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
-		
-		if(!kursaDalibniekiRepo.existsById(kdid)) {
-			throw new Exception("Kursa dalībnieks ar tādu id neeksistē");
-		}
-		
-		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
-		return retrievedKursaDalibnieki;
-	}
+    @Override
+    public KursaDalibnieki retrieveById(int kdid) throws Exception {
+        if (kdid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
 
-	@Override
-	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId,
-			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss)
-			throws Exception {
-		KursaDalibnieki retrievedKursaDalibnieki = retrieveById(kdid);
-		
-		if(retrievedKursaDalibnieki.getVards() != vards) {
-			retrievedKursaDalibnieki.setVards(vards);
-		}
-		
-		if(retrievedKursaDalibnieki.getUzvards() != uzvards) {
-			retrievedKursaDalibnieki.setUzvards(uzvards);
-		}
-		
-		if(retrievedKursaDalibnieki.getEpasts() != epasts) {
-			retrievedKursaDalibnieki.setEpasts(epasts);
-		}
-		
-		if(retrievedKursaDalibnieki.getTelefonaNr() != telefonaNr) {
-			retrievedKursaDalibnieki.setTelefonaNr(telefonaNr);
-		}
-		
-		if(retrievedKursaDalibnieki.getPersonasId() != personasId) {
-			retrievedKursaDalibnieki.setPersonasId(personasId);
-		}
-		
-		if(retrievedKursaDalibnieki.getPilseta() != pilseta) {
-			retrievedKursaDalibnieki.setPilseta(pilseta);
-		}
-		
-		if(retrievedKursaDalibnieki.getValsts() != valsts) {
-			retrievedKursaDalibnieki.setValsts(valsts);
-		}
-		
-		if(retrievedKursaDalibnieki.getIelasNosaukumsNumurs() != ielasNosaukumsNumurs) {
-			retrievedKursaDalibnieki.setIelasNosaukumsNumurs(ielasNosaukumsNumurs);
-		}
-		
-		if(retrievedKursaDalibnieki.getDzivoklaNr() != dzivoklaNr) {
-			retrievedKursaDalibnieki.setDzivoklaNr(dzivoklaNr);
-		}
-		
-		if(retrievedKursaDalibnieki.getPastaIndekss() != pastaIndekss) {
-			retrievedKursaDalibnieki.setPastaIndekss(pastaIndekss);
-		}
-		
-		kursaDalibniekiRepo.save(retrievedKursaDalibnieki);
-	}
+        if (!kursaDalibniekiRepo.existsById(kdid)) {
+            throw new Exception("Kursa dalībnieks ar tādu id neeksistē");
+        }
 
-	@Override
-	public void deleteById(int kdid) throws Exception {
-		if(kdid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
-		
-		if(!kursaDalibniekiRepo.existsById(kdid)) {
-			throw new Exception("Kursa dalībnieks ar tādu id neeksistē");
-		}
-		
-		kursaDalibniekiRepo.deleteById(kdid);;
-		
-	}
+        KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
+        return retrievedKursaDalibnieki;
+    }
+
+    @Override
+    public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception {
+        KursaDalibnieki retrievedKursaDalibnieki = retrieveById(kdid);
+
+        if (retrievedKursaDalibnieki.getVards() != vards) {
+            retrievedKursaDalibnieki.setVards(vards);
+        }
+
+        if (retrievedKursaDalibnieki.getUzvards() != uzvards) {
+            retrievedKursaDalibnieki.setUzvards(uzvards);
+        }
+
+        if (retrievedKursaDalibnieki.getEpasts() != epasts) {
+            retrievedKursaDalibnieki.setEpasts(epasts);
+        }
+
+        if (retrievedKursaDalibnieki.getTelefonaNr() != telefonaNr) {
+            retrievedKursaDalibnieki.setTelefonaNr(telefonaNr);
+        }
+
+        if (retrievedKursaDalibnieki.getPersonasId() != personasId) {
+            retrievedKursaDalibnieki.setPersonasId(personasId);
+        }
+
+        if (retrievedKursaDalibnieki.getPilseta() != pilseta) {
+            retrievedKursaDalibnieki.setPilseta(pilseta);
+        }
+
+        if (retrievedKursaDalibnieki.getValsts() != valsts) {
+            retrievedKursaDalibnieki.setValsts(valsts);
+        }
+
+        if (retrievedKursaDalibnieki.getIelasNosaukumsNumurs() != ielasNosaukumsNumurs) {
+            retrievedKursaDalibnieki.setIelasNosaukumsNumurs(ielasNosaukumsNumurs);
+        }
+
+        if (retrievedKursaDalibnieki.getDzivoklaNr() != dzivoklaNr) {
+            retrievedKursaDalibnieki.setDzivoklaNr(dzivoklaNr);
+        }
+
+        if (retrievedKursaDalibnieki.getPastaIndekss() != pastaIndekss) {
+            retrievedKursaDalibnieki.setPastaIndekss(pastaIndekss);
+        }
+
+        kursaDalibniekiRepo.save(retrievedKursaDalibnieki);
+    }
+
+    @Override
+    public void deleteById(int kdid) throws Exception {
+        if (kdid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
+
+        if (!kursaDalibniekiRepo.existsById(kdid)) {
+            throw new Exception("Kursa dalībnieks ar tādu id neeksistē");
+        }
+
+        kursaDalibniekiRepo.deleteById(kdid);
+        ;
+
+    }
 
 }

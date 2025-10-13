@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Pasniedzeji;
-import lv.sis.repo.ICRUDPasniedzejiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDPasniedzejiService;
 
 @Service
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	@Autowired
-	ICRUDPasniedzejiRepo pasnRepo;
+    IPasniedzejiRepo pasnRepo;
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {

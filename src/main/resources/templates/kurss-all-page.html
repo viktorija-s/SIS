@@ -1,29 +1,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
-
 <body>
-	
-	<p>Informācija par kursiem:</p>
-	
-	<table border="1px" border-collapse="collapse">
-		<tr>
-			<th>ID</th>
-			<th>Nosaukums</th>
-			<th>Stundas</th>
-			<th>Līmenis</th>
-			
-		</tr>
-		<tr th:each = "temp : ${package}">
-			<td th:text="${temp.getKid()}" ></td>
-			<td th:text="${temp.getNosaukums()}" ></td>
-			<td th:text="${temp.getStundas()}" ></td>
-			<td th:text="${temp.getLimenis()}" ></td>
-			
-		</tr>
-		
-		
-	</table>
-	
-	
+
+<p>Informācija par kursiem:</p>
+
+<form action="/kurss/CRUD/show/all" method="get">
+    <input type="text" name="search" placeholder="Search..." th:value="${search}">
+    <button type="submit">Meklēt</button>
+    <button type="button" onclick="window.location.href='/kurss/CRUD/show/all'">Notīrīt</button>
+</form>
+
+<table border="1px" style="border-collapse: collapse;">
+    <tr>
+        <th>ID</th>
+        <th>Nosaukums</th>
+        <th>Stundas</th>
+        <th>Līmenis</th>
+    </tr>
+
+    <tr th:each="temp : ${package}">
+        <td th:text="${temp.kid}"></td>
+        <td th:text="${temp.nosaukums}"></td>
+        <td th:text="${temp.stundas}"></td>
+        <td th:text="${temp.limenis}"></td>
+    </tr>
+</table>
+
 </body>
-</html> 
+</html>
