@@ -27,7 +27,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
 			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
-		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0 || dalibnieks.equals(null) || kurss.equals(null)) {
+		if (tips == null || izdosanasDatums == null || regNr < 0 || dalibnieks == null || kurss == null) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (sertRepo.existsByRegistracijasNr(regNr)) {
@@ -79,6 +79,10 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		}
 		
 		Sertifikati selectedSert = sertRepo.findById(id).get();
+		
+		if (selectedSert.isIrParakstits()) {
+	        throw new Exception("Sertifikāts jau ir parakstīts un to nevar mainīt!");
+	    }
 		
 		selectedSert.setTips(tips);
 		
