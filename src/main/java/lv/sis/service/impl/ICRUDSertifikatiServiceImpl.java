@@ -81,6 +81,10 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		
 		Sertifikati selectedSert = sertRepo.findById(id).get();
 		
+		if (selectedSert.isIrParakstits()) {
+	        throw new Exception("Sertifikāts jau ir parakstīts un to nevar mainīt!");
+	    }
+		
 		selectedSert.setTips(tips);
 		
 		
