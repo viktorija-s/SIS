@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.service.ICRUDKursaDalibniekiService;
@@ -110,6 +112,23 @@ public class KursaDalibniekiCRUDController {
 			e.printStackTrace();
 			return "error-page"; 
 		}
+	}
+	
+	@GetMapping("/import") //localhost:8080/kursaDalibnieki/CRUD/import
+	public String getControllerImportCourseParticipants(Model model) {
+	    return "kursa-dalibnieki-import-page";
+	}
+
+	@PostMapping("/import")
+	public String postControllerImportCourseParticipants(@RequestParam("file") MultipartFile file, Model model) {
+	    try {
+	        kursaDalibniekiServiss.importCourseParticipants(file);
+	        return "redirect:/kursaDalibnieki/CRUD/show/all";
+	    } catch (Exception e) {
+	        model.addAttribute("package", e.getMessage());
+	        e.printStackTrace();
+	        return "error-page";
+	    }
 	}
 
 }

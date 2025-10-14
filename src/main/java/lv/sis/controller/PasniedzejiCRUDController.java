@@ -67,13 +67,11 @@ public class PasniedzejiCRUDController {
 	}
 	@PostMapping("/add")
 	public String postControllerAddPasniedzejs(@ModelAttribute Pasniedzeji pasniedzejs, Model model) {
-		if (pasniedzejs == null) {
+		try {
+			if (pasniedzejs == null) {
 			model.addAttribute("package", "Pasniedzejs nav iedots");
 		}
-		
-		try {
-			System.out.println(pasniedzejs);
-			pasnService.create(pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelnummurs());
+			pasnService.create(pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelefonaNr());
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -96,7 +94,7 @@ public class PasniedzejiCRUDController {
 	@PostMapping("/update/{id}")
 	public String postControllerUpdatePasniedzejs(@PathVariable(name = "id") int id, Pasniedzeji pasniedzejs, Model model) {
 		try {
-			pasnService.updateById(id, pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelnummurs());
+			pasnService.updateById(id, pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelefonaNr());
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage()); 

@@ -3,6 +3,7 @@ package lv.sis.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,28 +13,33 @@ import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.Kurss;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
 @Service
 public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	@Autowired
-	private SertifikatiRepo sertRepo;
+	private ISertifikatiRepo sertRepo;
 	@Autowired
 	private IKursaDalibniekiRepo dalibniekiRepo; 
 	@Autowired
-	private ICRUDKurssRepo kurssRepo;
+	private IKurssRepo kurssRepo;
 
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
 			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
-		if (tips.equals(null) || izdosanasDatums.equals(null) || regNr < 0 || dalibnieks.equals(null) || kurss.equals(null)) {
+		if (tips == null || izdosanasDatums == null || regNr < 0 || dalibnieks == null || kurss == null) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
+		}
+		LocalDate minDate = LocalDate.of(2010, 1, 1);
+		LocalDate now = LocalDate.now();
+		if (izdosanasDatums.isBefore(minDate) || izdosanasDatums.isAfter(now)) {
+			throw new Exception("Izdosanas datums nav pareizs: ir jabut starp " + minDate + " un " + now);
 		}
 		
 		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits, dalibnieks, kurss);
@@ -69,43 +75,49 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		if (!sertRepo.existsById(id)) {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
 		}
+		LocalDate minDate = LocalDate.of(2010, 1, 1);
+		LocalDate now = LocalDate.now();
+		if (izdosanasDatums.isBefore(minDate) || izdosanasDatums.isAfter(now)) {
+			throw new Exception("Izdosanas datums nav pareizs: ir jabut starp " + minDate + " un " + now);
+		}
 		
 		Sertifikati selectedSert = sertRepo.findById(id).get();
 		
 		selectedSert.setTips(tips);
+		
+		
 		selectedSert.setIzdosanasDatums(izdosanasDatums);
 		selectedSert.setRegistracijasNr(regNr);
+		
 		selectedSert.setIrParakstits(irParakstits);
 		
 		sertRepo.save(selectedSert);
 	}
 
-	@Override
-	public void deleteById(int id) throws Exception {
-		if (id < 0) {
-			throw new Exception("ID nav pareizs");
-		}
-		if (!sertRepo.existsById(id)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
-		}
-		
-		Sertifikati sert = sertRepo.findById(id).get();
-		
-		// atsaista sertifikatu citas klases
-		ArrayList<KursaDalibnieki> dalibnieki = dalibniekiRepo.findByKdid(id);
-		
-		for (KursaDalibnieki dalibnieks: dalibnieki) {
-			dalibnieks.setSertifikati(null);
-			dalibniekiRepo.save(dalibnieks);
-		}
-		
-		ArrayList<Kurss> kursi = kurssRepo.findByKid(id);
-		for (Kurss kurss: kursi) {
-			kurss.setSertifikati(null);
-			kurssRepo.save(kurss);
-		}
-	
-		
-		sertRepo.delete(sert);
-	}	
+    @Override
+    @Transactional
+    public void deleteById(int id) throws Exception {
+        if (id < 0) {
+            throw new Exception("ID nav pareizs");
+        }
+        if (!sertRepo.existsById(id)) {
+            throw new Exception("Sertifikats ar tadu id neeksistē");
+        }
+
+        Sertifikati sert = sertRepo.findById(id).get();
+
+        KursaDalibnieki dalibnieks = sert.getDalibnieks();
+        if (dalibnieks != null) {
+            dalibnieks.setSertifikati(null);
+            dalibniekiRepo.save(dalibnieks);
+        }
+
+        Kurss kurss = sert.getKurss();
+        if (kurss != null && kurss.getSertifikati() != null) {
+            kurss.getSertifikati().remove(sert);
+            kurssRepo.save(kurss);
+        }
+
+        sertRepo.delete(sert);
+    }
 }

@@ -6,21 +6,29 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
+import lv.sis.model.MyAuthority;
+import lv.sis.model.MyUser;
+import lv.sis.model.MacibuRezultati;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
 import lv.sis.model.enums.CertificateType;
 import lv.sis.model.enums.Limeni;
-import lv.sis.repo.ICRUDKurssRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IMyAuthorityRepo;
+import lv.sis.repo.IMyUserRepo;
+import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.IVertejumiRepo;
-import lv.sis.repo.KursaDatumiRepo;
-import lv.sis.repo.ICRUDPasniedzejiRepo;
-import lv.sis.repo.SertifikatiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
+import lv.sis.repo.ISertifikatiRepo;
 
 @SpringBootApplication
 public class SisApplication {
@@ -31,12 +39,15 @@ public class SisApplication {
 
 	@Bean
 	public CommandLineRunner testModelLayer(
-			ICRUDKurssRepo kurssRepo,
+			IKurssRepo kurssRepo,
 			IKursaDalibniekiRepo kursaDalibniekiRepo,
-			SertifikatiRepo sertRepo,
-			ICRUDPasniedzejiRepo pasnRepo,
+			ISertifikatiRepo sertRepo,
+			IPasniedzejiRepo pasnRepo,
 			IVertejumiRepo vertejumiRepo,
-			KursaDatumiRepo kursaDatumiRepo) {
+			IKursaDatumiRepo kursaDatumiRepo,
+			IMyAuthorityRepo authRepo,
+			IMyUserRepo userRepo,
+			IMacibuRezultatiRepo macibuRezRepo) {
 		return new CommandLineRunner() {
 
 			@Override
@@ -109,8 +120,18 @@ public class SisApplication {
 				pasnRepo.save(p7);
 				pasnRepo.save(p8);
 				
-				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20));
-				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10));
+
+				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k1, p2);
+				kdat1.setKurss(k1);
+				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p1);
+				kdat2.setKurss(k2);
+
+//				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
+//				kdat1.setKurss(k1);
+//				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
+//				kdat2.setKurss(k2);
+
+
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				
@@ -130,6 +151,23 @@ public class SisApplication {
 				vertejumiRepo.save(v6);
 				vertejumiRepo.save(v7);
 				vertejumiRepo.save(v8);
+				
+				PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+				
+				MyAuthority auth1 = new MyAuthority("USER");
+				MyAuthority auth2 = new MyAuthority("ADMIN");
+				authRepo.save(auth1);
+				authRepo.save(auth2);
+				
+				MyUser u1 = new MyUser("user", encoder.encode("user"), auth1);
+				MyUser u2 = new MyUser("lisa", encoder.encode("somepass"), auth2);
+				userRepo.save(u1);
+				userRepo.save(u2);
+				
+				MacibuRezultati mr1 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k1);
+				macibuRezRepo.save(mr1);
+				MacibuRezultati mr2 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k2);
+				macibuRezRepo.save(mr2);
 			}
 		};
 	}

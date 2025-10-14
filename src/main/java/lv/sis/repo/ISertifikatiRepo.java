@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import lv.sis.model.Sertifikati;
 
-public interface SertifikatiRepo extends JpaRepository<Sertifikati, Integer> {
+public interface ISertifikatiRepo extends JpaRepository<Sertifikati, Integer> {
 
 	boolean existsByRegistracijasNr(int regNr);
-
 
 	ArrayList<Sertifikati> findByKurssKid(int kid);
 

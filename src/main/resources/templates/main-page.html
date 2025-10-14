@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header>
+    <button type="button" style="background-color: green; color: white;"
+            onclick="window.location.href='/login'">Sign in</button>
+    <button type="button" style="background-color: red; color: white; margin-left: 8px;"
+            onclick="window.location.href='/logout'">Log out</button>
+</header>
+
+<h1><b>SIS</b> galvenā lapa</h1>
+
+<ul>
+    <h2>Kursu dalībnieki</h2>
+    <li><a href="/kursaDalibnieki/CRUD/show/all">Skatīt visus dalībniekus</a></li>
+    <li><a href="/kursaDalibnieki/CRUD/show/all/1">Skatīt konkrētu dalībnieku</a></li>
+    <li><a href="/kursaDalibnieki/CRUD/remove/{id}">Dzēst konkrētu dalībnieku ({id} nomainīt)</a></li>
+    <li><a href="/kursaDalibnieki/CRUD/add">Pievienot dalībnieku</a></li>
+    <li><a href="/kursaDalibnieki/CRUD/update/{id}">Rediģēt konkrētu dalībnieku ({id} nomainīt)</a></li>
+
+    <h2>Kursi</h2>
+    <li><a href="/kurss/CRUD/show/all">Skatīt visus kursus</a></li>
+    <li><a href="/kurss/CRUD/show/all/1">Skatīt konkrētu kursu</a></li>
+    <li><a href="/kurss/CRUD/remove/{id}">Dzēst konkrētu kursu ({id} nomainīt)</a></li>
+    <li><a href="/kurss/CRUD/add">Pievienot kursu</a></li>
+    <li><a href="/kurss/CRUD/update/{id}">Rediģēt konkrētu kursu ({id} nomainīt)</a></li>
+	
+	<h2>Kursa datumi</h2>
+	<li><a href="/kursaDatumi/CRUD/show/all">Skatīt visus kursa datumus</a></li>
+	<li><a href="/kursaDatumi/CRUD/show/all/1">Skatīt konkrētu kursa datumu</a></li>
+	<li><a href="/kursaDatumi/CRUD/remove/{id}">Dzēst konkrētu kursa datumu ({id} nomainīt)</a></li>
+	<li><a href="/kursaDatumi/CRUD/add">Pievienot kursa datumu</a></li>
+	<li><a href="/kursaDatumi/CRUD/update/{id}">Rediģēt konkrētu kursa datumu ({id} nomainīt)</a></li>
+	
+
+    <h2>Pasniedzēji</h2>
+    <li><a href="/pasniedzeji/CRUD/show/all">Skatīt visus pasniedzējus</a></li>
+    <li><a href="/pasniedzeji/CRUD/show/all/1">Skatīt konkrētu pasniedzēju</a></li>
+    <li><a href="/pasniedzeji/CRUD/remove/{id}">Dzēst konkrētu pasniedzēju ({id} nomainīt)</a></li>
+    <li><a href="/pasniedzeji/CRUD/add">Pievienot pasniedzēju</a></li>
+    <li><a href="/pasniedzeji/CRUD/update/{id}">Rediģēt konkrētu pasniedzēju ({id} nomainīt)</a></li>
+
+    <h2>Sertifikāti</h2>
+    <li><a href="/sertifikati/CRUD/show/all">Skatīt visus sertifikātus</a></li>
+    <li><a href="/sertifikati/CRUD/show/all/1">Skatīt konkrētu sertifikātu</a></li>
+    <li><a href="/sertifikati/CRUD/remove/{id}">Dzēst konkrētu sertifikātu ({id} nomainīt)</a></li>
+    <li><a href="/sertifikati/CRUD/add">Pievienot sertifikātu</a></li>
+    <li><a href="/sertifikati/CRUD/update/{id}">Rediģēt konkrētu sertifikātu ({id} nomainīt)</a></li>
+
+    <h2>Vērtējumi</h2>
+    <li><a href="/vertejumi/CRUD/show/all">Skatīt visus vērtējumus</a></li>
+    <li><a href="/vertejumi/CRUD/show/all/1">Skatīt konkrētu vērtējumu</a></li>
+    <li><a href="/vertejumi/CRUD/remove/{id}">Dzēst konkrētu vērtējumu ({id} nomainīt)</a></li>
+    <li><a href="/vertejumi/CRUD/add">Pievienot vērtējumu</a></li>
+    <li><a href="/vertejumi/CRUD/update/{id}">Rediģēt konkrētu vērtējumu ({id} nomainīt)</a></li>
+
+    <h2>E-pasts</h2>
+    <li><a href="/email">Nosūtīt e-pastu</a></li>
+
+</ul>
+
+</body>
+</html>
+
+
+
+<!--EmailController - -->
+<!--localhost:8080/email-->
+
+<!--VertejumiCRUDController - -->
+<!--localhost:8080/vertejumi/CRUD/show/all-->
+<!--localhost:8080/vertejumi/CRUD/show/all/{id}-->
+<!--localhost:8080/vertejumi/CRUD/remove/{id}-->
+<!--localhost:8080/vertejumi/CRUD/add-->
+<!--localhost:8080/vertejumi/CRUD/update/{id}-->

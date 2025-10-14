@@ -3,6 +3,7 @@ package lv.sis.model;
 
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,23 +52,20 @@ public class Pasniedzeji {
 	
 	@NotNull
 	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
-	@Column(name = "telnummurs")
-	private String telnummurs; 
+	@Column(name = "TelefonaNr")
+	private String telefonaNr; 
 	
-	@OneToMany(mappedBy = "pasniedzejs")
+	@OneToMany(mappedBy = "pasniedzejs", cascade = CascadeType.REMOVE)
+	@ToString.Exclude
 	private Collection<KursaDatumi> kursaDatumi;
 
-    public Pasniedzeji(String vards, String uzvards, String epasts, String telnummurs) {
+    public Pasniedzeji(String vards, String uzvards, String epasts, String telefonaNr) {
     	setVards(vards);
     	setUzvards(uzvards);
         setEpasts(epasts);
-        setTelnummurs(telnummurs); 
-        
+        setTelefonaNr(telefonaNr);
     }
 
 
 
-}// skatiities sheemaa mainiigos 
-// uztaisiit visu kaa ir sertifikātos bet ar pasniedzējiem.. 
-// tas pats ar kursss.. 
-
+}

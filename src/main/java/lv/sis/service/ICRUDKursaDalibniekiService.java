@@ -1,7 +1,11 @@
 package lv.sis.service;
 
+import java.util.ArrayList;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lv.sis.model.KursaDalibnieki;
 
@@ -19,6 +23,11 @@ public interface ICRUDKursaDalibniekiService {
 	//D - delete
 	public abstract void deleteById(int kdid) throws Exception;
 
+
 	public abstract Page<KursaDalibnieki> retrieveAll(Pageable pageable) throws Exception;
+
+	void importCourseParticipants(MultipartFile file) throws Exception;
+
+	public abstract ArrayList<KursaDalibnieki> retrieveAll() throws Exception;
 
 }

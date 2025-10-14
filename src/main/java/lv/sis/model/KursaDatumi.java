@@ -3,6 +3,7 @@ package lv.sis.model;
 import java.time.LocalDate;
 import java.util.Collection;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,21 +41,29 @@ public class KursaDatumi {
 	@NotNull
 	private LocalDate beiguDatums;
 	
-	// TODO saite ar kursu
 	@ManyToOne
 	@JoinColumn(name = "Kid")
 	private Kurss kurss;
 	
 	@ManyToOne
 	@JoinColumn(name = "Pid")
+	@ToString.Exclude
 	private Pasniedzeji pasniedzejs;
 	
-	@OneToMany(mappedBy = "kursaDatumi")
+	@OneToMany(mappedBy = "kursaDatumi", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@ToString.Exclude
 	private Collection<Vertejumi> vertejumi;
 	
-	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums) {
+	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss) {
 		setSakumaDatums(sakumaDatums);
 		setBeiguDatums(beiguDatums);
+		setKurss(kurss);
+	}
+	
+	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) {
+		setSakumaDatums(sakumaDatums);
+		setBeiguDatums(beiguDatums);
+		setKurss(kurss);
+		setPasniedzejs(pasniedzejs);
 	}
 }

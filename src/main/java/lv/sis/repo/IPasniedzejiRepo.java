@@ -3,8 +3,13 @@ package lv.sis.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import lv.sis.model.Pasniedzeji;
 
-public interface ICRUDPasniedzejiRepo extends JpaRepository<Pasniedzeji, Integer>{
+
+public interface IPasniedzejiRepo extends JpaRepository<Pasniedzeji, Integer>{
+
+	boolean existsByTelefonaNr(String telefonaNr);
 
 	boolean existsByVardsAndUzvards(String vards, String uzvards);
+
+	boolean existsByEpasts(String epasts);
 
 }

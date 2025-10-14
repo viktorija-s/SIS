@@ -38,7 +38,7 @@
 			        <select th:field="*{dalibnieks}">
 			            <option th:each="d : ${dalibnieki}" 
 			                    th:value="${d.kdid}" 
-			                    th:text="${d.vards} + ' ' + ${d.uzvards}"> 
+			                    th:text="${d.vards} + ' ' + ${d.uzvards} + ' (' + ${d.personasId} + ')'"> 
 			            </option>
 			        </select>
 			    </td>
