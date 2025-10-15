@@ -66,6 +66,8 @@ public class SecurityConfig {
 				.requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
+				
+				.requestMatchers("/pdf/**").hasAuthority("ADMIN")
 				);
 		
 		http.formLogin(auth -> auth.permitAll());
