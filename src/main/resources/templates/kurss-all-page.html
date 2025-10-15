@@ -25,5 +25,11 @@
     </tr>
 </table>
 
+<div>
+	    <a th:if="${!package.first}" th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number - 1}, size=${package.size})}">Iepriekšējā</a>
+	    <span>Lapa <span th:text="${package.number + 1}"></span> no <span th:text="${package.totalPages}"></span></span>
+	    <a th:if="${!package.last}" th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number + 1}, size=${package.size})}">Nākamā</a>
+	</div>
+
 </body>
 </html>

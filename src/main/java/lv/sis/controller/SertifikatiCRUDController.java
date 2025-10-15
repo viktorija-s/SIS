@@ -46,7 +46,7 @@ public class SertifikatiCRUDController {
 		try {
 			Sertifikati sertifikats = sertService.retrieveById(id);
 			model.addAttribute("sertifikati", sertifikats);
-			return "sertifikati-all-page";
+			return "sertifikati-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";

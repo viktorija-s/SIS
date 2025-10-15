@@ -41,7 +41,7 @@ public class PasniedzejiCRUDController {
 		try {
 			Pasniedzeji pasniedzejs = pasnService.retrieveById(id);
 			model.addAttribute("package", pasniedzejs);
-			return "pasniedzeji-all-page";
+			return "pasniedzeji-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";

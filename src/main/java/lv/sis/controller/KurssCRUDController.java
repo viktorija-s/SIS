@@ -42,6 +42,7 @@ public class KurssCRUDController {
 			if (search != null && !search.trim().isEmpty()) {
                 kursi = filterService.findByNosaukumsContainingIgnoreCase(search.trim());
                 model.addAttribute("search", search);
+                model.addAttribute("package", kursi);
 			}
 			else {
 				Pageable pageable = PageRequest.of(page, size);
@@ -60,7 +61,7 @@ public class KurssCRUDController {
 			Kurss kurss = kurssService.retrieveById(id);
 			model.addAttribute("package", kurss);
 
-			return "kurss-all-page";
+			return "kurss-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
