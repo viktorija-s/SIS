@@ -1,8 +1,9 @@
 package lv.sis.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
@@ -28,10 +30,11 @@ public class SertifikatiCRUDController {
 	private IKurssRepo kurssRepo;
 	
 	@GetMapping("/show/all")
-	public String getControllerShowAllSertifikati(Model model) {
+	public String getControllerShowAllSertifikati(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
-			ArrayList<Sertifikati> visiSertifikati = sertService.retrieveAll(); 
-			model.addAttribute("package", visiSertifikati);
+			Pageable pageable = PageRequest.of(page, size);
+			Page<Sertifikati> visiSertifikati = sertService.retrieveAll(pageable); 
+			model.addAttribute("sertifikati", visiSertifikati);
 			return "sertifikati-all-page"; 
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -42,8 +45,8 @@ public class SertifikatiCRUDController {
 	public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
 			Sertifikati sertifikats = sertService.retrieveById(id);
-			model.addAttribute("package", sertifikats);
-			return "sertifikati-all-page";
+			model.addAttribute("sertifikati", sertifikats);
+			return "sertifikati-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -51,11 +54,12 @@ public class SertifikatiCRUDController {
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
 			sertService.deleteById(id);
-			model.addAttribute("package", sertService.retrieveAll());
-			return "sertifikati-all-page";
+			Pageable pageable = PageRequest.of(page, size);
+			model.addAttribute("sertifikati", sertService.retrieveAll(pageable));
+			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -72,7 +76,7 @@ public class SertifikatiCRUDController {
 		return "sertifikati-add-page";
 	}
 	@PostMapping("/add")
-	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model) {
+	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		if (sertifikats == null) {
 			model.addAttribute("package", "Sertifikats netika iedots");
 		}
@@ -80,7 +84,7 @@ public class SertifikatiCRUDController {
 		try {
 			System.out.println(sertifikats);
 			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
-			return "redirect:/sertifikati/CRUD/show/all";
+			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			e.printStackTrace();
@@ -100,10 +104,10 @@ public class SertifikatiCRUDController {
 	}
 	
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats, Model model) {
+	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
 			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits());
-			return "redirect:/sertifikati/CRUD/show/all";
+			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage()); 
 			e.printStackTrace();

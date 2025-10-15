@@ -1,6 +1,5 @@
 package lv.sis.service.impl;
 
-import java.util.List;
 import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -9,7 +8,10 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +50,6 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 	}
 
-	@Override
 	@Transactional
 	public void importCourseParticipants(MultipartFile file) throws Exception {
 		try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
@@ -102,12 +103,11 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	}
 
 	@Override
-	public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
+	public Page<KursaDalibnieki> retrieveAll(Pageable pageable) throws Exception {
 		if (kursaDalibniekiRepo.count() == 0) {
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		ArrayList<KursaDalibnieki> allKursaDalibnieki = (ArrayList<KursaDalibnieki>) kursaDalibniekiRepo.findAll();
-		return allKursaDalibnieki;
+		return kursaDalibniekiRepo.findAll(pageable);
 	}
 
 	@Override
@@ -186,6 +186,15 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		kursaDalibniekiRepo.deleteById(kdid);
 		;
 
+	}
+	
+	@Override
+	public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
+		if(kursaDalibniekiRepo.count()==0) {
+			throw new Exception("Tabulā nav neviena ieraksta");
+		}
+		ArrayList<KursaDalibnieki> allKursaDalibnieki = (ArrayList<KursaDalibnieki>) kursaDalibniekiRepo.findAll();
+		return allKursaDalibnieki;
 	}
 
 }

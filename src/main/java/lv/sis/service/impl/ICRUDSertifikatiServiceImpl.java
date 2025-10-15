@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
@@ -45,12 +47,12 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	}
 
 	@Override
-	public ArrayList<Sertifikati> retrieveAll() throws Exception {
+	public Page<Sertifikati> retrieveAll(Pageable pageable) throws Exception {
 		if (sertRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return (ArrayList<Sertifikati>)sertRepo.findAll();
+		return sertRepo.findAll(pageable);
 	}
 
 	@Override

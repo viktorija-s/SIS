@@ -1,7 +1,9 @@
 package lv.sis.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
@@ -11,10 +13,7 @@ public interface ICRUDVertejumiService {
 	
 	//C - create
 	public abstract void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) throws Exception;
-	
-	//R - retrieve all
-	public abstract ArrayList<Vertejumi> retrieveAll() throws Exception;
-		
+			
 	//R - retrieve by id
 	public abstract Vertejumi retrieveById(int vid) throws Exception;
 		
@@ -23,5 +22,7 @@ public interface ICRUDVertejumiService {
 		
 	//D - delete
 	public abstract void deleteById(int vid) throws Exception;
+
+	public abstract Page<Vertejumi> retrieveAll(Pageable pageable) throws Exception;
 
 }

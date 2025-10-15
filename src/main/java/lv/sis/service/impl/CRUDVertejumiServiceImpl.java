@@ -1,9 +1,10 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
@@ -37,11 +38,13 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 	}
 
 	@Override
-	public ArrayList<Vertejumi> retrieveAll() throws Exception {
-		if (vertejumiRepo.count() == 0) {
+	public Page<Vertejumi> retrieveAll(Pageable pageable) throws Exception {
+		if(vertejumiRepo.count()==0) {
+
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		ArrayList<Vertejumi> allVertejumi = (ArrayList<Vertejumi>) vertejumiRepo.findAll();
+		
+		Page<Vertejumi> allVertejumi = vertejumiRepo.findAll(pageable);
 		return allVertejumi;
 	}
 

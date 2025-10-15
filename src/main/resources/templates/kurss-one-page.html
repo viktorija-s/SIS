@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<p>Informācija par kursu:</p>
+
+<table border="1px" style="border-collapse: collapse;">
+    <tr>
+        <th>ID</th>
+        <th>Nosaukums</th>
+        <th>Stundas</th>
+        <th>Līmenis</th>
+    </tr>
+
+    <tr th:each="temp : ${package}">
+        <td th:text="${temp.kid}"></td>
+        <td th:text="${temp.nosaukums}"></td>
+        <td th:text="${temp.stundas}"></td>
+        <td th:text="${temp.limenis}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
