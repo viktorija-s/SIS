@@ -74,15 +74,7 @@ public class SisApplication {
 				
 
 				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k1, p2);
-				kdat1.setKurss(k1);
 				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p1);
-				kdat2.setKurss(k2);
-
-//				KursaDatumi kdat1 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), p1);
-//				kdat1.setKurss(k1);
-//				KursaDatumi kdat2 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), p2);
-//				kdat2.setKurss(k2);
-
 
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
@@ -103,10 +95,10 @@ public class SisApplication {
 				MyUser u2 = new MyUser("lisa", encoder.encode("somepass"), auth2);
 				userRepo.save(u1);
 				userRepo.save(u2);
-				MacibuRezultati mr1 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k1);
+				MacibuRezultati mr1 = new MacibuRezultati("šeit ir aprakstīts sasniegtais mācību rezultāts", k1);
 				macibuRezRepo.save(mr1);
 				
-				MacibuRezultati mr2 = new MacibuRezultati("seit ir aprakstits sasniegtais macibu rezultats", k2);
+				MacibuRezultati mr2 = new MacibuRezultati("šeit ir aprakstīts sasniegtais mācību rezultāts", k2);
 				macibuRezRepo.save(mr2);
 			}
 		};
