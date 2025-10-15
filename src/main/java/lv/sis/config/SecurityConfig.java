@@ -63,7 +63,7 @@ public class SecurityConfig {
 				.requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
-				
+
 				.requestMatchers("/vertejumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/vertejumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/vertejumi/CRUD/remove/**").hasAuthority("ADMIN")
@@ -75,6 +75,9 @@ public class SecurityConfig {
 				.requestMatchers("/kursaDatumi/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDatumi/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDatumi/CRUD/update/**").hasAuthority("ADMIN")
+
+				.requestMatchers("/pdf/**").hasAuthority("ADMIN")
+
 				);
 		
 		http.formLogin(auth -> auth.permitAll());
