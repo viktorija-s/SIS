@@ -62,8 +62,8 @@ public class SisApplication {
 				kursaDalibniekiRepo.save(kd1);
 				kursaDalibniekiRepo.save(kd2);
 
-				Sertifikati s1 = new Sertifikati(CertificateType.full, LocalDate.of(2025, 6, 14), 1234, true, kd2, k2);
-				Sertifikati s2 = new Sertifikati(CertificateType.participant, LocalDate.of(2025, 6, 11), 1235, false, kd1, k1);
+				Sertifikati s1 = new Sertifikati(CertificateType.Full, LocalDate.of(2025, 6, 14), 1234, true, kd2, k2);
+				Sertifikati s2 = new Sertifikati(CertificateType.Participant, LocalDate.of(2025, 6, 11), 1235, false, kd1, k1);
 				sertRepo.save(s1);
 				sertRepo.save(s2);
 
