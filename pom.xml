@@ -67,6 +67,10 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 		<dependency>
 		  <groupId>com.github.librepdf</groupId>
@@ -74,8 +78,18 @@
 		  <version>3.0.0</version>
 		</dependency>
 
-		
 
+
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>5.4.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.4.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -104,6 +118,12 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+<groupId>org.sonarsource.scanner.maven</groupId>
+<artifactId>sonar-maven-plugin</artifactId>
+<version>3.4.0.905</version>
+</plugin>
+
 		</plugins>
 	</build>
 

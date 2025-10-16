@@ -1,5 +1,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
+<header>
+    <button type="button" style="background-color: green; color: white;"
+            onclick="window.location.href='/login'">Sign in</button>
+    <button type="button" style="background-color: red; color: white; margin-left: 8px;"
+            onclick="window.location.href='/logout'">Log out</button>
+</header>
 
 <h1><b>SIS</b> galvenā lapa</h1>
 
@@ -49,6 +55,10 @@
 
     <h2>E-pasts</h2>
     <li><a href="/email">Nosūtīt e-pastu</a></li>
+	
+	<h2>Sertifikātu ģenerēšana</h2>
+	<li><a href="/pdf/{kdid}/{kid}">Ģenerēt sertifikātu ({id} nomainīt)</a></li>
+
 
 </ul>
 

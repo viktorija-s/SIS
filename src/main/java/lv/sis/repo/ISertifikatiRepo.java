@@ -3,11 +3,11 @@ package lv.sis.repo;
 
 import java.util.ArrayList;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import lv.sis.model.Sertifikati;
 
-public interface ISertifikatiRepo extends CrudRepository<Sertifikati, Integer> {
+public interface ISertifikatiRepo extends JpaRepository<Sertifikati, Integer> {
 
 	boolean existsByRegistracijasNr(int regNr);
 

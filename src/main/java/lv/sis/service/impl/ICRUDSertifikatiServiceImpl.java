@@ -3,7 +3,10 @@ package lv.sis.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
@@ -44,12 +47,12 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	}
 
 	@Override
-	public ArrayList<Sertifikati> retrieveAll() throws Exception {
+	public Page<Sertifikati> retrieveAll(Pageable pageable) throws Exception {
 		if (sertRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return (ArrayList<Sertifikati>)sertRepo.findAll();
+		return sertRepo.findAll(pageable);
 	}
 
 	@Override
@@ -95,32 +98,30 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		sertRepo.save(selectedSert);
 	}
 
-	@Override
-	public void deleteById(int id) throws Exception {
-		if (id < 0) {
-			throw new Exception("ID nav pareizs");
-		}
-		if (!sertRepo.existsById(id)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
-		}
-		
-		Sertifikati sert = sertRepo.findById(id).get();
-		
-		// atsaista sertifikatu citas klases
-		ArrayList<KursaDalibnieki> dalibnieki = dalibniekiRepo.findByKdid(id);
-		
-		for (KursaDalibnieki dalibnieks: dalibnieki) {
-			dalibnieks.setSertifikati(null);
-			dalibniekiRepo.save(dalibnieks);
-		}
-		
-		ArrayList<Kurss> kursi = kurssRepo.findByKid(id);
-		for (Kurss kurss: kursi) {
-			kurss.setSertifikati(null);
-			kurssRepo.save(kurss);
-		}
-	
-		
-		sertRepo.delete(sert);
-	}	
+    @Override
+    @Transactional
+    public void deleteById(int id) throws Exception {
+        if (id < 0) {
+            throw new Exception("ID nav pareizs");
+        }
+        if (!sertRepo.existsById(id)) {
+            throw new Exception("Sertifikats ar tadu id neeksistē");
+        }
+
+        Sertifikati sert = sertRepo.findById(id).get();
+
+        KursaDalibnieki dalibnieks = sert.getDalibnieks();
+        if (dalibnieks != null) {
+            dalibnieks.setSertifikati(null);
+            dalibniekiRepo.save(dalibnieks);
+        }
+
+        Kurss kurss = sert.getKurss();
+        if (kurss != null && kurss.getSertifikati() != null) {
+            kurss.getSertifikati().remove(sert);
+            kurssRepo.save(kurss);
+        }
+
+        sertRepo.delete(sert);
+    }
 }

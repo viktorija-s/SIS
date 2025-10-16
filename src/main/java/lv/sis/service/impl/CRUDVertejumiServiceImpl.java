@@ -1,9 +1,10 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
@@ -25,23 +26,23 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 
-		if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isBefore(LocalDate.now())) {
-			Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
-			vertejumiRepo.save(newVertejumi);
-		} else {
+        if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isAfter(LocalDate.now())
+                && !datums.isBefore(LocalDate.now().minusMonths(3))) {
+            Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
+            vertejumiRepo.save(newVertejumi);
+        } else {
 			throw new Exception("Šāds vērtējums jau eksistē vai ir norādīts nepareizs datums.");
 		}
-		// TODO varbūt nomainīt uz to ka tieši pretēji ka nevar būt nākotnes datums un
-		// pagātnes datums var būt tikai noteiktu laiku atpakaļ, piemēram, tikai
-		// mēnesis.
 	}
 
 	@Override
-	public ArrayList<Vertejumi> retrieveAll() throws Exception {
-		if (vertejumiRepo.count() == 0) {
+	public Page<Vertejumi> retrieveAll(Pageable pageable) throws Exception {
+		if(vertejumiRepo.count()==0) {
+
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		ArrayList<Vertejumi> allVertejumi = (ArrayList<Vertejumi>) vertejumiRepo.findAll();
+		
+		Page<Vertejumi> allVertejumi = vertejumiRepo.findAll(pageable);
 		return allVertejumi;
 	}
 
