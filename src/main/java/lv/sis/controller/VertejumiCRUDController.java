@@ -2,6 +2,7 @@ package lv.sis.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lv.sis.model.KursaDalibnieki;
+import lv.sis.model.KursaDatumi;
 import lv.sis.model.Vertejumi;
+import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.service.ICRUDVertejumiService;
 
 @Controller
@@ -20,6 +25,12 @@ import lv.sis.service.ICRUDVertejumiService;
 public class VertejumiCRUDController {
 	@Autowired
 	private ICRUDVertejumiService vertejumiServiss;
+	
+	@Autowired 
+	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+	
+	@Autowired 
+	private IKursaDatumiRepo kursaDatumiRepo;
 
 	@GetMapping("/show/all")
 	public String getControllerShowAllVertejumi(Model model) {
@@ -61,6 +72,16 @@ public class VertejumiCRUDController {
 	public String getControllerAddVertejums(Model model) {
 	    Vertejumi vertejumi = new Vertejumi();
 	    model.addAttribute("vertejumi", vertejumi);
+	    
+	    
+	    List<KursaDalibnieki> kursaDalibniekiList = new ArrayList<>();
+	    kursaDalibniekiRepo.findAll().forEach(kursaDalibniekiList::add);
+	    model.addAttribute("kursaDalibniekiList", kursaDalibniekiList);
+
+	    List<KursaDatumi> kursaDatumiList = new ArrayList<>();
+	    kursaDatumiRepo.findAll().forEach(kursaDatumiList::add);
+	    model.addAttribute("kursaDatumiList", kursaDatumiList);
+	    
 	    return "vertejumi-add-page";
 	}
 
@@ -68,6 +89,8 @@ public class VertejumiCRUDController {
 	public String postControllerAddVertejums(@ModelAttribute Vertejumi vertejumi, Model model) {
 		if (vertejumi == null) {
 			model.addAttribute("package", "The vertejumi is not given");
+			
+		
 		}
 		try {
 			vertejumiServiss.create(vertejumi.getVertejums(), vertejumi.getDatums(), vertejumi.getKursaDalibnieki(),
@@ -85,6 +108,15 @@ public class VertejumiCRUDController {
 		try {
 			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
 			model.addAttribute("vertejumi", vertejumi);
+			
+			List<KursaDalibnieki> kursaDalibniekiList = new ArrayList<>();
+		    kursaDalibniekiRepo.findAll().forEach(kursaDalibniekiList::add);
+		    model.addAttribute("kursaDalibniekiList", kursaDalibniekiList);
+
+		    List<KursaDatumi> kursaDatumiList = new ArrayList<>();
+		    kursaDatumiRepo.findAll().forEach(kursaDatumiList::add);
+		    model.addAttribute("kursaDatumiList", kursaDatumiList);
+			
 			return "vertejumi-update-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
