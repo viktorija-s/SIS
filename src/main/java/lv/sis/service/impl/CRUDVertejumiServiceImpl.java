@@ -26,15 +26,13 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 
-		if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isBefore(LocalDate.now())) {
-			Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
-			vertejumiRepo.save(newVertejumi);
-		} else {
+        if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isAfter(LocalDate.now())
+                && !datums.isBefore(LocalDate.now().minusMonths(3))) {
+            Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
+            vertejumiRepo.save(newVertejumi);
+        } else {
 			throw new Exception("Šāds vērtējums jau eksistē vai ir norādīts nepareizs datums.");
 		}
-		// TODO varbūt nomainīt uz to ka tieši pretēji ka nevar būt nākotnes datums un
-		// pagātnes datums var būt tikai noteiktu laiku atpakaļ, piemēram, tikai
-		// mēnesis.
 	}
 
 	@Override

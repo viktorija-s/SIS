@@ -31,7 +31,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
-		// TODO Auto-generated method stub
 		if (nosaukums == null || stundas<0 || limenis == null) {
 			throw new Exception("Dati nav pareizi");
 		}
@@ -46,7 +45,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
-		// TODO Auto-generated method stub
 			if (kurssRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
@@ -57,8 +55,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public Kurss retrieveById(int kdid) throws Exception {
-		// TODO Auto-generated method stub
-
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -71,7 +67,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void updateById(int kdid, String nosaukums, int stundas, Limeni limenis) throws Exception {
-		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -90,8 +85,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void deleteById(int kid) throws Exception {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		if(kid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
