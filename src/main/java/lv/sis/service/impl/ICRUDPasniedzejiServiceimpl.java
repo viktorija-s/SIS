@@ -16,7 +16,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
-		if (vards.equals(null) || uzvards.equals(null) || epasts.equals(null) || telefonaNr.equals(null)) {
+		if (vards == null || uzvards == null || epasts == null || telefonaNr == null) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (pasnRepo.existsByVardsAndUzvards(vards, uzvards) && pasnRepo.existsByEpasts(epasts)) {
@@ -32,8 +32,6 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public ArrayList<Pasniedzeji> retrieveAll() throws Exception {
-		// TODO Auto-generated method stub
-
 		if (pasnRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
@@ -43,8 +41,6 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public Pasniedzeji retrieveById(int kdid) throws Exception {
-		// TODO Auto-generated method stub
-
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -57,7 +53,6 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
-		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -78,7 +73,6 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public void deleteById(int kdid) throws Exception {
-		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}

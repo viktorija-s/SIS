@@ -37,7 +37,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public ArrayList<Kurss> retrieveAll() throws Exception {
-		// TODO Auto-generated method stub
 			if (kurssRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
@@ -48,8 +47,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public Kurss retrieveById(int kdid) throws Exception {
-		// TODO Auto-generated method stub
-
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -62,7 +59,6 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void updateById(int kdid, String nosaukums, int stundas, Limeni limenis) throws Exception {
-		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}

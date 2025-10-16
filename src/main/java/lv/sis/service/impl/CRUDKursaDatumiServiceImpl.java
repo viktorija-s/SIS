@@ -55,6 +55,7 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 
         KursaDatumi kursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
         return kursaDatumi;
+
 	}
 
 	@Override

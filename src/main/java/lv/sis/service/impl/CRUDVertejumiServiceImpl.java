@@ -15,74 +15,73 @@ import lv.sis.service.ICRUDVertejumiService;
 @Service
 public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 
-	@Autowired
-	private IVertejumiRepo vertejumiRepo;
+    @Autowired
+    private IVertejumiRepo vertejumiRepo;
 
-	@Override
-	public void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi)
-			throws Exception {
-		if (vertejumi < 0 || datums == null || kursaDalibnieki == null || kursaDatumi == null) {
-			throw new Exception("Ievades parametri nav pareizi");
-		}
+    @Override
+    public void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi)
+            throws Exception {
+        if (vertejumi < 0 || datums == null || kursaDalibnieki == null || kursaDatumi == null) {
+            throw new Exception("Ievades parametri nav pareizi");
+        }
+        if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isAfter(LocalDate.now())
+                && !datums.isBefore(LocalDate.now().minusMonths(3))) {
+            Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
+            vertejumiRepo.save(newVertejumi);
+        } else {
+            throw new Exception("Šāds vērtējums jau eksistē vai ir norādīts nepareizs datums (datums nevar būt nākotnē " +
+                    "un vērtējums nevar būt vecāks par 3 mēnešiem).");
+        }
 
-		if (!vertejumiRepo.existsByVertejumsAndDatums(vertejumi, datums) && !datums.isBefore(LocalDate.now())) {
-			Vertejumi newVertejumi = new Vertejumi(vertejumi, datums, kursaDalibnieki, kursaDatumi);
-			vertejumiRepo.save(newVertejumi);
-		} else {
-			throw new Exception("Šāds vērtējums jau eksistē vai ir norādīts nepareizs datums.");
-		}
-		// TODO varbūt nomainīt uz to ka tieši pretēji ka nevar būt nākotnes datums un
-		// pagātnes datums var būt tikai noteiktu laiku atpakaļ, piemēram, tikai
-		// mēnesis.
-	}
+    }
 
-	@Override
-	public ArrayList<Vertejumi> retrieveAll() throws Exception {
-		if (vertejumiRepo.count() == 0) {
-			throw new Exception("Tabulā nav neviena ieraksta");
-		}
-		ArrayList<Vertejumi> allVertejumi = (ArrayList<Vertejumi>) vertejumiRepo.findAll();
-		return allVertejumi;
-	}
+    @Override
+    public ArrayList<Vertejumi> retrieveAll() throws Exception {
+        if (vertejumiRepo.count() == 0) {
+            throw new Exception("Tabulā nav neviena ieraksta");
+        }
+        ArrayList<Vertejumi> allVertejumi = (ArrayList<Vertejumi>) vertejumiRepo.findAll();
+        return allVertejumi;
+    }
 
-	@Override
-	public Vertejumi retrieveById(int vid) throws Exception {
-		if (vid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
+    @Override
+    public Vertejumi retrieveById(int vid) throws Exception {
+        if (vid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
 
-		if (!vertejumiRepo.existsById(vid)) {
-			throw new Exception("Vērtējumi ar tādu id neeksistē");
-		}
+        if (!vertejumiRepo.existsById(vid)) {
+            throw new Exception("Vērtējumi ar tādu id neeksistē");
+        }
 
-		Vertejumi retrievedVertejumi = vertejumiRepo.findById(vid).get();
-		return retrievedVertejumi;
-	}
+        Vertejumi retrievedVertejumi = vertejumiRepo.findById(vid).get();
+        return retrievedVertejumi;
+    }
 
-	@Override
-	public void updateById(int vid, float vertejums) throws Exception {
-		Vertejumi retrievedVertejumi = retrieveById(vid);
+    @Override
+    public void updateById(int vid, float vertejums) throws Exception {
+        Vertejumi retrievedVertejumi = retrieveById(vid);
 
-		if (retrievedVertejumi.getVertejums() != vertejums) {
-			retrievedVertejumi.setVertejums(vertejums);
-		}
+        if (retrievedVertejumi.getVertejums() != vertejums) {
+            retrievedVertejumi.setVertejums(vertejums);
+        }
 
-		vertejumiRepo.save(retrievedVertejumi);
-	}
+        vertejumiRepo.save(retrievedVertejumi);
+    }
 
-	@Override
-	public void deleteById(int vid) throws Exception {
-		if (vid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
+    @Override
+    public void deleteById(int vid) throws Exception {
+        if (vid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
 
-		if (!vertejumiRepo.existsById(vid)) {
-			throw new Exception("Vērtējumi ar tādu id neeksistē");
-		}
+        if (!vertejumiRepo.existsById(vid)) {
+            throw new Exception("Vērtējumi ar tādu id neeksistē");
+        }
 
-		vertejumiRepo.deleteById(vid);
-		;
+        vertejumiRepo.deleteById(vid);
+        ;
 
-	}
+    }
 
 }
