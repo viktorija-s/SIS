@@ -25,9 +25,8 @@ public class SecurityConfig {
 		PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		MyUserDetailsManagerServiceImpl service = loadMyUserDetailsManager();
 		
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider(service);
 		provider.setPasswordEncoder(passEnc);
-		provider.setUserDetailsService(service);
 		
 		return provider;
 	}
@@ -46,8 +45,8 @@ public class SecurityConfig {
 				.requestMatchers("/kursaDalibnieki/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDalibnieki/CRUD/update/**").hasAuthority("ADMIN")
 				
-				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN") 
-				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN") 
+				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO only his courses
+				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO only his courses
 				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/update/**").hasAnyAuthority("ADMIN") 
@@ -59,7 +58,7 @@ public class SecurityConfig {
 				.requestMatchers("/pasniedzeji/CRUD/update/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO can edit only himself
 				
 				.requestMatchers("/sertifikati/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO can see only certificates for his courses
-				.requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR")
+				.requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO can see only certificates for his courses
 				.requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")

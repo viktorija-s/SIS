@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Kurss;
-import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.ISertifikatiRepo;
