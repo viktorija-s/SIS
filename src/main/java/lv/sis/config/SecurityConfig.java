@@ -45,8 +45,8 @@ public class SecurityConfig {
 				.requestMatchers("/kursaDalibnieki/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDalibnieki/CRUD/update/**").hasAuthority("ADMIN")
 				
-				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO only his courses
-				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO only his courses
+				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") 
+				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") 
 				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/update/**").hasAnyAuthority("ADMIN") 
@@ -69,7 +69,6 @@ public class SecurityConfig {
 				.requestMatchers("/vertejumi/CRUD/add").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/vertejumi/CRUD/update/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 
-				
 				.requestMatchers("/kursaDatumi/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/kursaDatumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/kursaDatumi/CRUD/remove/**").hasAuthority("ADMIN")
