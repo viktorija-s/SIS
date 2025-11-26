@@ -103,6 +103,20 @@ public class SisApplication {
 				sertRepo.save(s6);
 				sertRepo.save(s8);
 				
+				PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+				
+				MyAuthority auth1 = new MyAuthority("PROFESSOR");
+				MyAuthority auth2 = new MyAuthority("ADMIN");
+				authRepo.save(auth1);
+				authRepo.save(auth2);
+				
+				MyUser u1 = new MyUser("admin", encoder.encode("admin"), auth2);
+				MyUser u2 = new MyUser("user", encoder.encode("user"), auth1); // pid = 1
+				MyUser u3 = new MyUser("user2", encoder.encode("user2"), auth1); // pid = 2
+				userRepo.save(u1);
+				userRepo.save(u2);
+				userRepo.save(u3);
+				
 				Pasniedzeji p1 = new Pasniedzeji("Anna", "Znotiņa", "anna.znotina@tdl.com", "+37120000000");
 				Pasniedzeji p2 = new Pasniedzeji("Jānis", "Ozoliņš", "janis.ozolins@tdl.com", "+37121111111");
 				Pasniedzeji p3 = new Pasniedzeji("Ilze", "Bērziņa", "ilze.berzina@tdl.com", "+37122222222");
@@ -111,6 +125,8 @@ public class SisApplication {
 				Pasniedzeji p6 = new Pasniedzeji("Andris", "Liepa", "andris.liepa@tdl.com", "+37125555555");
 				Pasniedzeji p7 = new Pasniedzeji("Eva", "Zariņa", "eva.zarina@tdl.com", "+37126666666");
 				Pasniedzeji p8 = new Pasniedzeji("Mārtiņš", "Grīnbergs", "martins.grinbergs@tdl.com", "+37127777777");
+				p1.setUser(u2);
+				p2.setUser(u3);
 				pasnRepo.save(p1);
 				pasnRepo.save(p2);
 				pasnRepo.save(p3);
@@ -125,12 +141,16 @@ public class SisApplication {
 				KursaDatumi kdat3 = new KursaDatumi(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 7, 10), k5, p3);
 				KursaDatumi kdat4 = new KursaDatumi(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 10), k2, p3);
 				KursaDatumi kdat5 = new KursaDatumi(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 7, 10), k8, p3);
+				KursaDatumi kdat6 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k6, p1);
+				KursaDatumi kdat7 = new KursaDatumi(LocalDate.of(2025, 6, 15), LocalDate.of(2025, 6, 20), k7, p1);
 
 				kursaDatumiRepo.save(kdat1);
 				kursaDatumiRepo.save(kdat2);
 				kursaDatumiRepo.save(kdat3);
 				kursaDatumiRepo.save(kdat4);
 				kursaDatumiRepo.save(kdat5);
+				kursaDatumiRepo.save(kdat6);
+				kursaDatumiRepo.save(kdat7);
 				
 				Vertejumi v1 = new Vertejumi(8.7f, LocalDate.of(2025, 3, 15), kd1, kdat1);
 				Vertejumi v2 = new Vertejumi(6.5f, LocalDate.of(2025, 4, 10), kd3, kdat2);
@@ -149,19 +169,6 @@ public class SisApplication {
 				vertejumiRepo.save(v7);
 				vertejumiRepo.save(v8);
 				
-				PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-				
-				MyAuthority auth1 = new MyAuthority("PROFESSOR");
-				MyAuthority auth2 = new MyAuthority("ADMIN");
-				authRepo.save(auth1);
-				authRepo.save(auth2);
-				
-				MyUser u1 = new MyUser("admin", encoder.encode("admin"), auth2);
-				MyUser u2 = new MyUser("user", encoder.encode("user"), auth1); // pid = 1
-				MyUser u3 = new MyUser("user2", encoder.encode("user2"), auth1); // pid = 2
-				userRepo.save(u1);
-				userRepo.save(u2);
-				userRepo.save(u3);
 
 				MacibuRezultati mr1 = new MacibuRezultati("šeit ir aprakstīts sasniegtais mācību rezultāts", k1);
 				macibuRezRepo.save(mr1);

@@ -9,7 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -58,6 +60,10 @@ public class Pasniedzeji {
 	@OneToMany(mappedBy = "pasniedzejs", cascade = CascadeType.REMOVE)
 	@ToString.Exclude
 	private Collection<KursaDatumi> kursaDatumi;
+	
+	@OneToOne
+	@JoinColumn(name = "UId")
+	private MyUser user;
 
     public Pasniedzeji(String vards, String uzvards, String epasts, String telefonaNr) {
     	setVards(vards);

@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.MacibuRezultati;
+import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.repo.IMacibuRezultatiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.repo.ISertifikatiRepo;
 
 import lv.sis.service.ICRUDKurssService;
@@ -32,6 +34,9 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	
 	@Autowired
 	ISertifikatiRepo sertRepo;
+	
+	@Autowired
+	IPasniedzejiRepo pasnRepo;
 	
 	@Autowired
 	IUserService userService;
@@ -57,14 +62,16 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		}
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		int userID = userService.getUserIdFromUsername(auth.getName());
+		String username = auth.getName();
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
 				return kurssRepo.findAll(pageable); 
 			}
 		}
-		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(userID, pageable);
+		
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
 	
 	}
 
@@ -78,7 +85,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		}
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		int userID = userService.getUserIdFromUsername(auth.getName());
+		String username = auth.getName();
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
@@ -86,14 +93,15 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			}
 		}
 		
+		Pasniedzeji pasn = pasnRepo.findByUserUsername(username);
 		Kurss course = kurssRepo.findById(kdid).get();
 		for (KursaDatumi kd : course.getKursaDatumi()) {
-			if (kd.getPasniedzejs().getPid() == userID) {
+			if (pasn.getPid() == kd.getPasniedzejs().getPid()) {
 				return course;
 			}
 		}
 		
-		throw new Exception("User does not have rights to watch this page."); 
+		throw new Exception("This user does not have rights to watch this page."); 
 	}
 
 	@Override
