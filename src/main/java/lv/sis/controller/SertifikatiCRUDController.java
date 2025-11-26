@@ -83,7 +83,7 @@ public class SertifikatiCRUDController {
 		
 		try {
 			System.out.println(sertifikats);
-			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
+			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -106,7 +106,7 @@ public class SertifikatiCRUDController {
 	@PostMapping("/update/{id}")
 	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
-			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits());
+			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(), sertifikats.isIrParakstits());
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage()); 
