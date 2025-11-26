@@ -1,5 +1,7 @@
 package lv.sis.repo;
 
+import java.util.ArrayList;
+
 import org.springframework.data.repository.CrudRepository;
 
 import lv.sis.model.Kurss;
@@ -9,6 +11,8 @@ public interface IMacibuRezultatiRepo extends CrudRepository<MacibuRezultati, In
 
 	boolean existsByMacibuRezultatsAndKurss(String macibuRezultats, Kurss kurss);
 
-	MacibuRezultati findByMacibuRezultatsAndKurss(String macibuRezultats, Kurss kurss);	
+	MacibuRezultati findByMacibuRezultatsAndKurss(String macibuRezultats, Kurss kurss);
+
+	ArrayList<MacibuRezultati> findByKurssKid(int kid);	
 
 }

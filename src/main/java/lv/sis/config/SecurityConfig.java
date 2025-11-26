@@ -68,12 +68,16 @@ public class SecurityConfig {
 				.requestMatchers("/vertejumi/CRUD/remove/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/vertejumi/CRUD/add").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/vertejumi/CRUD/update/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
+
 				
 				.requestMatchers("/kursaDatumi/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/kursaDatumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his courses
 				.requestMatchers("/kursaDatumi/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDatumi/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDatumi/CRUD/update/**").hasAuthority("ADMIN")
+
+				.requestMatchers("/pdf/**").hasAuthority("ADMIN")
+
 				);
 		
 		http.formLogin(auth -> auth.permitAll());

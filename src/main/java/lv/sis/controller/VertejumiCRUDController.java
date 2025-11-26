@@ -1,8 +1,12 @@
 package lv.sis.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import lv.sis.model.KursaDalibnieki;
+import lv.sis.model.KursaDatumi;
 import lv.sis.model.Vertejumi;
+import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.service.ICRUDVertejumiService;
 
 @Controller
@@ -19,11 +28,19 @@ import lv.sis.service.ICRUDVertejumiService;
 public class VertejumiCRUDController {
 	@Autowired
 	private ICRUDVertejumiService vertejumiServiss;
+	
+	@Autowired 
+	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+	
+	@Autowired 
+	private IKursaDatumiRepo kursaDatumiRepo;
 
 	@GetMapping("/show/all")
-	public String getControllerShowAllVertejumi(Model model) {
+	public String getControllerShowAllVertejumi(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
 		try {
-			ArrayList<Vertejumi> visiVertejumi = vertejumiServiss.retrieveAll();
+			Pageable pageable = PageRequest.of(page, size);
+			Page<Vertejumi> visiVertejumi = vertejumiServiss.retrieveAll(pageable); 
+
 			model.addAttribute("package", visiVertejumi);
 			return "vertejumi-all-page";
 		} catch (Exception e) {
@@ -37,7 +54,7 @@ public class VertejumiCRUDController {
 		try {
 			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
 			model.addAttribute("package", vertejumi);
-			return "vertejumi-all-page";
+			return "vertejumi-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -48,8 +65,7 @@ public class VertejumiCRUDController {
 	public String getControllerRemoveVertejums(@PathVariable(name = "id") int id, Model model) {
 		try {
 			vertejumiServiss.deleteById(id);
-			model.addAttribute("package", vertejumiServiss.retrieveAll());
-			return "vertejumi-all-page";
+			return "redirect:/vertejumi/CRUD/show/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -60,6 +76,16 @@ public class VertejumiCRUDController {
 	public String getControllerAddVertejums(Model model) {
 	    Vertejumi vertejumi = new Vertejumi();
 	    model.addAttribute("vertejumi", vertejumi);
+	    
+	    
+	    List<KursaDalibnieki> kursaDalibniekiList = new ArrayList<>();
+	    kursaDalibniekiRepo.findAll().forEach(kursaDalibniekiList::add);
+	    model.addAttribute("kursaDalibniekiList", kursaDalibniekiList);
+
+	    List<KursaDatumi> kursaDatumiList = new ArrayList<>();
+	    kursaDatumiRepo.findAll().forEach(kursaDatumiList::add);
+	    model.addAttribute("kursaDatumiList", kursaDatumiList);
+	    
 	    return "vertejumi-add-page";
 	}
 
@@ -67,6 +93,8 @@ public class VertejumiCRUDController {
 	public String postControllerAddVertejums(@ModelAttribute Vertejumi vertejumi, Model model) {
 		if (vertejumi == null) {
 			model.addAttribute("package", "The vertejumi is not given");
+			
+		
 		}
 		try {
 			vertejumiServiss.create(vertejumi.getVertejums(), vertejumi.getDatums(), vertejumi.getKursaDalibnieki(),
@@ -84,6 +112,15 @@ public class VertejumiCRUDController {
 		try {
 			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
 			model.addAttribute("vertejumi", vertejumi);
+			
+			List<KursaDalibnieki> kursaDalibniekiList = new ArrayList<>();
+		    kursaDalibniekiRepo.findAll().forEach(kursaDalibniekiList::add);
+		    model.addAttribute("kursaDalibniekiList", kursaDalibniekiList);
+
+		    List<KursaDatumi> kursaDatumiList = new ArrayList<>();
+		    kursaDatumiRepo.findAll().forEach(kursaDatumiList::add);
+		    model.addAttribute("kursaDatumiList", kursaDatumiList);
+			
 			return "vertejumi-update-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

@@ -49,7 +49,7 @@ public class KursaDatumiCRUDController {
 		try {
 			KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
 			model.addAttribute("package", kursaDatumi);
-			return "kursa-datumi-all-page";
+			return "kursa-datumi-one-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
