@@ -50,7 +50,7 @@ public class Sertifikati {
 
 	@NotBlank
 	@Pattern(regexp = "[A-Z]{2}[0-9]{4}")
-	@Column(name = "CertificateNo", unique = true)
+	@Column(name = "CertificateNo", length=191, unique = true)
 	private String certificateNo;
 
 	@NotNull
