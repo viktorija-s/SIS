@@ -5,17 +5,24 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.MacibuRezultati;
+import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.repo.IMacibuRezultatiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.repo.ISertifikatiRepo;
 
 import lv.sis.service.ICRUDKurssService;
+import lv.sis.service.IUserService;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
@@ -27,6 +34,12 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	
 	@Autowired
 	ISertifikatiRepo sertRepo;
+	
+	@Autowired
+	IPasniedzejiRepo pasnRepo;
+	
+	@Autowired
+	IUserService userService;
 	
 
 	@Override
@@ -40,16 +53,25 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		Kurss newKurss = new Kurss(nosaukums, stundas, limenis);
 		kurssRepo.save(newKurss);
-	
 	}
 
 	@Override
 	public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
-			if (kurssRepo.count() == 0) {
+		if (kurssRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return kurssRepo.findAll(pageable);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return kurssRepo.findAll(pageable); 
+			}
+		}
+		
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
 	
 	}
 
@@ -62,7 +84,24 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
-		return kurssRepo.findById(kdid).get();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return kurssRepo.findById(kdid).get(); 
+			}
+		}
+		
+		Pasniedzeji pasn = pasnRepo.findByUserUsername(username);
+		Kurss course = kurssRepo.findById(kdid).get();
+		for (KursaDatumi kd : course.getKursaDatumi()) {
+			if (pasn.getPid() == kd.getPasniedzejs().getPid()) {
+				return course;
+			}
+		}
+		
+		throw new Exception("This user does not have rights to watch this page."); 
 	}
 
 	@Override

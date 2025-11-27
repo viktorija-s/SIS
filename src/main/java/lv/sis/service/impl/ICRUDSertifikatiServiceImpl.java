@@ -25,7 +25,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	private IKursaDalibniekiRepo dalibniekiRepo; 
 	@Autowired
 	private IKurssRepo kurssRepo;
-
+	
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits,
 			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
@@ -90,6 +90,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		
 		
 		selectedSert.setIzdosanasDatums(izdosanasDatums);
+
 		selectedSert.setCertificateNo(certificateNo);
 		
 		selectedSert.setIrParakstits(irParakstits);

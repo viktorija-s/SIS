@@ -11,5 +11,7 @@ public interface IPasniedzejiRepo extends JpaRepository<Pasniedzeji, Integer>{
 	boolean existsByVardsAndUzvards(String vards, String uzvards);
 
 	boolean existsByEpasts(String epasts);
+	
+	Pasniedzeji findByUserUsername(String username);
 
 }

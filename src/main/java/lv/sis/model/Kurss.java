@@ -1,6 +1,6 @@
 package lv.sis.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,15 +49,15 @@ public class Kurss {
 	
 	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
-	private Collection<Sertifikati> sertifikati;
+	private List<Sertifikati> sertifikati;
 	
 	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true) 
 	@ToString.Exclude
-	private Collection<KursaDatumi> kursaDatumi;
+	private List<KursaDatumi> kursaDatumi;
 	
 	@OneToMany(mappedBy = "kurss", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
-	private Collection<MacibuRezultati> macibuRezultati;
+	private List<MacibuRezultati> macibuRezultati;
 	
 	public Kurss(String nosaukums, int stundas, Limeni limenis) {
 		setNosaukums(nosaukums);
