@@ -4,12 +4,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDKursaDatumiService;
 
 @Service
@@ -17,6 +21,9 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	
 	@Autowired
 	private IKursaDatumiRepo kursaDatumiRepo;
+	
+	@Autowired
+	private IPasniedzejiRepo pasnRepo;
 
 	@Override
 	public void create(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) throws Exception {	
@@ -38,9 +45,22 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		if (kursaDatumiRepo.count() == 0) {
             throw new Exception("Tabulā nav neviena kursa datumu ieraksta");
         }
-
-        ArrayList<KursaDatumi> visiKursaDatumi = (ArrayList<KursaDatumi>) kursaDatumiRepo.findAll();
-        return visiKursaDatumi;
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return (ArrayList<KursaDatumi>)kursaDatumiRepo.findAll(); 
+			}
+		}
+		
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		if (professor == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		
+		return kursaDatumiRepo.findAllByPasniedzejsPid(professor.getPid());
 	}
 
 	@Override
@@ -52,9 +72,25 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         if (!kursaDatumiRepo.existsById(kursaDatId)) {
             throw new Exception("Kursa datumi ar ID " + kursaDatId + " neeksistē!");
         }
-
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return kursaDatumiRepo.findById(kursaDatId).get(); 
+			}
+		}
+		
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		if (professor == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
         KursaDatumi kursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
-        return kursaDatumi;
+        if (professor.getPid() == kursaDatumi.getPasniedzejs().getPid()) {
+        	return kursaDatumi;
+        }
+		throw new Exception("This user does not have rights to watch this page."); 
 	}
 
 	@Override

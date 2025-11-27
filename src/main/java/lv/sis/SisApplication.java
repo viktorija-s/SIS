@@ -154,11 +154,11 @@ public class SisApplication {
 				
 				Vertejumi v1 = new Vertejumi(8.7f, LocalDate.of(2025, 3, 15), kd1, kdat1);
 				Vertejumi v2 = new Vertejumi(6.5f, LocalDate.of(2025, 4, 10), kd3, kdat2);
-				Vertejumi v3 = new Vertejumi(9.2f, LocalDate.of(2025, 5, 5), kd5, kdat1);
-				Vertejumi v4 = new Vertejumi(7.8f, LocalDate.of(2025, 6, 1), kd7, kdat2);
-				Vertejumi v5 = new Vertejumi(5.9f, LocalDate.of(2025, 6, 12), kd2, kdat1);
-				Vertejumi v6 = new Vertejumi(10.0f, LocalDate.of(2025, 7, 20), kd8, kdat2);
-				Vertejumi v7 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+				Vertejumi v3 = new Vertejumi(9.2f, LocalDate.of(2025, 5, 5), kd5, kdat6);
+				Vertejumi v4 = new Vertejumi(7.8f, LocalDate.of(2025, 6, 1), kd7, kdat6);
+				Vertejumi v5 = new Vertejumi(5.9f, LocalDate.of(2025, 6, 12), kd2, kdat6);
+				Vertejumi v6 = new Vertejumi(10.0f, LocalDate.of(2025, 7, 20), kd8, kdat7);
+				Vertejumi v7 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat7);
 				Vertejumi v8 = new Vertejumi(7.8f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);

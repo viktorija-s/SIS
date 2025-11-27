@@ -1,7 +1,7 @@
 package lv.sis.model;
 
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -59,7 +59,7 @@ public class Pasniedzeji {
 	
 	@OneToMany(mappedBy = "pasniedzejs", cascade = CascadeType.REMOVE)
 	@ToString.Exclude
-	private Collection<KursaDatumi> kursaDatumi;
+	private List<KursaDatumi> kursaDatumi;
 	
 	@OneToOne
 	@JoinColumn(name = "UId")

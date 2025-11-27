@@ -1,7 +1,6 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	private IKursaDalibniekiRepo dalibniekiRepo; 
 	@Autowired
 	private IKurssRepo kurssRepo;
-
+	
 	@Override
 	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
 			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
@@ -92,7 +91,6 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		
 		selectedSert.setIzdosanasDatums(izdosanasDatums);
 		selectedSert.setRegistracijasNr(regNr);
-		
 		selectedSert.setIrParakstits(irParakstits);
 		
 		sertRepo.save(selectedSert);

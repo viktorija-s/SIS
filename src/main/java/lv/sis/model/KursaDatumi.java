@@ -1,7 +1,7 @@
 package lv.sis.model;
 
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -52,7 +52,7 @@ public class KursaDatumi {
 	
 	@OneToMany(mappedBy = "kursaDatumi", cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@ToString.Exclude
-	private Collection<Vertejumi> vertejumi;
+	private List<Vertejumi> vertejumi;
 	
 	public KursaDatumi(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss) {
 		setSakumaDatums(sakumaDatums);

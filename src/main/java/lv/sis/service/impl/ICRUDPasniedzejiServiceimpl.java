@@ -43,8 +43,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 			throw new Exception("Tabula ir tukša");
 		}
 		
-		return pasnRepo.findAll(pageable);
-
+		return pasnRepo.findAll(pageable); 
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		}
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		int userID = userService.getUserIdFromUsername(auth.getName());
+		String username = auth.getName();
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
@@ -65,8 +64,11 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 			}
 		}
 		
-		Pasniedzeji pasniedzejs = pasnRepo.findById(kdid).get();
-		if (pasniedzejs.getPid() == userID) {
+		Pasniedzeji pasniedzejs = pasnRepo.findByUserUsername(username);
+		if (pasniedzejs == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		if (pasniedzejs.getPid() == kdid) {
 			return pasniedzejs;
 		}
 
@@ -79,18 +81,30 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 			throw new Exception("ID nav pareizs");
 		}
 		if (!pasnRepo.existsById(kdid)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
+			throw new Exception("Pasniedzējs ar tadu id neeksistē");
 		}
 
-		Pasniedzeji selectedSert = pasnRepo.findById(kdid).get();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Pasniedzeji pasn;
+		
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				pasn = pasnRepo.findById(kdid).get(); 
+			}
+		}
+		
+		pasn = pasnRepo.findByUserUsername(username);
+		if (pasn == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
 
-		selectedSert.setVards(vards);
-		selectedSert.setUzvards(uzvards);
-		selectedSert.setEpasts(epasts);
-		selectedSert.setTelefonaNr(telefonaNr);
+		pasn.setVards(vards);
+		pasn.setUzvards(uzvards);
+		pasn.setEpasts(epasts);
+		pasn.setTelefonaNr(telefonaNr);
 
-		pasnRepo.save(selectedSert);
-
+		pasnRepo.save(pasn);
 	}
 
 	@Override
