@@ -52,6 +52,7 @@ public class SecurityConfig {
 				
 				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/kurss/CRUD/show/all?search=**").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/update/**").hasAuthority("ADMIN")
