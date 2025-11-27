@@ -80,7 +80,6 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
         }
 
         vertejumiRepo.deleteById(vid);
-        ;
 
     }
 
