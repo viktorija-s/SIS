@@ -28,22 +28,23 @@ import lv.sis.service.IUserService;
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
 	ICRUDKurssRepo kurssRepo;
-	
+
 	@Autowired
 	IMacibuRezultatiRepo macRezRepo;
 	
 	@Autowired
 	ISertifikatiRepo sertRepo;
-	
+
 	@Autowired
 	IPasniedzejiRepo pasnRepo;
-	
+
 	@Autowired
 	IUserService userService;
-	
+
 
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
+		// TODO Auto-generated method stub
 		if (nosaukums == null || stundas<0 || limenis == null) {
 			throw new Exception("Dati nav pareizi");
 		}
@@ -63,13 +64,13 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return kurssRepo.findAll(pageable); 
+				return kurssRepo.findAll(pageable);
 			}
 		}
-		
+
 		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
 		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
 	
@@ -86,13 +87,13 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return kurssRepo.findById(kdid).get(); 
+				return kurssRepo.findById(kdid).get();
 			}
 		}
-		
+
 		Pasniedzeji pasn = pasnRepo.findByUserUsername(username);
 		Kurss course = kurssRepo.findById(kdid).get();
 		for (KursaDatumi kd : course.getKursaDatumi()) {
@@ -100,8 +101,8 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 				return course;
 			}
 		}
-		
-		throw new Exception("This user does not have rights to watch this page."); 
+
+		throw new Exception("This user does not have rights to watch this page.");
 	}
 
 	@Override
@@ -127,22 +128,22 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		if(kid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
-		
+
 		if(!kurssRepo.existsById(kid)) {
 			throw new Exception("Kurss ar tādu id neeksistē");
 		}
-		
+
 		ArrayList<MacibuRezultati> macRez = macRezRepo.findByKurssKid(kid);
-		
+
 		for (MacibuRezultati temp: macRez) {
 			temp.setKurss(null);
 		}
-		
+
 		ArrayList<Sertifikati> sertifikati = sertRepo.findByKurssKid(kid);
 		for (Sertifikati temp: sertifikati) {
 			temp.setKurss(null);
 		}
-		
+
 		kurssRepo.deleteById(kid);
 	}
 

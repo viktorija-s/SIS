@@ -1,6 +1,7 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 
 	@Autowired
 	private IVertejumiRepo vertejumiRepo;
-	
+
 	@Autowired
 	private IPasniedzejiRepo pasnRepo;
 
@@ -40,23 +41,23 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
         } else {
 			throw new Exception("Šāds vērtējums jau eksistē vai ir norādīts nepareizs datums.");
 		}
-	} 
-	
+	}
+
 	@Override
 	public Page<Vertejumi> retrieveAll(Pageable pageable) throws Exception {
 		if(vertejumiRepo.count()==0) {
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return vertejumiRepo.findAll(pageable); 
+				return vertejumiRepo.findAll(pageable);
 			}
 		}
-		
+
 		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
 		if (professor == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
@@ -73,26 +74,26 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		if (!vertejumiRepo.existsById(vid)) {
 			throw new Exception("Vērtējumi ar tādu id neeksistē");
 		}
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return vertejumiRepo.findById(vid).get(); 
+				return vertejumiRepo.findById(vid).get();
 			}
 		}
-		
+
 		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
 		if (professor == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
 		}
-		Vertejumi vert = vertejumiRepo.findById(vid).get(); 
+		Vertejumi vert = vertejumiRepo.findById(vid).get();
 		if (professor.getPid() == vert.getKursaDatumi().getPasniedzejs().getPid()) {
 			return vert;
 		}
-		
-		throw new Exception("This user does not have rights to watch this page."); 
+
+		throw new Exception("This user does not have rights to watch this page.");
 	}
 
 	@Override
@@ -100,22 +101,22 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Vertejumi retrievedVertejumi = vertejumiRepo.findById(vid).get();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
 				retrievedVertejumi.setVertejums(vertejums);
 			}
 		}
-		
+
 		Pasniedzeji prof = pasnRepo.findByUserUsername(username);
 		if (prof == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
 		}
 		if (prof.getPid() == retrievedVertejumi.getKursaDatumi().getPasniedzejs().getPid()) {
 			retrievedVertejumi.setVertejums(vertejums);
-		} 
+		}
 		else {
-			throw new Exception("This user does not have rights to update this grade."); 
+			throw new Exception("This user does not have rights to update this grade.");
 		}
 
 		vertejumiRepo.save(retrievedVertejumi);
@@ -130,26 +131,26 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		if (!vertejumiRepo.existsById(vid)) {
 			throw new Exception("Vērtējumi ar tādu id neeksistē");
 		}
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				vertejumiRepo.deleteById(vid); 
+				vertejumiRepo.deleteById(vid);
 			}
 		}
-		
+
 		Pasniedzeji prof = pasnRepo.findByUserUsername(username);
 		if (prof == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
 		}
 		Vertejumi vert = vertejumiRepo.findById(vid).get();
 		if (prof.getPid() == vert.getKursaDatumi().getPasniedzejs().getPid()) {
-			vertejumiRepo.deleteById(vid); 
+			vertejumiRepo.deleteById(vid);
 		}
 		else {
-			throw new Exception("This user does not have rights to delete this grade."); 
+			throw new Exception("This user does not have rights to delete this grade.");
 		}
 	}
 
