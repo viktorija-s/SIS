@@ -1,6 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
 	
 	<p>Informācija par kursa datumiem:</p>
@@ -12,7 +11,6 @@
 			<th>Beigu datums</th>
 			<th>Kurss</th>
 			<th>Pasniedzējs</th>
-			
 		</tr>
 		<tr th:each = "temp : ${package}">
 			<td th:text="${temp.getKursaDatId()}" ></td>
@@ -20,12 +18,8 @@
 			<td th:text="${temp.getBeiguDatums()}" ></td>
 			<td th:text="${temp.getKurss()}" ></td>
 			<td th:text="${temp.getPasniedzejs()}"></td>
-			
 		</tr>
-		
-		
 	</table>
-	
 	
 </body>
 </html> 
