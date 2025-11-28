@@ -14,6 +14,7 @@
 			<th>Ir parakstits?</th>
 			<th>Dalibnieks</th>
 			<th>Kurss</th>
+			
 		</tr>
 		<tr th:each = "temp : ${sertifikati}">
 			<td th:text="${temp.getSid()}" ></td>
@@ -26,7 +27,7 @@
 		</tr>
 	</table>
 	
-	<div  th:if="${package instanceof T(org.springframework.data.domain.Page)}">
+	<div>
 	    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
 	    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
 	    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>

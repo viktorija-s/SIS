@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
+
 <body>
 	
 	<p>Informācija par kursa dalībniekiem:</p>
@@ -17,6 +18,7 @@
 			<th>Ielas nosaukums un numurs</th>
 			<th>Dzīvokļa nr</th>
 			<th>Pasta indekss</th>
+			
 		</tr>
 		<tr th:each = "temp : ${kursaDal}">
 			<td th:text="${temp.getKdid()}" ></td>
@@ -30,10 +32,13 @@
 			<td th:text="${temp.getIelasNosaukumsNumurs()}" ></td>
 			<td th:text="${temp.getDzivoklaNr()}" ></td>
 			<td th:text="${temp.getPastaIndekss()}" ></td>
+			
 		</tr>
+		
+		
 	</table>
 	
-	<div th:if="${package instanceof T(org.springframework.data.domain.Page)}">
+	<div>
 	    <a th:if="${!kursaDal.first}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number - 1}, size=${kursaDal.size})}">Iepriekšējā</a>
 	    <span>Lapa <span th:text="${kursaDal.number + 1}"></span> no <span th:text="${kursaDal.totalPages}"></span></span>
 	    <a th:if="${!kursaDal.last}" th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number + 1}, size=${kursaDal.size})}">Nākamā</a>

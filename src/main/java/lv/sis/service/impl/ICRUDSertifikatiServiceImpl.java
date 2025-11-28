@@ -27,12 +27,12 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	private IKurssRepo kurssRepo;
 	
 	@Override
-	public void create(CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits,
+	public void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits,
 			KursaDalibnieki dalibnieks, Kurss kurss) throws Exception {
-		if (tips == null || izdosanasDatums == null || certificateNo == null || dalibnieks == null || kurss == null) {
+		if (tips == null || izdosanasDatums == null || regNr < 0 || dalibnieks == null || kurss == null) {
 			throw new Exception("Dati nav pareizi");
 		}
-		if (sertRepo.existsByCertificateNo(certificateNo)) {
+		if (sertRepo.existsByRegistracijasNr(regNr)) {
 			throw new Exception("Sertifikāts ar tādu reģistrācijas numuru jau eksistē");
 		}
 		LocalDate minDate = LocalDate.of(2010, 1, 1);
@@ -41,7 +41,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 			throw new Exception("Izdosanas datums nav pareizs: ir jabut starp " + minDate + " un " + now);
 		}
 		
-		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, certificateNo, irParakstits, dalibnieks, kurss);
+		Sertifikati newSert = new Sertifikati(tips, izdosanasDatums, regNr, irParakstits, dalibnieks, kurss);
 		sertRepo.save(newSert);
 	}
 
@@ -67,7 +67,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	}
 
 	@Override
-	public void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits) throws Exception { 
+	public void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits) throws Exception { 
 		if (id < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -90,9 +90,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 		
 		
 		selectedSert.setIzdosanasDatums(izdosanasDatums);
-
-		selectedSert.setCertificateNo(certificateNo);
-		
+		selectedSert.setRegistracijasNr(regNr);
 		selectedSert.setIrParakstits(irParakstits);
 		
 		sertRepo.save(selectedSert);
