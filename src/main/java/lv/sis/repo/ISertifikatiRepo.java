@@ -4,13 +4,18 @@ package lv.sis.repo;
 import java.util.ArrayList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import lv.sis.model.Sertifikati;
 
 public interface ISertifikatiRepo extends JpaRepository<Sertifikati, Integer> {
 
-	boolean existsByRegistracijasNr(int regNr);
 
 	ArrayList<Sertifikati> findByKurssKid(int kid);
+	
+	boolean existsByCertificateNo(String certificateNo);
+
+	@Query("SELECT s.certificateNo FROM Sertifikati s")
+	ArrayList<String> findAllCertificateNumbers();
 
 }

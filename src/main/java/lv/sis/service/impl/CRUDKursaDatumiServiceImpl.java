@@ -4,12 +4,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDKursaDatumiService;
 
 @Service
@@ -17,6 +21,9 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	
 	@Autowired
 	private IKursaDatumiRepo kursaDatumiRepo;
+
+	@Autowired
+	private IPasniedzejiRepo pasnRepo;
 
 	@Override
 	public void create(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) throws Exception {	
@@ -54,7 +61,10 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         }
 
         KursaDatumi kursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
-        return kursaDatumi;
+        if (professor.getPid() == kursaDatumi.getPasniedzejs().getPid()) {
+        	return kursaDatumi;
+        }
+		throw new Exception("This user does not have rights to watch this page.");
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package lv.sis.repo;
 
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import lv.sis.model.Vertejumi;
@@ -13,6 +15,8 @@ public interface IVertejumiRepo extends JpaRepository<Vertejumi, Integer>{
 	Vertejumi findByVertejumsAndDatums(float vertejumi, LocalDate datums);
 	
 	Vertejumi findByKursaDalibnieki_KdidAndKursaDatumi_Kurss_Kid(int kursaDalibnieksId, int kurssId);
+
+	Page<Vertejumi> findAllByKursaDatumiPasniedzejsPid(int i, Pageable pageable);
 
 
 }

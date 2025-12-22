@@ -27,27 +27,27 @@ public class SecurityConfig {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(passEnc);
-		provider.setUserDetailsService(service);
 		
 		return provider;
 	}
 	
 	@Bean
-	public SecurityFilterChain configureUrlsSecurity(HttpSecurity http) throws Exception {
+	SecurityFilterChain configureUrlsSecurity(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(auth -> auth 
 				.requestMatchers("/home").permitAll() // main lapai
 				.requestMatchers("/").permitAll()
 				
-				.requestMatchers("/email").hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers("/email").hasAnyAuthority("ADMIN")
 				
-				.requestMatchers("/kursaDalibnieki/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kursaDalibnieki/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+				.requestMatchers("/kursaDalibnieki/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR")
+				.requestMatchers("/kursaDalibnieki/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR")
 				.requestMatchers("/kursaDalibnieki/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDalibnieki/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDalibnieki/CRUD/update/**").hasAuthority("ADMIN")
 				
 				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/kurss/CRUD/show/all?search=**").hasAnyAuthority("ADMIN", "USER")
 				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/update/**").hasAuthority("ADMIN")

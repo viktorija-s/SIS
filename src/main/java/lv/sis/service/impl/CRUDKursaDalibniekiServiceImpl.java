@@ -1,5 +1,6 @@
 package lv.sis.service.impl;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -50,27 +51,27 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 	}
 
-	@Transactional
-	public void importCourseParticipants(MultipartFile file) throws Exception {
-		try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
-			XSSFSheet sheet = workbook.getSheetAt(0);
-			DataFormatter formatter = new DataFormatter();
+    @Override
+    @Transactional
+    public void importCourseParticipants(MultipartFile file) throws Exception {
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
 
 			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 				Row row = sheet.getRow(i);
 
-				if (row != null) {
-					String personasId = formatter.formatCellValue(row.getCell(4));
-					KursaDalibnieki participant = kursaDalibniekiRepo.findByPersonasId(personasId)
-							.orElse(new KursaDalibnieki());
-					participant.setPersonasId(personasId);
-					participant.setVards(formatter.formatCellValue(row.getCell(0)));
-					participant.setUzvards(formatter.formatCellValue(row.getCell(1)));
-					participant.setEpasts(formatter.formatCellValue(row.getCell(2)));
-					participant.setTelefonaNr(formatter.formatCellValue(row.getCell(3)));
-					participant.setPilseta(formatter.formatCellValue(row.getCell(5)));
-					participant.setValsts(formatter.formatCellValue(row.getCell(6)));
-					participant.setIelasNosaukumsNumurs(formatter.formatCellValue(row.getCell(7)));
+                if (row != null) {
+                    String personasId = formatter.formatCellValue(row.getCell(4));
+                    KursaDalibnieki participant = kursaDalibniekiRepo.findByPersonasId(personasId).orElse(new KursaDalibnieki());
+                    participant.setPersonasId(personasId);
+                    participant.setVards(formatter.formatCellValue(row.getCell(0)));
+                    participant.setUzvards(formatter.formatCellValue(row.getCell(1)));
+                    participant.setEpasts(formatter.formatCellValue(row.getCell(2)));
+                    participant.setTelefonaNr(formatter.formatCellValue(row.getCell(3)));
+                    participant.setPilseta(formatter.formatCellValue(row.getCell(5)));
+                    participant.setValsts(formatter.formatCellValue(row.getCell(6)));
+                    participant.setIelasNosaukumsNumurs(formatter.formatCellValue(row.getCell(7)));
 
 					Cell dzivoklaNrCell = row.getCell(8);
 					if (dzivoklaNrCell != null && dzivoklaNrCell.getCellType() == CellType.NUMERIC) {
@@ -177,7 +178,7 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		;
 
 	}
-	
+
 	@Override
 	public ArrayList<KursaDalibnieki> retrieveAll() throws Exception {
 		if(kursaDalibniekiRepo.count()==0) {

@@ -1,6 +1,6 @@
 package lv.sis.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +43,7 @@ public class MyAuthority {
 
     @OneToMany(mappedBy = "authority", fetch = FetchType.EAGER)
     @ToString.Exclude
-    private Collection<MyUser> users;
+    private List<MyUser> users;
 
     public MyAuthority(String title) {
         this.title = title;

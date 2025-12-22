@@ -1,15 +1,21 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
+import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Vertejumi;
+import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.ICRUDVertejumiService;
 
@@ -19,9 +25,11 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 	@Autowired
 	private IVertejumiRepo vertejumiRepo;
 
+	@Autowired
+	private IPasniedzejiRepo pasnRepo;
+
 	@Override
-	public void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi)
-			throws Exception {
+	public void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) throws Exception {
 		if (vertejumi < 0 || datums == null || kursaDalibnieki == null || kursaDatumi == null) {
 			throw new Exception("Ievades parametri nav pareizi");
 		}
@@ -38,12 +46,23 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 	@Override
 	public Page<Vertejumi> retrieveAll(Pageable pageable) throws Exception {
 		if(vertejumiRepo.count()==0) {
-
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		
-		Page<Vertejumi> allVertejumi = vertejumiRepo.findAll(pageable);
-		return allVertejumi;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return vertejumiRepo.findAll(pageable);
+			}
+		}
+
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		if (professor == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		return vertejumiRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
 	}
 
 	@Override
@@ -56,16 +75,48 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 			throw new Exception("Vērtējumi ar tādu id neeksistē");
 		}
 
-		Vertejumi retrievedVertejumi = vertejumiRepo.findById(vid).get();
-		return retrievedVertejumi;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				return vertejumiRepo.findById(vid).get();
+			}
+		}
+
+		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+		if (professor == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		Vertejumi vert = vertejumiRepo.findById(vid).get();
+		if (professor.getPid() == vert.getKursaDatumi().getPasniedzejs().getPid()) {
+			return vert;
+		}
+
+		throw new Exception("This user does not have rights to watch this page.");
 	}
 
 	@Override
 	public void updateById(int vid, float vertejums) throws Exception {
-		Vertejumi retrievedVertejumi = retrieveById(vid);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
+		Vertejumi retrievedVertejumi = vertejumiRepo.findById(vid).get();
 
-		if (retrievedVertejumi.getVertejums() != vertejums) {
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				retrievedVertejumi.setVertejums(vertejums);
+			}
+		}
+
+		Pasniedzeji prof = pasnRepo.findByUserUsername(username);
+		if (prof == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		if (prof.getPid() == retrievedVertejumi.getKursaDatumi().getPasniedzejs().getPid()) {
 			retrievedVertejumi.setVertejums(vertejums);
+		}
+		else {
+			throw new Exception("This user does not have rights to update this grade.");
 		}
 
 		vertejumiRepo.save(retrievedVertejumi);
@@ -81,9 +132,26 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 			throw new Exception("Vērtējumi ar tādu id neeksistē");
 		}
 
-		vertejumiRepo.deleteById(vid);
-		;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getName();
 
+		for (GrantedAuthority a: auth.getAuthorities()) {
+			if (a.getAuthority().equals("ADMIN")) {
+				vertejumiRepo.deleteById(vid);
+			}
+		}
+
+		Pasniedzeji prof = pasnRepo.findByUserUsername(username);
+		if (prof == null) {
+		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+		}
+		Vertejumi vert = vertejumiRepo.findById(vid).get();
+		if (prof.getPid() == vert.getKursaDatumi().getPasniedzejs().getPid()) {
+			vertejumiRepo.deleteById(vid);
+		}
+		else {
+			throw new Exception("This user does not have rights to delete this grade.");
+		}
 	}
 
 }

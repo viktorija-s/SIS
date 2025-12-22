@@ -109,6 +109,9 @@ public class KursaDatumiCRUDController {
             KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
             model.addAttribute("kursaDatumi", kursaDatumi);
             
+            List<Kurss> kurssList = kurssRepo.findAll();
+            model.addAttribute("kurssList", kurssList);
+            
             List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
             pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
             model.addAttribute("pasniedzejiList", pasniedzejiList);
