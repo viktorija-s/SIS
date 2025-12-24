@@ -61,7 +61,7 @@ public class KurssCRUDController {
 			Kurss kurss = kurssService.retrieveById(id);
 			model.addAttribute("package", kurss);
 
-			return "kurss-one-page";
+			return "kurss-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";

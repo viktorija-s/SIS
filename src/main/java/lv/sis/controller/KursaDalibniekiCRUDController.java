@@ -44,7 +44,7 @@ public class KursaDalibniekiCRUDController {
 		try {
 			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
 			model.addAttribute("kursaDal", kursaDalibnieki);
-			return "kursa-dalibnieki-one-page";
+			return "kursa-dalibnieki-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";

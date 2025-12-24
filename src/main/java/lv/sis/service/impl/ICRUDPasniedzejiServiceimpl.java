@@ -1,7 +1,5 @@
 package lv.sis.service.impl;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,13 +17,13 @@ import lv.sis.service.IUserService;
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	@Autowired
     IPasniedzejiRepo pasnRepo;
-
+	
 	@Autowired
 	IUserService userService;
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
-		if (vards.equals(null) || uzvards.equals(null) || epasts.equals(null) || telefonaNr.equals(null)) {
+		if (vards == null || uzvards == null || epasts == null || telefonaNr == null) {
 			throw new Exception("Dati nav pareizi");
 		}
 		if (pasnRepo.existsByVardsAndUzvards(vards, uzvards) && pasnRepo.existsByEpasts(epasts)) {
@@ -44,8 +42,8 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		if (pasnRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
 		}
-
-		return pasnRepo.findAll(pageable);
+		
+		return pasnRepo.findAll(pageable); 
 	}
 
 	@Override
@@ -56,16 +54,16 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		if (!pasnRepo.existsById(kdid)) {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
 		}
-
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-
+		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return pasnRepo.findById(kdid).get();
+				return pasnRepo.findById(kdid).get(); 
 			}
 		}
-
+		
 		Pasniedzeji pasniedzejs = pasnRepo.findByUserUsername(username);
 		if (pasniedzejs == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
@@ -74,7 +72,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 			return pasniedzejs;
 		}
 
-		throw new Exception("This user does not have rights to watch this page.");
+		throw new Exception("This user does not have rights to watch this page."); 
 	}
 
 	@Override
@@ -89,13 +87,13 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
 		Pasniedzeji pasn;
-
+		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				pasn = pasnRepo.findById(kdid).get();
+				pasn = pasnRepo.findById(kdid).get(); 
 			}
 		}
-
+		
 		pasn = pasnRepo.findByUserUsername(username);
 		if (pasn == null) {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
@@ -111,7 +109,6 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 
 	@Override
 	public void deleteById(int kdid) throws Exception {
-		// TODO Auto-generated method stub
 		if (kdid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
