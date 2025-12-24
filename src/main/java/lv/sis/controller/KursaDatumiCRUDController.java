@@ -49,7 +49,7 @@ public class KursaDatumiCRUDController {
 		try {
 			KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
 			model.addAttribute("package", kursaDatumi);
-			return "kursa-datumi-one-page";
+			return "kursa-datumi-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
@@ -108,9 +108,6 @@ public class KursaDatumiCRUDController {
         try {
             KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
             model.addAttribute("kursaDatumi", kursaDatumi);
-            
-            List<Kurss> kurssList = kurssRepo.findAll();
-            model.addAttribute("kurssList", kurssList);
             
             List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
             pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);

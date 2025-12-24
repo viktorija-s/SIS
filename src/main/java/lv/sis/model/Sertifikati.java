@@ -13,10 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,40 +34,39 @@ public class Sertifikati {
 	@Column(name = "Sid")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int sid;
-
+	
 	@NotNull
 	@Column(name = "Tips")
-	private CertificateType tips;
-	// private Limeni limenis
-
+	private CertificateType tips; 
+	// private Limeni limenis 
+	
 	@NotNull
 	@Column(name = "IzdosanasDatums")
 	@PastOrPresent // datums nevar būt nākotnē
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate izdosanasDatums;
-
-	@NotBlank
-	@Pattern(regexp = "[A-Z]{2}[0-9]{4}")
-	@Column(name = "CertificateNo", length=191, unique = true)
-	private String certificateNo;
-
+	
+	@NotNull
+	@Column(name = "RegistracijasNumurs")
+	@Min(1) 
+	private int registracijasNr;
+	
 	@NotNull
 	@Column(name = "IrParakstits")
 	private boolean irParakstits;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "Kdid")
 	private KursaDalibnieki dalibnieks;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "Kid")
 	private Kurss kurss;
-
-	public Sertifikati(CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits,
-			KursaDalibnieki dalibnieks, Kurss kurss) {
+	
+	public Sertifikati(CertificateType tips, LocalDate izdosanasDatums, int registracijasNr, boolean irParakstits, KursaDalibnieki dalibnieks, Kurss kurss) {
 		setTips(tips);
 		setIzdosanasDatums(izdosanasDatums);
-		setCertificateNo(certificateNo);
+		setRegistracijasNr(registracijasNr);
 		setIrParakstits(irParakstits);
 		setDalibnieks(dalibnieks);
 		setKurss(kurss);
