@@ -86,14 +86,14 @@ public class SisApplication {
 				kursaDalibniekiRepo.save(kd7);
 				kursaDalibniekiRepo.save(kd8);
 
-				Sertifikati s1 = new Sertifikati(CertificateType.Full, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
-				Sertifikati s2 = new Sertifikati(CertificateType.Full, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
-				Sertifikati s3 = new Sertifikati(CertificateType.Full, LocalDate.of(2023, 5, 10), 101, true, kd1, k1);
-				Sertifikati s4 = new Sertifikati(CertificateType.Participant, LocalDate.of(2024, 1, 15), 102, false, kd2, k2);
-				Sertifikati s5 = new Sertifikati(CertificateType.Full, LocalDate.of(2022, 11, 2), 103, true, kd3, k3);
-				Sertifikati s6 = new Sertifikati(CertificateType.Participant, LocalDate.of(2021, 6, 18), 104, true, kd4, k7);
-				Sertifikati s7 = new Sertifikati(CertificateType.Full, LocalDate.of(2020, 9, 30), 105, false, kd5, k5);
-				Sertifikati s8 = new Sertifikati(CertificateType.Participant, LocalDate.of(2023, 3, 25), 106, true, kd6, k1);
+				Sertifikati s1 = new Sertifikati(CertificateType.FULL, LocalDate.of(2025, 6, 14), 1234, true, kd1, k2);
+				Sertifikati s2 = new Sertifikati(CertificateType.PARTICIPANT, LocalDate.of(2025, 6, 11), 1235, false, kd2, k1);
+				Sertifikati s3 = new Sertifikati(CertificateType.FULL, LocalDate.of(2023, 5, 10), 101, true, kd1, k1);
+				Sertifikati s4 = new Sertifikati(CertificateType.PARTICIPANT, LocalDate.of(2024, 1, 15), 102, false, kd2, k2);
+				Sertifikati s5 = new Sertifikati(CertificateType.FULL, LocalDate.of(2022, 11, 2), 103, true, kd3, k3);
+				Sertifikati s6 = new Sertifikati(CertificateType.PARTICIPANT, LocalDate.of(2021, 6, 18), 104, true, kd4, k7);
+				Sertifikati s7 = new Sertifikati(CertificateType.FULL, LocalDate.of(2020, 9, 30), 105, false, kd5, k5);
+				Sertifikati s8 = new Sertifikati(CertificateType.PARTICIPANT, LocalDate.of(2023, 3, 25), 106, true, kd6, k1);
 				sertRepo.save(s1);
 				sertRepo.save(s2);
 				sertRepo.save(s3);
@@ -168,7 +168,6 @@ public class SisApplication {
 				vertejumiRepo.save(v6);
 				vertejumiRepo.save(v7);
 				vertejumiRepo.save(v8);
-				
 
 				MacibuRezultati mr1 = new MacibuRezultati("šeit ir aprakstīts sasniegtais mācību rezultāts", k1);
 				macibuRezRepo.save(mr1);
