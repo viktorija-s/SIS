@@ -8,4 +8,6 @@ public interface IMyUserRepo extends CrudRepository<MyUser, Integer> {
 	boolean existsByUsername(String username);
 
 	MyUser findByUsername(String username);
+
+	void deleteByUsername(String username);
 }
