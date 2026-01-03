@@ -85,7 +85,7 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 
             for (KursaDalibnieki k : dalibnieki) {
                 if (k.getSertifikati() != null) {
-                    boolean hasFull = k.getSertifikati().stream().anyMatch(s -> s.getTips() == CertificateType.Full);
+                    boolean hasFull = k.getSertifikati().stream().anyMatch(s -> s.getTips() == CertificateType.FULL);
 
                     String kursaDalibniekaVardsUnUzvards = vertejumiFromDB.getKursaDalibnieki().getVards() + " "
                             + vertejumiFromDB.getKursaDalibnieki().getUzvards();

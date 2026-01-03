@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
@@ -33,9 +37,12 @@ public class KursaDatumiCRUDController {
 	private IKurssRepo kurssRepo;
 	
 	@GetMapping("/show/all")
-	public String getControllerShowAllKursaDatumi(Model model) {
+	public String getControllerShowAllKursaDatumi(Model model,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "3") int size) {
 		try {
-			ArrayList<KursaDatumi> visiKursaDatumi = kursaDatumiService.retrieveAll(); 
+			Pageable pageable = PageRequest.of(page, size);
+			Page<KursaDatumi> visiKursaDatumi = kursaDatumiService.retrieveAll(pageable); 
 			model.addAttribute("package", visiKursaDatumi);
 			return "kursa-datumi-all-page";
 		} catch (Exception e) {
@@ -60,8 +67,7 @@ public class KursaDatumiCRUDController {
 	public String getControllerRemoveKursaDatumi(@PathVariable(name = "id") int id, Model model) {
         try {
             kursaDatumiService.deleteById(id);
-            model.addAttribute("package", kursaDatumiService.retrieveAll());
-            return "kursa-datumi-all-page";
+            return "redirect:/kursaDatumi/CRUD/show/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
             return "error-page";

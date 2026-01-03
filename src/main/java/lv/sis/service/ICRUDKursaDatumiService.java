@@ -1,7 +1,9 @@
 package lv.sis.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
@@ -19,10 +21,7 @@ public interface ICRUDKursaDatumiService {
 	//C - create
 	public abstract void create(LocalDate sakumaDatums, LocalDate beiguDatums, 
 			Kurss kurss, Pasniedzeji pasniedzejs) throws Exception;
-		
-	//R - retrieve all
-	public abstract ArrayList<KursaDatumi> retrieveAll() throws Exception;
-			
+					
 	//R - retrieve by id
 	public abstract KursaDatumi retrieveById(int kursaDatId) throws Exception;
 			
@@ -31,5 +30,8 @@ public interface ICRUDKursaDatumiService {
 			
 	//D - delete
 	public abstract void deleteById(int kursaDatId) throws Exception;
+
+	Page<KursaDatumi> retrieveAll(Pageable pageable) throws Exception;
+
 
 }
