@@ -1,6 +1,7 @@
 package lv.sis.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -11,6 +12,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -108,7 +111,7 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	}
 
 	@Override
-	public KursaDalibnieki retrieveById(int kdid) throws Exception {
+	public Page<KursaDalibnieki> retrieveById(int kdid) throws Exception {
 		if (kdid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
@@ -119,14 +122,16 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 
 		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
 		retrievedKursaDalibnieki.setAvgGrade(vertRepo.findAvgGrade(kdid));
-		return retrievedKursaDalibnieki;
+		
+		Pageable pageable = PageRequest.of(0, 1);
+	    return new PageImpl<>(List.of(retrievedKursaDalibnieki), pageable, 1);
 	}
 
 	@Override
 	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId,
 			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss)
 			throws Exception {
-		KursaDalibnieki retrievedKursaDalibnieki = retrieveById(kdid);
+		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
 
 		if (retrievedKursaDalibnieki.getVards() != vards) {
 			retrievedKursaDalibnieki.setVards(vards);

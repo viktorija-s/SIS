@@ -42,7 +42,7 @@ public class KursaDalibniekiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowKursaDalibnieksByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
+			Page<KursaDalibnieki> kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
 			model.addAttribute("kursaDal", kursaDalibnieki);
 			return "kursa-dalibnieki-all-page";
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class KursaDalibniekiCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKursaDalibnieks(@PathVariable(name = "id") int id, Model model) {
 		try {
-			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
+			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id).getContent().getFirst();
 			model.addAttribute("kursaDalibnieki", kursaDalibnieki);
 			return "kursa-dalibnieki-update-page";
 		} catch (Exception e) {
