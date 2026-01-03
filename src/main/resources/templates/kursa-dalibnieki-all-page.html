@@ -17,6 +17,7 @@
 			<th>Ielas nosaukums un numurs</th>
 			<th>Dzīvokļa nr</th>
 			<th>Pasta indekss</th>
+			<th>Vidējā atzīme</th>
 		</tr>
 		<tr th:each = "temp : ${kursaDal}">
 			<td th:text="${temp.getKdid()}" ></td>
@@ -30,6 +31,7 @@
 			<td th:text="${temp.getIelasNosaukumsNumurs()}" ></td>
 			<td th:text="${temp.getDzivoklaNr()}" ></td>
 			<td th:text="${temp.getPastaIndekss()}" ></td>
+			<td th:text="${temp.getAvgGrade()}"></td>
 		</tr>
 	</table>
 	

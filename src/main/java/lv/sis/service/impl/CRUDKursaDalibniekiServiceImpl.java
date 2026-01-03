@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.transaction.Transactional;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.ICRUDKursaDalibniekiService;
 
 @Service
@@ -25,6 +26,9 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 
 	@Autowired
 	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+	
+	@Autowired
+	private IVertejumiRepo vertRepo;
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId,
@@ -97,7 +101,10 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		if (kursaDalibniekiRepo.count() == 0) {
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		return kursaDalibniekiRepo.findAll(pageable);
+		
+		Page<KursaDalibnieki> dalibnieki = kursaDalibniekiRepo.findAll(pageable);
+		for (KursaDalibnieki d: dalibnieki.getContent()) d.setAvgGrade(vertRepo.findAvgGrade(d.getKdid()));
+		return dalibnieki;
 	}
 
 	@Override
@@ -111,6 +118,7 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 
 		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
+		retrievedKursaDalibnieki.setAvgGrade(vertRepo.findAvgGrade(kdid));
 		return retrievedKursaDalibnieki;
 	}
 
