@@ -44,7 +44,7 @@ public class SertifikatiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Sertifikati sertifikats = sertService.retrieveById(id);
+			Page<Sertifikati> sertifikats = sertService.retrieveById(id);
 			model.addAttribute("sertifikati", sertifikats);
 			return "sertifikati-all-page";
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class SertifikatiCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateSertifikats(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Sertifikati sertifikats = sertService.retrieveById(id);
+			Sertifikati sertifikats = sertService.retrieveById(id).getContent().getFirst();
 			model.addAttribute("sertifikats", sertifikats);
 			return "sertifikats-update-page";
 		} catch (Exception e) {
