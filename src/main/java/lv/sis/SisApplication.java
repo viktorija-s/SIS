@@ -117,7 +117,7 @@ public class SisApplication {
 				Vertejumi v4 = new Vertejumi(7.8f, LocalDate.of(2025, 6, 1), kd7, kdat2);
 				Vertejumi v5 = new Vertejumi(3.2f, LocalDate.of(2025, 6, 12), kd2, kdat1);
 				Vertejumi v6 = new Vertejumi(10.0f, LocalDate.of(2025, 7, 20), kd8, kdat2);
-				Vertejumi v7 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd1, kdat1);
+				Vertejumi v7 = new Vertejumi(9.5f, LocalDate.of(2025, 6, 12), kd4, kdat1);
 				Vertejumi v8 = new Vertejumi(4.0f, LocalDate.of(2025, 5, 2), kd2, kdat2);
 				vertejumiRepo.save(v1);
 				vertejumiRepo.save(v2);
