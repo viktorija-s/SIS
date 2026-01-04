@@ -11,20 +11,11 @@ import lv.sis.model.Pasniedzeji;
 
 
 public interface ICRUDKursaDatumiService {
-
-//	ArrayList<KursaDatumi> retrieveAll();
-//
-//	KursaDatumi retrieveById(Integer id);
-//
-//	void deleteById(int id);
 	
 	//C - create
 	public abstract void create(LocalDate sakumaDatums, LocalDate beiguDatums, 
 			Kurss kurss, Pasniedzeji pasniedzejs) throws Exception;
 					
-	//R - retrieve by id
-	public abstract KursaDatumi retrieveById(int kursaDatId) throws Exception;
-			
 	//U - update
 	public abstract void updateById(int kursaDatId, KursaDatumi kursaDatumi) throws Exception;
 			
@@ -32,6 +23,8 @@ public interface ICRUDKursaDatumiService {
 	public abstract void deleteById(int kursaDatId) throws Exception;
 
 	Page<KursaDatumi> retrieveAll(Pageable pageable) throws Exception;
+
+	Page<KursaDatumi> retrieveById(int kursaDatId) throws Exception;
 
 
 }

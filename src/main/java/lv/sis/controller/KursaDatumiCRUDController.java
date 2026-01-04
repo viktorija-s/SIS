@@ -54,7 +54,7 @@ public class KursaDatumiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowKursaDatumsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
+			Page<KursaDatumi> kursaDatumi = kursaDatumiService.retrieveById(id);
 			model.addAttribute("package", kursaDatumi);
 			return "kursa-datumi-all-page";
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class KursaDatumiCRUDController {
 	@GetMapping("/update/{id}")
     public String getControllerUpdateKursaDatumi(@PathVariable(name = "id") int id, Model model) {
         try {
-            KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
+            KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id).getContent().getFirst();
             model.addAttribute("kursaDatumi", kursaDatumi);
             
             List<Pasniedzeji> pasniedzejiList = new ArrayList<>();

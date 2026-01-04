@@ -1,12 +1,15 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +68,7 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	}
 
 	@Override
-	public KursaDatumi retrieveById(int kursaDatId) throws Exception {
+	public Page<KursaDatumi> retrieveById(int kursaDatId) throws Exception {
 		if (kursaDatId < 0) {
             throw new Exception("ID nevar būt negatīvs!");
         }
@@ -79,7 +82,9 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return kursaDatumiRepo.findById(kursaDatId).get(); 
+				KursaDatumi kd = kursaDatumiRepo.findById(kursaDatId).get(); 
+				Pageable pageable = PageRequest.of(0, 1);
+				return new PageImpl<>(List.of(kd), pageable, 1);
 			}
 		}
 		
@@ -89,8 +94,10 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		}
         KursaDatumi kursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
         if (professor.getPid() == kursaDatumi.getPasniedzejs().getPid()) {
-        	return kursaDatumi;
+        	Pageable pageable = PageRequest.of(0, 1);
+        	return new PageImpl<>(List.of(kursaDatumi), pageable, 1);
         }
+        
 		throw new Exception("This user does not have rights to watch this page."); 
 	}
 
