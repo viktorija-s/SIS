@@ -26,14 +26,16 @@
 					</select>
 				</td>
 			</tr>
-			<td>Kursa datumi: </td>
+			<td>Kursa datumi:</td>
 			<td>
-				<select th:field="*{kursaDatumi}" required>
-					<option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
-						th:text="${#temporals.format(k.sakumaDatums, 'yyyy-MM-dd')} + ' līdz ' + ${#temporals.format(k.beiguDatums, 'yyyy-MM-dd')}">
-					</option>
-				</select>
+			    <select th:field="*{kursaDatumi}" required>
+			        <option th:each="k : ${kursaDatumiList}"
+			                th:value="${k.kursaDatId}"
+			                th:text="${k.kurss.nosaukums + ' (' + #temporals.format(k.sakumaDatums, 'yyyy-MM-dd') + ' līdz ' + #temporals.format(k.beiguDatums, 'yyyy-MM-dd') + ')'}">
+			        </option>
+			    </select>
 			</td>
+
 			</tr>
 
 
