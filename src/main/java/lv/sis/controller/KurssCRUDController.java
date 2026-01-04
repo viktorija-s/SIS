@@ -58,7 +58,7 @@ public class KurssCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowKurssByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Kurss kurss = kurssService.retrieveById(id);
+			Page<Kurss> kurss = kurssService.retrieveById(id);
 			model.addAttribute("package", kurss);
 
 			return "kurss-all-page";
@@ -110,7 +110,7 @@ public class KurssCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Kurss kurss = kurssService.retrieveById(id);
+			Kurss kurss = kurssService.retrieveById(id).getContent().getFirst();
 			model.addAttribute("kurss", kurss);
 			return "kurss-update-page";
 		} catch (Exception e) {

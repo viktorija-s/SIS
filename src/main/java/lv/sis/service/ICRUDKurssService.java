@@ -13,7 +13,7 @@ public interface ICRUDKurssService {
 		public abstract Page<Kurss> retrieveAll(Pageable pageable) throws Exception;
 				
 		//R - retrieve by id
-		public abstract Kurss retrieveById(int kdid) throws Exception;
+		public abstract Page<Kurss> retrieveById(int kdid) throws Exception;
 				
 		//U - update
 		public abstract void updateById(int kdid, String nosaukums,int stundas, Limeni limenis) throws Exception;

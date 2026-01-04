@@ -126,11 +126,10 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         }
 
         if (kursaDatumi.getPasniedzejs() != null && !kursaDatumi.getPasniedzejs().equals(retrievedKursaDatumi.getPasniedzejs())) {
-        	retrievedKursaDatumi.setPasniedzejs(kursaDatumi.getPasniedzejs());
+        	retrievedKursaDatumi.setPasniedzejs(kursaDatumi.getPasniedzejs()); // TODO nestrādā ja nomaina pasniedzēju uz citu
         }
 
         kursaDatumiRepo.save(retrievedKursaDatumi);
-		
 	}
 
 	@Override

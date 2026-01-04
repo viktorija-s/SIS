@@ -1,9 +1,12 @@
 package lv.sis.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -76,7 +79,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	}
 
 	@Override
-	public Kurss retrieveById(int kdid) throws Exception {
+	public Page<Kurss> retrieveById(int kdid) throws Exception {
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -89,7 +92,9 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return kurssRepo.findById(kdid).get(); 
+				Kurss kurss = kurssRepo.findById(kdid).get(); 
+				Pageable pageable = PageRequest.of(0, 1);
+				return new PageImpl<>(List.of(kurss), pageable, 1);
 			}
 		}
 		
@@ -97,7 +102,8 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		Kurss course = kurssRepo.findById(kdid).get();
 		for (KursaDatumi kd : course.getKursaDatumi()) {
 			if (pasn.getPid() == kd.getPasniedzejs().getPid()) {
-				return course;
+				Pageable pageable = PageRequest.of(0, 1);
+				return new PageImpl<>(List.of(course), pageable, 1);
 			}
 		}
 		
