@@ -86,7 +86,7 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 			int stundas = vertejumiFromDB.getKursaDatumi().getKurss().getStundas();
 			LocalDate date = LocalDate.now();
 
-			CertificateType certificateType = (vertejums < 4.0f) ? CertificateType.Participant : CertificateType.Full;
+			CertificateType certificateType = (vertejums < 4.0f) ? CertificateType.PARTICIPANT : CertificateType.FULL;
 
 			String certificateNo = generateUniqueCertificateNo(k, sertifikatiRepo);
 
@@ -113,7 +113,7 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 			vardsUnUzvards.setAlignment(Element.ALIGN_CENTER);
 			document.add(vardsUnUzvards);
 
-			if (certificateType == CertificateType.Full) {
+			if (certificateType == CertificateType.FULL) {
 				document.add(createCenteredParagraph("\nhas mastered non-formal education program", 11.8f));
 				document.add(createCenteredParagraph(kursaNosaukums, 18.1f));
 				document.add(createCenteredParagraph(stundas + " hours", 11.8f));
@@ -159,7 +159,7 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 
 			document.close();
 
-			Sertifikati sertifikats = new Sertifikati(certificateType, LocalDate.now(), certificateNo, true, k,
+			Sertifikati sertifikats = new Sertifikati(certificateType, LocalDate.now(), certificateNo, false, k,
 					vertejumiFromDB.getKursaDatumi().getKurss());
 			sertifikatiRepo.save(sertifikats);
 		}

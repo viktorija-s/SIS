@@ -5,6 +5,12 @@
 	
 	<p>Informācija par sertifikātiem:</p>
 	
+	<form action="/sertifikati/CRUD/show/all" method="get">
+	    <input type="text" name="search" placeholder="Search..." th:value="${search}">
+	    <button type="submit">Meklēt</button>
+	    <button type="button" onclick="window.location.href='/sertifikati/CRUD/show/all'">Notīrīt</button>
+	</form>
+	
 	<table border="1px" border-collapse="collapse">
 		<tr>
 			<th>ID</th>

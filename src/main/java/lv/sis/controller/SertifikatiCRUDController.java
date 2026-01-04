@@ -1,7 +1,11 @@
 package lv.sis.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -18,29 +22,48 @@ import lv.sis.model.enums.CertificateType;
 import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
+import lv.sis.service.IFilterService;
 
 @Controller
 @RequestMapping("sertifikati/CRUD")
 public class SertifikatiCRUDController {
-	@Autowired 
+	@Autowired
 	private ICRUDSertifikatiService sertService;
 	@Autowired
 	private IKursaDalibniekiRepo dalibniekiRepo;
 	@Autowired
 	private IKurssRepo kurssRepo;
-	
+
+	@Autowired
+	private IFilterService filterService;
+
 	@GetMapping("/show/all")
-	public String getControllerShowAllSertifikati(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String getControllerShowAllSertifikati(Model model, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "4") int size, @RequestParam(required = false) String search) {
+
 		try {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Sertifikati> visiSertifikati = sertService.retrieveAll(pageable); 
-			model.addAttribute("sertifikati", visiSertifikati);
-			return "sertifikati-all-page"; 
+			Page<Sertifikati> sertifikatiPage;
+
+			if (search != null && !search.trim().isEmpty()) {
+				List<Sertifikati> filtered = filterService.findByTipsContainingIgnoreCase(search.trim());
+
+				sertifikatiPage = new PageImpl<>(filtered, PageRequest.of(0, size), filtered.size());
+
+				model.addAttribute("search", search);
+			} else {
+				Pageable pageable = PageRequest.of(page, size);
+				sertifikatiPage = sertService.retrieveAll(pageable);
+			}
+
+			model.addAttribute("sertifikati", sertifikatiPage);
+			return "sertifikati-all-page";
+
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
 	}
+
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
@@ -52,9 +75,10 @@ public class SertifikatiCRUDController {
 			return "error-page";
 		}
 	}
-	
+
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
 			sertService.deleteById(id);
 			Pageable pageable = PageRequest.of(page, size);
@@ -65,25 +89,28 @@ public class SertifikatiCRUDController {
 			return "error-page";
 		}
 	}
-	
+
 	@GetMapping("/add")
 	public String getControllerAddSertifikats(Model model) {
 		Sertifikati sertifikats = new Sertifikati();
 		model.addAttribute("tips", CertificateType.values());
 		model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
-	    model.addAttribute("kursi", kurssRepo.findAll());
+		model.addAttribute("kursi", kurssRepo.findAll());
 		model.addAttribute("sertifikats", sertifikats);
 		return "sertifikati-add-page";
 	}
+
 	@PostMapping("/add")
-	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		if (sertifikats == null) {
 			model.addAttribute("package", "Sertifikats netika iedots");
 		}
-		
+
 		try {
 			System.out.println(sertifikats);
-			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
+			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(),
+					sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -91,6 +118,7 @@ public class SertifikatiCRUDController {
 			return "error-page";
 		}
 	}
+
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateSertifikats(@PathVariable(name = "id") int id, Model model) {
 		try {
@@ -102,16 +130,18 @@ public class SertifikatiCRUDController {
 			return "error-page";
 		}
 	}
-	
+
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats,
+			Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
-			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(), sertifikats.isIrParakstits());
+			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(),
+					sertifikats.getCertificateNo(), sertifikats.isIrParakstits());
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage()); 
+			model.addAttribute("package", e.getMessage());
 			e.printStackTrace();
-			return "error-page"; 
+			return "error-page";
 		}
 	}
 }
