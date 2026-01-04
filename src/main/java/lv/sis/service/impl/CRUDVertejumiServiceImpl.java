@@ -1,9 +1,12 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -65,7 +68,7 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 	}
 
 	@Override
-	public Vertejumi retrieveById(int vid) throws Exception {
+	public Page<Vertejumi> retrieveById(int vid) throws Exception {
 		if (vid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
@@ -79,7 +82,9 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return vertejumiRepo.findById(vid).get(); 
+				Vertejumi vert = vertejumiRepo.findById(vid).get(); 
+				Pageable pageable = PageRequest.of(0, 1);
+				return new PageImpl<>(List.of(vert), pageable, 1);
 			}
 		}
 		
@@ -89,7 +94,8 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		}
 		Vertejumi vert = vertejumiRepo.findById(vid).get(); 
 		if (professor.getPid() == vert.getKursaDatumi().getPasniedzejs().getPid()) {
-			return vert;
+			Pageable pageable = PageRequest.of(0, 1);
+			return new PageImpl<>(List.of(vert), pageable, 1);
 		}
 		
 		throw new Exception("This user does not have rights to watch this page."); 
