@@ -15,6 +15,7 @@
         <th>Nosaukums</th>
         <th>Stundas</th>
         <th>Līmenis</th>
+		<th>Darbības</th>
     </tr>
 
     <tr th:each="temp : ${package}">
@@ -22,6 +23,11 @@
         <td th:text="${temp.nosaukums}"></td>
         <td th:text="${temp.stundas}"></td>
         <td th:text="${temp.limenis}"></td>
+		<td>
+			<a th:href="@{/kurss/CRUD/show/all/{id}(id=${temp.kid})}">Skatīt</a>
+			<a th:href="@{/kurss/CRUD/update/{id}(id=${temp.kid})}">Labot</a>
+			<a th:href="@{/kurss/CRUD/remove/{id}(id=${temp.kid})}">Dzēst</a>
+		</td>
     </tr>
 </table>
 

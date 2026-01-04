@@ -20,9 +20,9 @@
 			<td th:text="${temp.getSid()}" ></td>
 			<td th:text="${temp.getTips()}" ></td>
 			<td th:text="${temp.getIzdosanasDatums()}" ></td>
-			<td th:text="${temp.getRegistracijasNr()}" ></td>
+			<td th:text="${temp.getCertificateNo()}" ></td>
 			<td th:text="${temp.isIrParakstits()}" ></td>
-			<td th:text="${temp.getDalibnieks().getUzvards()}" ></td>
+			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}" ></td>
 			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
 		</tr>
 	</table>
