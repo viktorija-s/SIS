@@ -39,7 +39,7 @@ public class PasniedzejiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowPasniedzejsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Pasniedzeji pasniedzejs = pasnService.retrieveById(id);
+			Page<Pasniedzeji> pasniedzejs = pasnService.retrieveById(id);
 			model.addAttribute("package", pasniedzejs);
 			return "pasniedzeji-all-page";
 		} catch (Exception e) {
@@ -82,7 +82,7 @@ public class PasniedzejiCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdatePasniedzejs(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Pasniedzeji pasniedzejs = pasnService.retrieveById(id);
+			Pasniedzeji pasniedzejs = pasnService.retrieveById(id).getContent().getFirst();
 			model.addAttribute("pasniedzejs", pasniedzejs);
 			return "pasniedzeji-update-page";
 		} catch (Exception e) {
