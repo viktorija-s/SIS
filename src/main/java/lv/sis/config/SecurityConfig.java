@@ -18,76 +18,78 @@ import lv.sis.service.impl.MyUserDetailsManagerServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
-	@Bean
-	public MyUserDetailsManagerServiceImpl loadMyUserDetailsManager() {
-		return new MyUserDetailsManagerServiceImpl();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider loadDaoAuthProvider() {
-		PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		MyUserDetailsManagerServiceImpl service = loadMyUserDetailsManager();
-		
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setPasswordEncoder(passEnc);
-		provider.setUserDetailsService(service);
-		
-		return provider;
-	}
-	
-	@Bean
-	public SecurityFilterChain configureUrlsSecurity(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(auth -> auth 
-				.requestMatchers("/home").permitAll() // main lapai
-				.requestMatchers("/").permitAll()
-				
-				.requestMatchers("/email").hasAnyAuthority("ADMIN", "USER")
-				
-				.requestMatchers("/kursaDalibnieki/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kursaDalibnieki/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kursaDalibnieki/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/kursaDalibnieki/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/kursaDalibnieki/CRUD/update/**").hasAuthority("ADMIN")
-				
-				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("/kurss/CRUD/show/all?search=**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/kurss/CRUD/update/**").hasAuthority("ADMIN")
-				
-				.requestMatchers("/pasniedzeji/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/pasniedzeji/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/pasniedzeji/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/pasniedzeji/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/pasniedzeji/CRUD/update/**").hasAuthority("ADMIN")
-				
-				.requestMatchers("/sertifikati/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
 
-				.requestMatchers("/vertejumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/vertejumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/vertejumi/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/vertejumi/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/vertejumi/CRUD/update/**").hasAuthority("ADMIN")
-				
-				.requestMatchers("/kursaDatumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kursaDatumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
-				.requestMatchers("/kursaDatumi/CRUD/remove/**").hasAuthority("ADMIN")
-				.requestMatchers("/kursaDatumi/CRUD/add").hasAuthority("ADMIN")
-				.requestMatchers("/kursaDatumi/CRUD/update/**").hasAuthority("ADMIN")
+    @Bean
+    public MyUserDetailsManagerServiceImpl loadMyUserDetailsManager() {
+        return new MyUserDetailsManagerServiceImpl();
+    }
 
-				.requestMatchers("/pdf/**").hasAuthority("ADMIN")
+    @Bean
+    public DaoAuthenticationProvider loadDaoAuthProvider() {
+        PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        MyUserDetailsManagerServiceImpl service = loadMyUserDetailsManager();
 
-				);
-		
-		http.formLogin(auth -> auth.permitAll());
-		http.csrf(auth -> auth.disable());
-		
-		return http.build();
-	}
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passEnc);
+        provider.setUserDetailsService(service);
+
+        return provider;
+    }
+
+    @Bean
+    public SecurityFilterChain configureUrlsSecurity(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/home").permitAll() // main lapai
+                .requestMatchers("/").permitAll()
+
+                .requestMatchers("/email").hasAnyAuthority("ADMIN", "USER")
+
+                .requestMatchers("/kursaDalibnieki/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kursaDalibnieki/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kursaDalibnieki/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/kursaDalibnieki/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/kursaDalibnieki/CRUD/update/**").hasAuthority("ADMIN")
+                .requestMatchers("/kursaDalibnieki/CRUD/import").hasAuthority("ADMIN")
+
+                .requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kurss/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kurss/CRUD/show/all?search=**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/kurss/CRUD/update/**").hasAuthority("ADMIN")
+                .requestMatchers("/kurss/CRUD/import").hasAuthority("ADMIN")
+
+                .requestMatchers("/pasniedzeji/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/pasniedzeji/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/pasniedzeji/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/pasniedzeji/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/pasniedzeji/CRUD/update/**").hasAuthority("ADMIN")
+
+                .requestMatchers("/sertifikati/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
+
+                .requestMatchers("/vertejumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/vertejumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/vertejumi/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/vertejumi/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/vertejumi/CRUD/update/**").hasAuthority("ADMIN")
+
+                .requestMatchers("/kursaDatumi/CRUD/show/all").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kursaDatumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "USER")
+                .requestMatchers("/kursaDatumi/CRUD/remove/**").hasAuthority("ADMIN")
+                .requestMatchers("/kursaDatumi/CRUD/add").hasAuthority("ADMIN")
+                .requestMatchers("/kursaDatumi/CRUD/update/**").hasAuthority("ADMIN")
+
+                .requestMatchers("/pdf/**").hasAuthority("ADMIN")
+
+        );
+
+        http.formLogin(auth -> auth.permitAll());
+        http.csrf(auth -> auth.disable());
+
+        return http.build();
+    }
 }

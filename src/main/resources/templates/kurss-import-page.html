@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+
+<p>Importējiet kursus no Excel faila!</p>
+
+<form th:action="@{/kurss/CRUD/import}" method="post" enctype="multipart/form-data">
+
+    <table>
+        <tr>
+            <td>Izvēlieties failu (.xlsx):</td>
+            <td>
+                <input type="file" name="file" accept=".xlsx" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Importēt</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>

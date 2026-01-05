@@ -2,27 +2,31 @@ package lv.sis.service.impl;
 
 import java.util.ArrayList;
 
+import jakarta.transaction.Transactional;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.Kurss;
-import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
 import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.ICRUDKurssService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
     IKurssRepo kurssRepo;
 
-	
 	@Autowired
 	ISertifikatiRepo sertRepo;
+
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
-		// TODO Auto-generated method stub
 		if (nosaukums == null || stundas<0 || limenis == null) {
 			throw new Exception("Dati nav pareizi");
 		}
@@ -32,10 +36,35 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		Kurss newKurss = new Kurss(nosaukums, stundas, limenis);
 		kurssRepo.save(newKurss);
-	
 	}
 
-	@Override
+    @Transactional
+    @Override
+    public void importCourses(MultipartFile file) throws Exception {
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                String nosaukums = formatter.formatCellValue(row.getCell(0));
+                int stundas = (int) row.getCell(1).getNumericCellValue();
+                Limeni limenis = Limeni.valueOf(
+                        formatter.formatCellValue(row.getCell(2))
+                );
+
+                create(nosaukums, stundas, limenis);
+            }
+        }
+    }
+
+
+    @Override
 	public ArrayList<Kurss> retrieveAll() throws Exception {
 			if (kurssRepo.count() == 0) {
 			throw new Exception("Tabula ir tukša");
