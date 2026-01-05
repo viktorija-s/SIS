@@ -74,9 +74,9 @@ public class VertejumiCRUDController {
 					vertejumi.getKursaDatumi());
 			return "redirect:/vertejumi/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
-			return "error-page";
+			return "vertejumi-add-page";
 		}
 	}
 
@@ -87,8 +87,8 @@ public class VertejumiCRUDController {
 			model.addAttribute("vertejumi", vertejumi);
 			return "vertejumi-update-page";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute("message", e.getMessage());
+			return "vertejumi-update-page";
 		}
 	}
 
@@ -98,9 +98,9 @@ public class VertejumiCRUDController {
 			vertejumiServiss.updateById(id, vertejumi.getVertejums());
 			return "redirect:/vertejumi/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
-			return "error-page";
+			return "vertejumi-update-page";
 		}
 	}
 }

@@ -64,6 +64,4 @@ public class Kurss {
 		setStundas(stundas);
 		setLimenis(limenis);
 	}
-
-	
 }

@@ -70,9 +70,9 @@ public class PasniedzejiCRUDController {
 			pasnService.create(pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelefonaNr());
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
-			return "error-page";
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "pasniedzeji-add-page";
 		}
 	}
 	@GetMapping("/update/{id}")
@@ -82,8 +82,8 @@ public class PasniedzejiCRUDController {
 			model.addAttribute("pasniedzejs", pasniedzejs);
 			return "pasniedzeji-update-page";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute("message", e.getMessage());
+			return "pasniedzeji-update-page";
 		}
 	}
 	
@@ -93,9 +93,9 @@ public class PasniedzejiCRUDController {
 			pasnService.updateById(id, pasniedzejs.getVards(), pasniedzejs.getUzvards(), pasniedzejs.getEpasts(), pasniedzejs.getTelefonaNr());
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage()); 
-			e.printStackTrace();
-			return "error-page"; 
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "pasniedzeji-update-page";
 		}
 	}
 }

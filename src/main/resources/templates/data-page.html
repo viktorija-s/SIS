@@ -1,11 +1,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
 
 <body>
-	
-	<p th:text="${package}"> </p>
-	
-	
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p th:text="${package}"></p>
+
 </body>
 
 

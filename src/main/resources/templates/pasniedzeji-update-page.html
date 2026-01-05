@@ -1,42 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<p> Rediģējiet informāciju par pasniedzēju! </p>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p> Rediģējiet informāciju par pasniedzēju! </p>
 
-	<form action="#"  th:action="@{/pasniedzeji/CRUD/update/{id}(id=${pasniedzejs.pid})}" th:object="${pasniedzejs}" method="post" >
-		<table>
-			<tr>
-				<td>Vards: </td>
-				<td> <input type="text"  th:field="*{vards}"   /> </td>
-			</tr>
-			
-			<tr>
-				<td>Uzvards: </td>
-				<td> <input  type="text" th:field="*{uzvards}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>E-pasts: </td>
-				<td> <input  type="text" th:field="*{epasts}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Telefona numurs: </td>
-				<td> <input  type="text" th:field="*{telefonaNr}"  />    </td>
-			</tr>
-			
-			
-			<tr>
-				
-				<td> <button type="submit"> Save </button>     </td>
-				
-			</tr>
-			
-		</table>
-		
-		
-		
-	</form>
+<form action="#" th:action="@{/pasniedzeji/CRUD/update/{id}(id=${pasniedzejs.pid})}" th:object="${pasniedzejs}"
+      method="post">
+    <table>
+        <tr>
+            <td>Vards:</td>
+            <td><input type="text" th:field="*{vards}"/></td>
+        </tr>
+
+        <tr>
+            <td>Uzvards:</td>
+            <td><input type="text" th:field="*{uzvards}"/></td>
+        </tr>
+
+        <tr>
+            <td>E-pasts:</td>
+            <td><input type="text" th:field="*{epasts}"/></td>
+        </tr>
+
+        <tr>
+            <td>Telefona numurs:</td>
+            <td><input type="text" th:field="*{telefonaNr}"/></td>
+        </tr>
+
+
+        <tr>
+
+            <td>
+                <button type="submit"> Save</button>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+</form>
 </body>
 
 </html>

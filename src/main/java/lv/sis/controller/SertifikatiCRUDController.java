@@ -78,13 +78,12 @@ public class SertifikatiCRUDController {
 		}
 		
 		try {
-			System.out.println(sertifikats);
 			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
 			return "redirect:/sertifikati/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
-			return "error-page";
+			return "sertifikati-add-page";
 		}
 	}
 	@GetMapping("/update/{id}")
@@ -94,8 +93,9 @@ public class SertifikatiCRUDController {
 			model.addAttribute("sertifikats", sertifikats);
 			return "sertifikats-update-page";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "sertifikats-update-page";
 		}
 	}
 	
@@ -105,9 +105,9 @@ public class SertifikatiCRUDController {
 			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits());
 			return "redirect:/sertifikati/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage()); 
+			model.addAttribute("message", e.getMessage());
 			e.printStackTrace();
-			return "error-page"; 
+			return "sertifikats-update-page";
 		}
 	}
 }

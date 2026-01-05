@@ -21,8 +21,9 @@ public class PDFCreatorTestController {
 			model.addAttribute("package", "PDF ir izveidots");
 			return "data-page";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "data-page";
 		}
 	}
 

@@ -1,72 +1,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
+
 
 <body>
-	<p> Enter information about the kursa dalibnieks! </p>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p> Enter information about the kursa dalibnieks! </p>
 
-	<form action="#"  th:action="@{/kursaDalibnieki/CRUD/add}" th:object="${KursaDalibnieki}" method="post" >
-		<table>
-			<tr>
-				<td>Vārds: </td>
-				<td> <input type="text"  th:field="*{vards}"   /> </td>
-			</tr>
-			
-			<tr>
-				<td>Uzvārds: </td>
-				<td> <input  type="text" th:field="*{uzvards}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>E-pasts: </td>
-				<td> <input  type="text" th:field="*{epasts}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Telefona numurs: </td>
-				<td> <input  type="text" th:field="*{telefonaNr}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Personas ID: </td>
-				<td> <input  type="text" th:field="*{personasId}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Pilsēta: </td>
-				<td> <input  type="text" th:field="*{pilseta}"  />    </td>
-			</tr>
+<form action="#" th:action="@{/kursaDalibnieki/CRUD/add}" th:object="${KursaDalibnieki}" method="post">
+    <table>
+        <tr>
+            <td>Vārds:</td>
+            <td><input type="text" th:field="*{vards}"/></td>
+        </tr>
 
-			<tr>
-				<td>Valsts: </td>
-				<td> <input  type="text" th:field="*{valsts}"  />    </td>
-			</tr>
+        <tr>
+            <td>Uzvārds:</td>
+            <td><input type="text" th:field="*{uzvards}"/></td>
+        </tr>
 
-			<tr>
-				<td>Ielas nosaukums un numurs: </td>
-				<td> <input  type="text" th:field="*{ielasNosaukumsNumurs}"  />    </td>
-			</tr>
+        <tr>
+            <td>E-pasts:</td>
+            <td><input type="text" th:field="*{epasts}"/></td>
+        </tr>
 
-			<tr>
-				<td>Dzīvokļa nr: </td>
-				<td> <input  type="number" th:field="*{dzivoklaNr}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Pasta indekss: </td>
-				<td> <input  type="text" th:field="*{pastaIndekss}"  />    </td>
-			</tr>
+        <tr>
+            <td>Telefona numurs:</td>
+            <td><input type="text" th:field="*{telefonaNr}"/></td>
+        </tr>
 
-			<tr>
-				
-				<td> <button type="submit"> Save </button>     </td>
-				
-			</tr>
-			
-		</table>
-		
-		
-		
-	</form>
+        <tr>
+            <td>Personas ID:</td>
+            <td><input type="text" th:field="*{personasId}"/></td>
+        </tr>
+
+        <tr>
+            <td>Pilsēta:</td>
+            <td><input type="text" th:field="*{pilseta}"/></td>
+        </tr>
+
+        <tr>
+            <td>Valsts:</td>
+            <td><input type="text" th:field="*{valsts}"/></td>
+        </tr>
+
+        <tr>
+            <td>Ielas nosaukums un numurs:</td>
+            <td><input type="text" th:field="*{ielasNosaukumsNumurs}"/></td>
+        </tr>
+
+        <tr>
+            <td>Dzīvokļa nr:</td>
+            <td><input type="number" th:field="*{dzivoklaNr}"/></td>
+        </tr>
+
+        <tr>
+            <td>Pasta indekss:</td>
+            <td><input type="text" th:field="*{pastaIndekss}"/></td>
+        </tr>
+
+        <tr>
+
+            <td>
+                <button type="submit"> Save</button>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+</form>
 </body>
 
 </html>

@@ -1,43 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
+
 
 <body>
-	<p> Ievadiet informāciju par vērtējumu! </p>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p> Ievadiet informāciju par vērtējumu! </p>
 
-	<form action="#"  th:action="@{/vertejumi/CRUD/add}" th:object="${vertejumi}" method="post" >
-		<table>
-			<tr>
-				<td>Vērtējums: </td>
-				<td> <input type="number" step="0.01" th:field="*{vertejums}"   /> </td>
-			</tr>
-			
-			<tr>
-				<td>Datums: </td>
-				<td> <input  type="date" th:field="*{datums}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Kursa dalībnieki: </td>
-				<td> <input  type="text" th:field="*{kursaDalibnieki}"  />    </td>
-			</tr>
-			
-			<tr>
-				<td>Kursa datumi: </td>
-				<td> <input  type="text" th:field="*{kursaDatumi}"  />    </td>
-			</tr>
-			
-			
-			<tr>
-				
-				<td> <button type="submit"> Save </button>     </td>
-				
-			</tr>
-			
-		</table>
-		
-		
-		
-	</form>
+<form action="#" th:action="@{/vertejumi/CRUD/add}" th:object="${vertejumi}" method="post">
+    <table>
+        <tr>
+            <td>Vērtējums:</td>
+            <td><input type="number" step="0.01" th:field="*{vertejums}"/></td>
+        </tr>
+
+        <tr>
+            <td>Datums:</td>
+            <td><input type="date" th:field="*{datums}"/></td>
+        </tr>
+
+        <tr>
+            <td>Kursa dalībnieki:</td>
+            <td><input type="text" th:field="*{kursaDalibnieki}"/></td>
+        </tr>
+
+        <tr>
+            <td>Kursa datumi:</td>
+            <td><input type="text" th:field="*{kursaDatumi}"/></td>
+        </tr>
+
+
+        <tr>
+
+            <td>
+                <button type="submit"> Save</button>
+            </td>
+
+        </tr>
+
+    </table>
+
+
+</form>
 </body>
 
 </html>
