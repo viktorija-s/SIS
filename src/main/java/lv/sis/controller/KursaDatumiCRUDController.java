@@ -1,16 +1,15 @@
 package lv.sis.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import lv.sis.service.IFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
@@ -32,17 +31,33 @@ public class KursaDatumiCRUDController {
     @Autowired
     private IKurssRepo kurssRepo;
 
+    @Autowired
+    private IFilterService filterService;
+
     @GetMapping("/show/all")
-    public String getControllerShowAllKursaDatumi(Model model) {
+    public String getControllerShowAllKursaDatumi(@RequestParam(required = false) @DateTimeFormat(iso =
+            DateTimeFormat.ISO.DATE) LocalDate from, @RequestParam(required = false) @DateTimeFormat(iso =
+            DateTimeFormat.ISO.DATE) LocalDate to, Model model) {
         try {
-            ArrayList<KursaDatumi> visiKursaDatumi = kursaDatumiService.retrieveAll();
-            model.addAttribute("package", visiKursaDatumi);
+            ArrayList<KursaDatumi> kursaDatumi;
+
+            if (from != null && to != null) {
+                kursaDatumi = filterService.findKursaDatumiBetweenDates(from, to);
+                model.addAttribute("from", from);
+                model.addAttribute("to", to);
+            } else {
+                kursaDatumi = kursaDatumiService.retrieveAll();
+            }
+
+            model.addAttribute("package", kursaDatumi);
             return "kursa-datumi-all-page";
+
         } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
+            model.addAttribute("message", e.getMessage());
+            return "kursa-datumi-all-page";
         }
     }
+
 
     @GetMapping("/show/all/{id}")
     public String getControllerShowKursaDatumsByID(@PathVariable(name = "id") Integer id, Model model) {
@@ -70,16 +85,16 @@ public class KursaDatumiCRUDController {
 
     @GetMapping("/add")
     public String getControllerAddKursaDatumi(Model model) {
-            KursaDatumi kursaDatumi = new KursaDatumi();
-            model.addAttribute("kursaDatumi", kursaDatumi);
+        KursaDatumi kursaDatumi = new KursaDatumi();
+        model.addAttribute("kursaDatumi", kursaDatumi);
 
-            List<Kurss> kurssList = kurssRepo.findAll();
-            model.addAttribute("kurssList", kurssList);
+        List<Kurss> kurssList = kurssRepo.findAll();
+        model.addAttribute("kurssList", kurssList);
 
-            List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
-            pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
-            model.addAttribute("pasniedzejiList", pasniedzejiList);
-            return "kursa-datumi-add-page";
+        List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
+        pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
+        model.addAttribute("pasniedzejiList", pasniedzejiList);
+        return "kursa-datumi-add-page";
     }
 
     @PostMapping("/add")

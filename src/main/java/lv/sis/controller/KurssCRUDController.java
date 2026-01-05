@@ -39,8 +39,8 @@ public class KurssCRUDController {
             return "kurss-all-page";
 
         } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
+            model.addAttribute("message", e.getMessage());
+            return "kurss-all-page";
         }
     }
 

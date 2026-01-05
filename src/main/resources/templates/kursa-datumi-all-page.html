@@ -2,30 +2,43 @@
 
 
 <body>
-	
-	<p>Informācija par kursa datumiem:</p>
-	
-	<table border="1px" border-collapse="collapse">
-		<tr>
-			<th>ID</th>
-			<th>Sākuma datums</th>
-			<th>Beigu datums</th>
-			<th>Kurss</th>
-			<th>Pasniedzējs</th>
-			
-		</tr>
-		<tr th:each = "temp : ${package}">
-			<td th:text="${temp.getKursaDatId()}" ></td>
-			<td th:text="${temp.getSakumaDatums()}" ></td>
-			<td th:text="${temp.getBeiguDatums()}" ></td>
-			<td th:text="${temp.getKurss()}" ></td>
-			<td th:text="${temp.getPasniedzejs()}"></td>
-			
-		</tr>
-		
-		
-	</table>
-	
-	
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p>Informācija par kursa datumiem:</p>
+
+<form method="get" th:action="@{/kursaDatumi/CRUD/show/all}">
+    No:
+    <input type="date" name="from" th:value="${from}">
+    Līdz:
+    <input type="date" name="to" th:value="${to}">
+
+    <button type="submit">Filter</button>
+    <button type="button"
+            onclick="window.location.href='/kursaDatumi/CRUD/show/all'">
+        Clear
+    </button>
+</form>
+
+<table border="1px" border-collapse="collapse">
+    <tr>
+        <th>ID</th>
+        <th>Sākuma datums</th>
+        <th>Beigu datums</th>
+        <th>Kurss</th>
+        <th>Pasniedzējs</th>
+
+    </tr>
+    <tr th:each="temp : ${package}">
+        <td th:text="${temp.getKursaDatId()}"></td>
+        <td th:text="${temp.getSakumaDatums()}"></td>
+        <td th:text="${temp.getBeiguDatums()}"></td>
+        <td th:text="${temp.getKurss()}"></td>
+        <td th:text="${temp.getPasniedzejs()}"></td>
+
+    </tr>
+
+
+</table>
+
+
 </body>
 </html> 

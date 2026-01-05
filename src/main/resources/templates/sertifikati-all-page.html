@@ -2,31 +2,45 @@
 
 
 <body>
-	
-	<p>Informācija par sertifikātiem:</p>
-	
-	<table border="1px" border-collapse="collapse">
-		<tr>
-			<th>ID</th>
-			<th>Tips</th>
-			<th>Izdosanas datums</th>
-			<th>Registracijas numurs</th>
-			<th>Ir parakstits?</th>
-			<th>Dalibnieks</th>
-			<th>Kurss</th>
-			
-		</tr>
-		<tr th:each = "temp : ${package}">
-			<td th:text="${temp.getSid()}" ></td>
-			<td th:text="${temp.getTips()}" ></td>
-			<td th:text="${temp.getIzdosanasDatums()}" ></td>
-			<td th:text="${temp.getRegistracijasNr()}" ></td>
-			<td th:text="${temp.isIrParakstits()}" ></td>
-			<td th:text="${temp.getDalibnieks().getUzvards()}" ></td>
-			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
-		</tr>
-	</table>
-	
-	
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p>Informācija par sertifikātiem:</p>
+
+<form method="get" th:action="@{/sertifikati/CRUD/show/all}">
+    Vārds:
+    <input type="text" name="vards" th:value="${vards}">
+
+    Uzvārds:
+    <input type="text" name="uzvards" th:value="${uzvards}">
+
+    <button type="submit">Filtrēt</button>
+    <button type="button"
+            onclick="window.location.href='/sertifikati/CRUD/show/all'">
+        Notīrīt
+    </button>
+</form>
+
+<table border="1px" style="border-collapse: collapse;">
+    <tr>
+        <th>ID</th>
+        <th>Tips</th>
+        <th>Izdosanas datums</th>
+        <th>Registracijas numurs</th>
+        <th>Ir parakstits?</th>
+        <th>Dalibnieks</th>
+        <th>Kurss</th>
+    </tr>
+    <tr th:each="temp : ${package}">
+        <td th:text="${temp.sid}"></td>
+        <td th:text="${temp.tips}"></td>
+        <td th:text="${temp.izdosanasDatums}"></td>
+        <td th:text="${temp.registracijasNr}"></td>
+        <td th:text="${temp.irParakstits}"></td>
+        <td th:text="${temp.dalibnieks.vards + ' ' + temp.dalibnieks.uzvards}"></td>
+        <td th:text="${temp.kurss.nosaukums}"></td>
+    </tr>
+</table>
+
+
+
 </body>
 </html> 

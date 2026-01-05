@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 <p>Informācija par kursiem:</p>
 
 <form action="/kurss/CRUD/show/all" method="get">
