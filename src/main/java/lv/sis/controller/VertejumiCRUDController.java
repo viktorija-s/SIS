@@ -64,10 +64,22 @@ public class VertejumiCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveVertejums(@PathVariable(name = "id") int id, Model model) {
 		try {
+			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
+			model.addAttribute("vertejumi", vertejumi);
+			return "vertejumi-delete-confirm";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+		try {
 			vertejumiServiss.deleteById(id);
 			return "redirect:/vertejumi/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			e.printStackTrace();
 			return "error-page";
 		}
 	}

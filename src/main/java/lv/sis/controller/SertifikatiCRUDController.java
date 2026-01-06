@@ -54,14 +54,24 @@ public class SertifikatiCRUDController {
 	}
 	
 	@GetMapping("/remove/{id}")
-	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model) {
 		try {
-			sertService.deleteById(id);
-			Pageable pageable = PageRequest.of(page, size);
-			model.addAttribute("sertifikati", sertService.retrieveAll(pageable));
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+			Sertifikati sertifikats = sertService.retrieveById(id);
+			model.addAttribute("sertifikats", sertifikats);
+			return "sertifikati-delete-confirm";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+		try {
+			sertService.deleteById(id);
+			return "redirect:/sertifikati/CRUD/show/all";
+		} catch (Exception e) {
+			e.printStackTrace();
 			return "error-page";
 		}
 	}

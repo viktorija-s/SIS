@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Kursa datumu dzēšana</h3>
+
+	<table>
+		<tr>
+			<td>Kurss:</td>
+			<td th:text="${kursaDatumi.kurss.nosaukums}"></td>
+		</tr>
+		<tr>
+			<td>Pasniedzējs:</td>
+			<td th:text="${kursaDatumi.pasniedzejs.vards} + ' ' + ${kursaDatumi.pasniedzejs.uzvards}"></td>
+		</tr>
+		<tr>
+			<td>Sākuma datums:</td>
+			<td th:text="${kursaDatumi.sakumaDatums}"></td>
+		</tr>
+		<tr>
+			<td>Beigu datums:</td>
+			<td th:text="${kursaDatumi.beiguDatums}"></td>
+		</tr>
+	</table>
+
+	<form th:action="@{/kursaDatumi/CRUD/remove/{id}(id=${kursaDatumi.kursaDatId})}" method="post">
+		<p>Vai tiešām dzēst šos kursa datumus?</p>
+		<button type="submit">Dzēst</button>
+		<a th:href="@{/kursaDatumi/CRUD/show/all}">Atcelt</a>
+	</form>
+</body>
+</html>

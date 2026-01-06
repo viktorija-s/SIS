@@ -71,10 +71,22 @@ public class KurssCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
 		try {
+			Kurss kurss = kurssService.retrieveById(id);
+			model.addAttribute("kurss", kurss);
+			return "kurss-delete-confirm";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+	
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+		try {
 			kurssService.deleteById(id);
 			return "redirect:/kurss/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			e.printStackTrace();
 			return "error-page";
 		}
 	}

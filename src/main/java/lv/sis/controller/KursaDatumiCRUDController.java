@@ -58,15 +58,26 @@ public class KursaDatumiCRUDController {
 	
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveKursaDatumi(@PathVariable(name = "id") int id, Model model) {
-        try {
-            kursaDatumiService.deleteById(id);
-            model.addAttribute("package", kursaDatumiService.retrieveAll());
-            return "kursa-datumi-all-page";
-        } catch (Exception e) {
-            model.addAttribute("package", e.getMessage());
-            return "error-page";
-        }
-    }
+		try {
+			KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id);
+			model.addAttribute("kursaDatumi", kursaDatumi);
+			return "kursa-datumi-delete-confirm";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+		try {
+			kursaDatumiService.deleteById(id);
+			return "redirect:/kursaDatumi/CRUD/show/all";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error-page";
+		}
+	}
 	
 	@GetMapping("/add")
     public String getControllerAddKursaDatumi(Model model) {

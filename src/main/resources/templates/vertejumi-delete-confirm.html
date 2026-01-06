@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Vērtejuma dzēšana</h3>
+
+	<table>
+		<tr>
+			<td>Vērtējums:</td>
+			<td th:text="${vertejumi.vertejums}"></td>
+		</tr>
+		<tr>
+			<td>Datums:</td>
+			<td th:text="${vertejumi.datums}"></td>
+		</tr>
+		<tr>
+			<td>Dalībnieks:</td>
+			<td th:text="${vertejumi.kursaDalibnieki.vards} + ' ' + ${vertejumi.kursaDalibnieki.uzvards}"></td>
+		</tr>
+		<tr>
+			<td>Datums:</td>
+			<td th:text="${vertejumi.datums}"></td>
+		</tr>
+		<tr>
+			<td>Kurss:</td>
+			<td th:text="${vertejumi.kursaDatumi.kurss.nosaukums}"></td>
+		</tr>
+		<tr>
+			<td>Pasniedzējs:</td>
+			<td th:text="${vertejumi.kursaDatumi.pasniedzejs.vards} + ' ' + ${vertejumi.kursaDatumi.pasniedzejs.uzvards}"></td>
+		</tr>
+	</table>
+
+	<form th:action="@{/vertejumi/CRUD/remove/{id}(id=${vertejumi.vid})}" method="post">
+		<p>Vai tiešām dzēst vērtējumu <b th:text="${vertejumi.vertejums}"></b>?</p>
+		<button type="submit">Dzēst</button>
+		<a th:href="@{/vertejumi/CRUD/show/all}">Atcelt</a>
+	</form>
+</body>
+</html>
