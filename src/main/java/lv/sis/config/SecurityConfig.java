@@ -45,7 +45,7 @@ public class SecurityConfig {
 				.requestMatchers("/kursaDalibnieki/CRUD/remove/**").hasAuthority("ADMIN")
 				.requestMatchers("/kursaDalibnieki/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR")
 				
-				.requestMatchers("/kurss/CRUD/show/all**").hasAnyAuthority("ADMIN", "PROFESSOR") 
+				.requestMatchers("/kurss/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") 
 				.requestMatchers("/kurss/CRUD/add").hasAuthority("ADMIN")
 				.requestMatchers("/kurss/CRUD/update/**").hasAnyAuthority("ADMIN") 
 				.requestMatchers("/kurss/CRUD/remove/**").hasAuthority("ADMIN")
