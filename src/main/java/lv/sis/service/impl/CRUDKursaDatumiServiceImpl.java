@@ -1,12 +1,13 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDatumi;
@@ -72,7 +73,7 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	}
 
 	@Override
-	public ArrayList<KursaDatumi> retrieveAll() throws Exception {
+	public Page<KursaDatumi> retrieveAll(Pageable pageable) throws Exception {
 		if (kursaDatumiRepo.count() == 0) {
             throw new Exception("Tabulā nav neviena kursa datumu ieraksta");
         }
@@ -82,7 +83,7 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return (ArrayList<KursaDatumi>)kursaDatumiRepo.findAll(); 
+				return kursaDatumiRepo.findAll(pageable); 
 			}
 		}
 		
@@ -91,7 +92,7 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
 		}
 		
-		return kursaDatumiRepo.findAllByPasniedzejsPid(professor.getPid());
+		return kursaDatumiRepo.findAllByPasniedzejsPid(professor.getPid(), pageable);
 	}
 
 	@Override

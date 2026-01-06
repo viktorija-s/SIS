@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.openpdf.text.Document;
 import org.openpdf.text.Element;
@@ -18,184 +19,165 @@ import org.springframework.stereotype.Service;
 
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.MacibuRezultati;
-import lv.sis.model.Sertifikati;
 import lv.sis.model.Vertejumi;
 import lv.sis.model.enums.CertificateType;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.repo.IKurssRepo;
-import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.IPDFCreatorService;
 
 @Service
 public class PDFCreatorImpl implements IPDFCreatorService {
 
-	@Autowired
-	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+    @Autowired
+    private IKursaDalibniekiRepo kursaDalibniekiRepo;
 
-	@Autowired
-	private IKurssRepo kurssRepo;
+    @Autowired
+    private IKurssRepo kurssRepo;
 
-	@Autowired
-	private IVertejumiRepo vertejumiRepo;
+    @Autowired
+    private IVertejumiRepo vertejumiRepo;
 
-	@Autowired
-	private ISertifikatiRepo sertifikatiRepo;
+    private static final String FONT_PATH = "src\\main\\resources\\fonts\\DejaVuSans.ttf";
 
-	private static final String FONT_PATH = "src\\main\\resources\\fonts\\DejaVuSans.ttf";
 
-	private Font getUnicodeFont(float size, boolean bold, Color color) {
-		try {
-			BaseFont baseFont = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-			int style = bold ? Font.BOLD : Font.NORMAL;
-			return new Font(baseFont, size, style, color);
-		} catch (Exception e) {
-			throw new RuntimeException("Neizdevās ielādēt fontu: " + FONT_PATH, e);
-		}
-	}
+    private Font getUnicodeFont(float size, boolean bold, Color color) {
+        try {
+            BaseFont baseFont = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-	private Paragraph createCenteredParagraph(String text, float fontSize) {
-		Paragraph paragraph = new Paragraph(text, getUnicodeFont(fontSize, false, new Color(8, 20, 64)));
-		paragraph.setAlignment(Element.ALIGN_CENTER);
-		return paragraph;
-	}
+            int style;
+            if (bold==true) {
+                style = Font.BOLD;
+            } else {
+                style = Font.NORMAL;
+            }
 
-	@Override
-	public void createCertificateAsPDF(int kdId, int kId) throws Exception {
+            return new Font(baseFont, size, style, color);
+        } catch (Exception e) {
+            throw new RuntimeException("Neizdevās ielādēt fontu: " + FONT_PATH, e);
+        }
+    }
 
-		if (!kursaDalibniekiRepo.existsById(kdId)) {
-			throw new Exception("Kursa dalībnieks ar id: " + kdId + " neeksistē");
-		}
+    private Paragraph createCenteredParagraph(String text, float fontSize) {
+        Paragraph paragraph = new Paragraph(text, getUnicodeFont(fontSize, false, new Color(8, 20, 64)));
+        paragraph.setAlignment(Element.ALIGN_CENTER);
+        return paragraph;
+    }
 
-		if (!kurssRepo.existsById(kId)) {
-			throw new Exception("Kurss ar id: " + kId + " neeksistē");
-		}
+    @Override
+    public void createCertificateAsPDF(int kdId, int kId) throws Exception {
 
-		Vertejumi vertejumiFromDB = vertejumiRepo.findByKursaDalibnieki_KdidAndKursaDatumi_Kurss_Kid(kdId, kId);
-		if (vertejumiFromDB == null) {
-			throw new Exception("Kursa dalībniekam ar id: " + kdId + " neeksistē vērtējuma kursā ar id: " + kId);
-		}
+        if (!kursaDalibniekiRepo.existsById(kdId)) {
+            throw new Exception("Kursa dalībnieks ar id: " + kdId + " neeksistē");
+        }
 
-		ArrayList<KursaDalibnieki> dalibnieki = kursaDalibniekiRepo.findByKdid(kdId);
+        if (!kurssRepo.existsById(kId)) {
+            throw new Exception("Kurss ar id: " + kId + " neeksistē");
+        }
 
-		for (KursaDalibnieki k : dalibnieki) {
+        Vertejumi vertejumiFromDB = vertejumiRepo.findByKursaDalibnieki_KdidAndKursaDatumi_Kurss_Kid(kdId, kId);
 
-			String kursaDalibniekaVardsUnUzvards = k.getVards() + " " + k.getUzvards();
-			String kursaNosaukums = vertejumiFromDB.getKursaDatumi().getKurss().getNosaukums();
-			float vertejums = vertejumiFromDB.getVertejums();
-			int stundas = vertejumiFromDB.getKursaDatumi().getKurss().getStundas();
-			LocalDate date = LocalDate.now();
+        if (vertejumiFromDB == null) {
+            throw new Exception("Kursa dalībniekam ar id: " + kdId + " neeksistē vērtējuma kursā ar id: " + kId);
+        } else {
 
-			CertificateType certificateType = (vertejums < 4.0f) ? CertificateType.Participant : CertificateType.Full;
+            ArrayList<KursaDalibnieki> dalibnieki = kursaDalibniekiRepo.findByKdid(kdId);
 
-			String certificateNo = generateUniqueCertificateNo(k, sertifikatiRepo);
+            for (KursaDalibnieki k : dalibnieki) {
+                if (k.getSertifikati() != null) {
+                    boolean hasFull = k.getSertifikati().stream().anyMatch(s -> s.getTips() == CertificateType.FULL);
 
-			String kursaDalibniekaVardsUnUzvardsPDFSaglabasanai = removeDiacritics(k.getVards()) + "_"
-					+ removeDiacritics(k.getUzvards());
+                    String kursaDalibniekaVardsUnUzvards = vertejumiFromDB.getKursaDalibnieki().getVards() + " "
+                            + vertejumiFromDB.getKursaDalibnieki().getUzvards();
 
-			Document document = new Document();
-			PdfWriter writer = PdfWriter.getInstance(document,
-					new FileOutputStream(certificateNo + "_" + kursaDalibniekaVardsUnUzvardsPDFSaglabasanai + ".pdf"));
-			document.open();
+                    String kursaNosaukums = vertejumiFromDB.getKursaDatumi().getKurss().getNosaukums();
 
-			Image logo = Image.getInstanceFromClasspath("tdlSchool.png");
-			logo.scaleToFit(300, 150);
-			logo.setAbsolutePosition(0, 750);
-			writer.getDirectContent().addImage(logo);
+                    float vertejums = vertejumiFromDB.getVertejums();
 
-			document.add(new Paragraph("\n\n\n\n"));
-			document.add(createCenteredParagraph("TestDevLab Skola", 11.8f));
-			document.add(createCenteredParagraph("CERTIFICATE", 21.9f));
-			document.add(createCenteredParagraph("No. " + certificateNo, 11.8f));
+                    Random random = new Random();
+                    int certificateNo = random.nextInt(100000, 999999);
 
-			Paragraph vardsUnUzvards = new Paragraph(kursaDalibniekaVardsUnUzvards,
-					getUnicodeFont(23.8f, true, new Color(52, 79, 179)));
-			vardsUnUzvards.setAlignment(Element.ALIGN_CENTER);
-			document.add(vardsUnUzvards);
+                    int stundas = vertejumiFromDB.getKursaDatumi().getKurss().getStundas();
 
-			if (certificateType == CertificateType.Full) {
-				document.add(createCenteredParagraph("\nhas mastered non-formal education program", 11.8f));
-				document.add(createCenteredParagraph(kursaNosaukums, 18.1f));
-				document.add(createCenteredParagraph(stundas + " hours", 11.8f));
+                    LocalDate date = LocalDate.now();
 
-				document.add(new Paragraph(
-						"\nResults the participant has achieved after completing the program " + kursaNosaukums + ":",
-						getUnicodeFont(11.8f, false, new Color(8, 20, 64))));
+                    Document document = new Document();
 
-				for (MacibuRezultati mr : vertejumiFromDB.getKursaDatumi().getKurss().getMacibuRezultati()) {
-					Paragraph macRez = new Paragraph(mr.getMacibuRezultats(),
-							getUnicodeFont(10, false, new Color(8, 20, 64)));
-					macRez.setIndentationLeft(30f);
-					document.add(macRez);
-				}
+                    PdfWriter writer = PdfWriter.getInstance(document,
+                            new FileOutputStream(certificateNo + "_" + kursaDalibniekaVardsUnUzvards + ".pdf"));
 
-				document.add(new Paragraph("\nAssessment: " + vertejums + " out of 10",
-						getUnicodeFont(16.3f, false, new Color(8, 20, 64))));
-				document.add(new Paragraph("\n\n"));
+                    document.open();
 
-			} else {
-				document.add(createCenteredParagraph("\nhas participated in a non-formal educational program", 11.8f));
-				document.add(createCenteredParagraph(kursaNosaukums, 18.1f));
-				document.add(createCenteredParagraph(stundas + " hours", 11.8f));
-				document.add(new Paragraph("\n\n"));
-			}
+                    Image logo = Image.getInstanceFromClasspath("tdlSchool.png");
+                    logo.scaleToFit(300, 150);
+                    logo.setAbsolutePosition(0, 750);
+                    writer.getDirectContent().addImage(logo);
 
-			document.add(
-					new Paragraph("__________________________________\n<Name Surname>\nHead of educational institution",
-							getUnicodeFont(10, false, new Color(8, 20, 64))));
-			document.add(new Paragraph(date.format(DateTimeFormatter.ofPattern("\ndd.MM.yyyy")),
-					getUnicodeFont(10, false, new Color(8, 20, 64))));
+                    document.add(new Paragraph("\n\n\n\n"));
 
-			Paragraph regNr = new Paragraph("Registration No. 3380802314",
-					getUnicodeFont(10, false, new Color(8, 20, 64)));
-			regNr.setAlignment(Element.ALIGN_RIGHT);
-			document.add(regNr);
+                    document.add(createCenteredParagraph("TestDevLab Skola", 11.8f));
+                    document.add(createCenteredParagraph("CERTIFICATE", 21.9f));
+                    document.add(createCenteredParagraph("No. " + certificateNo, 11.8f));
 
-			Image apaksa = Image.getInstanceFromClasspath("tdl_apaksa.png");
-			float pageWidth = document.getPageSize().getWidth();
-			apaksa.scaleToFit(pageWidth, 100f);
-			apaksa.setAbsolutePosition(0, 0);
-			writer.getDirectContent().addImage(apaksa);
+                    Paragraph vardsUnUzvards = new Paragraph(kursaDalibniekaVardsUnUzvards,
+                            getUnicodeFont(23.8f, true, new Color(52, 79, 179)));
+                    vardsUnUzvards.setAlignment(Element.ALIGN_CENTER);
+                    document.add(vardsUnUzvards);
 
-			document.close();
+                    if (hasFull) {
 
-			Sertifikati sertifikats = new Sertifikati(certificateType, LocalDate.now(), certificateNo, true, k,
-					vertejumiFromDB.getKursaDatumi().getKurss());
-			sertifikatiRepo.save(sertifikats);
-		}
-	}
+                        document.add(createCenteredParagraph("\nhas mastered non-formal education program", 11.8f));
+                        document.add(createCenteredParagraph(kursaNosaukums, 18.1f));
+                        document.add(createCenteredParagraph(stundas + " hours", 11.8f));
 
-	private String removeDiacritics(String input) {
-		return input.replace("ā", "a").replace("Ā", "A").replace("č", "c").replace("Č", "C").replace("ē", "e")
-				.replace("Ē", "E").replace("ģ", "g").replace("Ģ", "G").replace("ī", "i").replace("Ī", "I")
-				.replace("ķ", "k").replace("Ķ", "K").replace("ļ", "l").replace("Ļ", "L").replace("ņ", "n")
-				.replace("Ņ", "N").replace("š", "s").replace("Š", "S").replace("ū", "u").replace("Ū", "U")
-				.replace("ž", "z").replace("Ž", "Z");
-	}
+                        document.add(new Paragraph(
+                                "\nResults the participant has achieved after completing the program " + kursaNosaukums + ":",
+                                getUnicodeFont(11.8f, false, new Color(8, 20, 64))));
 
-	private String generateUniqueCertificateNo(KursaDalibnieki dalibnieks, ISertifikatiRepo sertifikatiRepo) {
+                        for (MacibuRezultati mr : vertejumiFromDB.getKursaDatumi().getKurss().getMacibuRezultati()) {
+                            String macibuRezultats = mr.getMacibuRezultats();
+                            Paragraph macRez = new Paragraph(macibuRezultats,
+                                    getUnicodeFont(10, false, new Color(8, 20, 64)));
+                            macRez.setIndentationLeft(30f);
+                            document.add(macRez);
+                        }
 
-		String vards = removeDiacritics(dalibnieks.getVards().toUpperCase());
-		String uzvards = removeDiacritics(dalibnieks.getUzvards().toUpperCase());
-		String prefix = "" + vards.charAt(0) + uzvards.charAt(0);
+                        document.add(new Paragraph("\nAssessment: " + vertejums + " out of 10",
+                                getUnicodeFont(16.3f, false, new Color(8, 20, 64))));
 
-		ArrayList<String> allNumbers = sertifikatiRepo.findAllCertificateNumbers();
-		ArrayList<String> existing = new ArrayList<>();
-		for (String num : allNumbers) {
-			if (num.startsWith(prefix)) {
-				existing.add(num);
-			}
-		}
+                        document.add(new Paragraph("\n\n"));
 
-		int max = 0;
-		for (String num : existing) {
-			String digitsPart = num.substring(2);
-			int digits = Integer.parseInt(digitsPart);
-			if (digits > max)
-				max = digits;
-		}
+                    } else {
 
-		int next = max + 1;
-		return prefix + String.format("%04d", next);
-	}
+                        document.add(createCenteredParagraph("\nhas participated in a non-formal educational program", 11.8f));
+                        document.add(createCenteredParagraph(kursaNosaukums, 18.1f));
+                        document.add(createCenteredParagraph(stundas + " hours", 11.8f));
+                        document.add(new Paragraph("\n\n"));
+                    }
+
+                    document.add(new Paragraph(
+                            "__________________________________\n<Name Surname>\nHead of educational institution",
+                            getUnicodeFont(10, false, new Color(8, 20, 64))));
+
+                    document.add(new Paragraph(date.format(DateTimeFormatter.ofPattern("\ndd.MM.yyyy")),
+                            getUnicodeFont(10, false, new Color(8, 20, 64))));
+
+                    Paragraph regNr = new Paragraph("Registration No. 3380802314",
+                            getUnicodeFont(10, false, new Color(8, 20, 64)));
+                    regNr.setAlignment(Element.ALIGN_RIGHT);
+                    document.add(regNr);
+
+                    Image apaksa = Image.getInstanceFromClasspath("tdl_apaksa.png");
+                    float pageWidth = document.getPageSize().getWidth();
+                    apaksa.scaleToFit(pageWidth, 100f);
+                    apaksa.setAbsolutePosition(0, 0);
+                    writer.getDirectContent().addImage(apaksa);
+
+                    document.close();
+                }
+            }
+
+        }
+    }
+
 }

@@ -54,7 +54,7 @@ public class VertejumiCRUDController {
 		try {
 			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
 			model.addAttribute("package", vertejumi);
-			return "vertejumi-one-page";
+			return "vertejumi-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
