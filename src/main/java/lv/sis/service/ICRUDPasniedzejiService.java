@@ -12,7 +12,7 @@ public interface ICRUDPasniedzejiService {
 	public abstract void create(String vards, String uzvards, String epasts, String telefonaNr)throws Exception;
 			
 	//R - retrieve by id
-	public abstract Pasniedzeji retrieveById(int kdid) throws Exception;
+	public abstract Page<Pasniedzeji> retrieveById(int kdid) throws Exception;
 			
 	//U - update
 	public abstract void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr) throws Exception;

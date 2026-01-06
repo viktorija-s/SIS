@@ -35,7 +35,6 @@ public class FilterServiceImpl implements IFilterService {
         if (from == null || to == null || from.isAfter(to)) {
             throw new Exception("Nav norādīti pareizi datumi.");
         }
-
         return kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from);
     }
 

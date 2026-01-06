@@ -10,16 +10,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface ICRUDKurssService {
 
-    public abstract void create(String nosaukums, int stundas, Limeni limenis) throws Exception;
-
-    public abstract Page<Kurss> retrieveAll(Pageable pageable) throws Exception;
-
-    public abstract Kurss retrieveById(int kdid) throws Exception;
-
-    public abstract void updateById(int kdid, String nosaukums, int stundas, Limeni limenis) throws Exception;
-
-    public abstract void deleteById(int kdid) throws Exception;
-
     @Transactional
     void importCourses(MultipartFile file) throws Exception;
+	//C - create
+	public abstract void create(String nosaukums, int stundas, Limeni limenis)throws Exception;
+	//R - retrieve all
+	public abstract Page<Kurss> retrieveAll(Pageable pageable) throws Exception;
+			
+	//R - retrieve by id
+	public abstract Page<Kurss> retrieveById(int kdid) throws Exception;
+			
+	//U - update
+	public abstract void updateById(int kdid, String nosaukums,int stundas, Limeni limenis) throws Exception;
+			
+	//D - delete
+	public abstract void deleteById(int kdid) throws Exception;
 }

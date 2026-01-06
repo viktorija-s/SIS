@@ -52,7 +52,7 @@ public class VertejumiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowVertejumsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
+			Page<Vertejumi> vertejumi = vertejumiServiss.retrieveById(id);
 			model.addAttribute("package", vertejumi);
 			return "vertejumi-all-page";
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class VertejumiCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveVertejums(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
+			Vertejumi vertejumi = vertejumiServiss.retrieveById(id).getContent().getFirst();
 			model.addAttribute("vertejumi", vertejumi);
 			return "vertejumi-delete-confirm";
 		} catch (Exception e) {
@@ -122,7 +122,7 @@ public class VertejumiCRUDController {
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateVertejums(@PathVariable(name = "id") int id, Model model) {
 		try {
-			Vertejumi vertejumi = vertejumiServiss.retrieveById(id);
+			Vertejumi vertejumi = vertejumiServiss.retrieveById(id).getContent().getFirst();
 			model.addAttribute("vertejumi", vertejumi);
 			
 			List<KursaDalibnieki> kursaDalibniekiList = new ArrayList<>();

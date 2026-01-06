@@ -1,7 +1,11 @@
 package lv.sis.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,7 +51,7 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	}
 
 	@Override
-	public Pasniedzeji retrieveById(int kdid) throws Exception {
+	public Page<Pasniedzeji> retrieveById(int kdid) throws Exception {
 		if (kdid < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -60,7 +64,9 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return pasnRepo.findById(kdid).get(); 
+				Pasniedzeji pasn =  pasnRepo.findById(kdid).get(); 
+				Pageable pageable = PageRequest.of(0, 1);
+				return new PageImpl<>(List.of(pasn), pageable, 1);
 			}
 		}
 		
@@ -69,7 +75,8 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
 		}
 		if (pasniedzejs.getPid() == kdid) {
-			return pasniedzejs;
+			Pageable pageable = PageRequest.of(0, 1);
+			return new PageImpl<>(List.of(pasniedzejs), pageable, 1);
 		}
 
 		throw new Exception("This user does not have rights to watch this page."); 

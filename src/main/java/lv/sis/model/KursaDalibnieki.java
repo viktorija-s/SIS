@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -98,6 +99,9 @@ public class KursaDalibnieki {
 	@ToString.Exclude
 	@OneToMany(mappedBy = "kursaDalibnieki", cascade = CascadeType.REMOVE)
 	private List<Vertejumi> vertejumi;
+	
+	@Transient
+	private Float avgGrade; 
 	
 	public KursaDalibnieki(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) {
 		setVards(vards);

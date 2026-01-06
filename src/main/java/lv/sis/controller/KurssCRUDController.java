@@ -45,26 +45,24 @@ public class KurssCRUDController {
 
                 model.addAttribute("search", search);
                 model.addAttribute("package", kursi);
-            } else {
-                Pageable pageable = PageRequest.of(page, size);
-                Page<Kurss> visiKursi = kurssService.retrieveAll(pageable);
 
-                model.addAttribute("package", visiKursi);
-            }
-
-            return "kurss-all-page";
-
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-            return "kurss-all-page";
-        }
-    }
-
+			}
+			else {
+				Pageable pageable = PageRequest.of(page, size);
+				Page<Kurss> visiKursi = kurssService.retrieveAll(pageable); 
+				model.addAttribute("package", visiKursi);
+			}
+			return "kurss-all-page"; 
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 
     @GetMapping("/show/all/{id}")
     public String getControllerShowKurssByID(@PathVariable(name = "id") Integer id, Model model) {
         try {
-            Kurss kurss = kurssService.retrieveById(id);
+            Page<Kurss> kurss = kurssService.retrieveById(id);
             model.addAttribute("package", kurss);
             return "kurss-all-page";
         } catch (Exception e) {
@@ -76,7 +74,7 @@ public class KurssCRUDController {
     @GetMapping("/remove/{id}")
     public String getControllerRemoveKurss(@PathVariable(name = "id") int id, Model model) {
         try {
-            Kurss kurss = kurssService.retrieveById(id);
+            Kurss kurss = kurssService.retrieveById(id).getContent().getFirst();
             model.addAttribute("kurss", kurss);
             return "kurss-delete-confirm";
         } catch (Exception e) {
@@ -127,9 +125,9 @@ public class KurssCRUDController {
     @GetMapping("/update/{id}")
     public String getControllerUpdateKurss(@PathVariable(name = "id") int id, Model model) {
         try {
-            Kurss kurss = kurssService.retrieveById(id);
+        	Kurss kurss = kurssService.retrieveById(id).getContent().getFirst();
             model.addAttribute("kurss", kurss);
-            model.addAttribute("limeni", Limeni.values()); // added
+            model.addAttribute("limeni", Limeni.values()); // added 
             return "kurss-update-page";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
@@ -154,7 +152,6 @@ public class KurssCRUDController {
         }
     }
 
-
     @GetMapping("/import")
     public String getControllerImportCourses() {
         return "kurss-import-page";
@@ -173,3 +170,4 @@ public class KurssCRUDController {
     }
 
 }
+
