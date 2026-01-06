@@ -71,7 +71,4 @@ public class Pasniedzeji {
         setEpasts(epasts);
         setTelefonaNr(telefonaNr);
     }
-
-
-
 }
