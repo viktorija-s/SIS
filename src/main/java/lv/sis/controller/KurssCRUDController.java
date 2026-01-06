@@ -137,18 +137,4 @@ public class KurssCRUDController {
         }
     }
 
-
-//    @GetMapping("/filter/kurss")
-//    public String getControllerFilterKurssByName(String text, Model model) {
-//        try {
-//            ArrayList<Kurss> visiKursi = filterService.findByNameContainingText(text);
-//            model.addAttribute("package", visiKursi);
-//            return kurss
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        model.addAttribute("package", kursiPecNosaukuma);
-//    }
-
-
 }
