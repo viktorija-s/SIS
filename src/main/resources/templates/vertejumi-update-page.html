@@ -1,54 +1,56 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
-	<p> Lūdzu rediģē eksistējošo vērtējumu!</p>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+<p> Lūdzu rediģē eksistējošo vērtējumu!</p>
 
-	<form action="#" th:action="@{/vertejumi/CRUD/update/{id}(id=${vertejumi.vid})}" th:object="${vertejumi}"
-		method="post">
-		<table>
-			<tr>
-				<td>Rediģē vērtējumu:</td>
-				<td> <input type="number" step="0.01" th:field="*{vertejums}" /> </td>
-			</tr>
+<form action="#" th:action="@{/vertejumi/CRUD/update/{id}(id=${vertejumi.vid})}" th:object="${vertejumi}"
+      method="post">
+    <table>
+        <tr>
+            <td>Rediģē vērtējumu:</td>
+            <td><input type="number" step="0.01" th:field="*{vertejums}"/></td>
+        </tr>
 
-			<tr>
-				<td>Rediģē vērtējuma datumu:</td>
-				<td> <input type="date" th:field="*{datums}" /> </td>
-			</tr>
+        <tr>
+            <td>Rediģē vērtējuma datumu:</td>
+            <td><input type="date" th:field="*{datums}"/></td>
+        </tr>
 
-			<tr>
-				<td>Rediģē vērtējuma kursa dalībniekus:</td>
-				<td> <select th:field="*{kursaDalibnieki}" required>
-						<option th:each="d : ${kursaDalibniekiList}" th:value="${d.kdid}"
-							th:text="${d.vards + ' ' + d.uzvards + ' (' + d.personasId + ')'}"
-							th:selected="${d.kdid == vertejumi.kursaDalibnieki.kdid}">
-						</option>
-					</select>
-				</td>
-			</tr>
+        <tr>
+            <td>Rediģē vērtējuma kursa dalībniekus:</td>
+            <td><select th:field="*{kursaDalibnieki}" required>
+                <option th:each="d : ${kursaDalibniekiList}" th:value="${d.kdid}"
+                        th:text="${d.vards + ' ' + d.uzvards + ' (' + d.personasId + ')'}"
+                        th:selected="${d.kdid == vertejumi.kursaDalibnieki.kdid}">
+                </option>
+            </select>
+            </td>
+        </tr>
 
-			<tr>
-				<td>Rediģē vērtējuma kursa datumus:</td>
-				<td> <select th:field="*{kursaDatumi}" required>
-						<option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
-							th:text="${#temporals.format(k.sakumaDatums, 'yyyy-MM-dd')} + ' līdz ' + ${#temporals.format(k.beiguDatums, 'yyyy-MM-dd')}"
-							th:selected="${k.kursaDatId == vertejumi.kursaDatumi.kursaDatId}">
-						</option>
-					</select>
-				</td>
+        <tr>
+            <td>Rediģē vērtējuma kursa datumus:</td>
+            <td><select th:field="*{kursaDatumi}" required>
+                <option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
+                        th:text="${#temporals.format(k.sakumaDatums, 'yyyy-MM-dd')} + ' līdz ' + ${#temporals.format(k.beiguDatums, 'yyyy-MM-dd')}"
+                        th:selected="${k.kursaDatId == vertejumi.kursaDatumi.kursaDatId}">
+                </option>
+            </select>
+            </td>
 
-			</tr>
+        </tr>
 
-			<tr>
+        <tr>
 
-				<td> <button type="submit"> Saglabāt rediģēto vērtējumu </button> </td>
+            <td>
+                <button type="submit"> Saglabāt rediģēto vērtējumu</button>
+            </td>
 
-			</tr>
+        </tr>
 
 
-		</table>
-	</form>
+    </table>
+</form>
 </body>
 
 </html>

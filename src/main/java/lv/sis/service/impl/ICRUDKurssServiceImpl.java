@@ -2,6 +2,13 @@ package lv.sis.service.impl;
 
 import java.util.ArrayList;
 
+import jakarta.transaction.Transactional;
+import lv.sis.repo.*;
+import lv.sis.service.IUserService;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,31 +23,29 @@ import lv.sis.model.MacibuRezultati;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.Limeni;
-import lv.sis.repo.ICRUDKurssRepo;
 import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.IPasniedzejiRepo;
-import lv.sis.repo.ISertifikatiRepo;
 
 import lv.sis.service.ICRUDKurssService;
+import org.springframework.web.multipart.MultipartFile;
 import lv.sis.service.IUserService;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 	@Autowired
-	ICRUDKurssRepo kurssRepo;
-	
-	@Autowired
-	IMacibuRezultatiRepo macRezRepo;
-	
+    IKurssRepo kurssRepo;
+
 	@Autowired
 	ISertifikatiRepo sertRepo;
-	
-	@Autowired
-	IPasniedzejiRepo pasnRepo;
-	
-	@Autowired
-	IUserService userService;
-	
+
+    @Autowired
+    IMacibuRezultatiRepo macRezRepo;
+
+    @Autowired
+    IPasniedzejiRepo pasnRepo;
+
+    @Autowired
+    IUserService userService;
 
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
@@ -55,25 +60,51 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		kurssRepo.save(newKurss);
 	}
 
-	@Override
-	public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
-		if (kurssRepo.count() == 0) {
-			throw new Exception("Tabula ir tukša");
-		}
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		
-		for (GrantedAuthority a: auth.getAuthorities()) {
-			if (a.getAuthority().equals("ADMIN")) {
-				return kurssRepo.findAll(pageable); 
-			}
-		}
-		
-		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
-		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
-	
-	}
+    @Transactional
+    @Override
+    public void importCourses(MultipartFile file) throws Exception {
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+
+                Row row = sheet.getRow(i);
+                if (row == null) continue;
+
+                String nosaukums = formatter.formatCellValue(row.getCell(0));
+                int stundas = (int) row.getCell(1).getNumericCellValue();
+                Limeni limenis = Limeni.valueOf(
+                        formatter.formatCellValue(row.getCell(2))
+                );
+
+                create(nosaukums, stundas, limenis);
+            }
+        }
+    }
+
+
+    @Override
+    public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
+        if (kurssRepo.count() == 0) {
+            throw new Exception("Tabula ir tukša");
+        }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        for (GrantedAuthority a: auth.getAuthorities()) {
+            if (a.getAuthority().equals("ADMIN")) {
+                return kurssRepo.findAll(pageable);
+            }
+        }
+
+        Pasniedzeji professor = pasnRepo.findByUserUsername(username);
+        return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
+
+    }
 
 	@Override
 	public Kurss retrieveById(int kdid) throws Exception {
@@ -86,13 +117,13 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		
+
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				return kurssRepo.findById(kdid).get(); 
+				return kurssRepo.findById(kdid).get();
 			}
 		}
-		
+
 		Pasniedzeji pasn = pasnRepo.findByUserUsername(username);
 		Kurss course = kurssRepo.findById(kdid).get();
 		for (KursaDatumi kd : course.getKursaDatumi()) {
@@ -100,8 +131,8 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 				return course;
 			}
 		}
-		
-		throw new Exception("This user does not have rights to watch this page."); 
+
+		throw new Exception("This user does not have rights to watch this page.");
 	}
 
 	@Override
@@ -127,22 +158,22 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		if(kid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
-		
+
 		if(!kurssRepo.existsById(kid)) {
 			throw new Exception("Kurss ar tādu id neeksistē");
 		}
-		
+
 		ArrayList<MacibuRezultati> macRez = macRezRepo.findByKurssKid(kid);
-		
+
 		for (MacibuRezultati temp: macRez) {
 			temp.setKurss(null);
 		}
-		
+
 		ArrayList<Sertifikati> sertifikati = sertRepo.findByKurssKid(kid);
 		for (Sertifikati temp: sertifikati) {
 			temp.setKurss(null);
 		}
-		
+
 		kurssRepo.deleteById(kid);
 	}
 

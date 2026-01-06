@@ -1,40 +1,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
 
 <body>
-	<p> Lūdzu rediģē eksistējošo kursu!</p>
+<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 
-	<form action="#"  th:action="@{/kurss/CRUD/update/{id}(id=${kurss.kid})}" th:object="${kurss}" method="post" >
-		<table>
-			<tr>
-				<td>Rediģē kursa nosaukumu:</td>
-				<td> <input type="text"  th:field="*{nosaukums}" /> </td>
-			</tr>
-			
-			<tr>
-				<td>Rediģē kursa stundas:</td>
-				<td> <input type="text" th:field="*{stundas}" />    </td>
-			</tr>
-			
-			<tr>
-			    <td>Rediģē kursa līmeni:</td>
-			    <td>
-			        <select th:field="*{limenis}">
-			            <option th:each="lvl : ${limeni}"
-			                    th:value="${lvl}"
-			                    th:text="${lvl}">
-			            </option>
-			        </select>
-			    </td>
-			</tr>
-							
-							<td> <button type="submit"> Saglabāt rediģēto kursu </button>     </td>
-							
-						</tr>
-			
-					
-		</table>
-	</form>
+<p> Lūdzu rediģē eksistējošo kursu!</p>
+
+<form action="#" th:action="@{/kurss/CRUD/update/{id}(id=${kurss.kid})}" th:object="${kurss}" method="post">
+    <table>
+        <tr>
+            <td>Rediģē kursa nosaukumu:</td>
+            <td><input type="text" th:field="*{nosaukums}"/></td>
+        </tr>
+
+        <tr>
+            <td>Rediģē kursa stundas:</td>
+            <td><input type="text" th:field="*{stundas}"/></td>
+        </tr>
+
+        <tr>
+            <td>Rediģē kursa līmeni:</td>
+            <td>
+                <select th:field="*{limenis}">
+                    <option th:each="lvl : ${limeni}"
+                            th:value="${lvl}"
+                            th:text="${lvl}">
+                    </option>
+                </select>
+            </td>
+        </tr>
+
+        <td>
+            <button type="submit"> Saglabāt rediģēto kursu</button>
+        </td>
+
+        </tr>
+
+
+    </table>
+</form>
 </body>
 
 </html> 

@@ -81,7 +81,8 @@ public class KursaDalibniekiCRUDController {
 		return "kursa-dalibnieki-add-page";
 	}
 
-	@PostMapping("/add")
+
+    @PostMapping("/add")
 	public String postControllerAddKursaDalibnieku(@ModelAttribute KursaDalibnieki kursaDalibnieki, Model model) {
 		if (kursaDalibnieki == null) {
 			model.addAttribute("package", "The kursa dalibnieks is not given");
@@ -96,12 +97,12 @@ public class KursaDalibniekiCRUDController {
 					kursaDalibnieki.getPastaIndekss());
 			return "redirect:/kursaDalibnieki/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
-			return "error-page";
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "kursa-dalibnieki-update-page";
 		}
 	}
-	
+
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKursaDalibnieks(@PathVariable(name = "id") int id, Model model) {
 		try {
@@ -109,8 +110,8 @@ public class KursaDalibniekiCRUDController {
 			model.addAttribute("kursaDalibnieki", kursaDalibnieki);
 			return "kursa-dalibnieki-update-page";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute("message", e.getMessage());
+			return "kursa-dalibnieki-update-page";
 		}
 	}
 	
@@ -120,9 +121,9 @@ public class KursaDalibniekiCRUDController {
 			kursaDalibniekiServiss.updateById(id, kursaDalibnieki.getVards(), kursaDalibnieki.getUzvards(), kursaDalibnieki.getEpasts(), kursaDalibnieki.getTelefonaNr(), kursaDalibnieki.getPersonasId(), kursaDalibnieki.getPilseta(), kursaDalibnieki.getValsts(), kursaDalibnieki.getIelasNosaukumsNumurs(), kursaDalibnieki.getDzivoklaNr(), kursaDalibnieki.getPastaIndekss());
 			return "redirect:/kursaDalibnieki/CRUD/show/all/" + id;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage()); 
-			e.printStackTrace();
-			return "error-page"; 
+            e.printStackTrace();
+			model.addAttribute("message", e.getMessage());
+			return "kursa-dalibnieki-update-page";
 		}
 	}
 	
@@ -137,9 +138,9 @@ public class KursaDalibniekiCRUDController {
 	        kursaDalibniekiServiss.importCourseParticipants(file);
 	        return "redirect:/kursaDalibnieki/CRUD/show/all";
 	    } catch (Exception e) {
-	        model.addAttribute("package", e.getMessage());
-	        e.printStackTrace();
-	        return "error-page";
+            e.printStackTrace();
+	        model.addAttribute("message", e.getMessage());
+	        return "kursa-dalibnieki-import-page";
 	    }
 	}
 
