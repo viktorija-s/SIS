@@ -15,7 +15,7 @@ public interface ICRUDVertejumiService {
 	public abstract void create(float vertejumi, LocalDate datums, KursaDalibnieki kursaDalibnieki, KursaDatumi kursaDatumi) throws Exception;
 			
 	//R - retrieve by id
-	public abstract Vertejumi retrieveById(int vid) throws Exception;
+	public abstract Page<Vertejumi> retrieveById(int vid) throws Exception;
 		
 	//U - update
 	public abstract void updateById(int vid, float vertejums) throws Exception;

@@ -1,10 +1,13 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +58,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 	}
 
 	@Override
-	public Sertifikati retrieveById(int id) throws Exception {
+	public Page<Sertifikati> retrieveById(int id) throws Exception {
 		if (id < 0) {
 			throw new Exception("ID nav pareizs");
 		}
@@ -63,7 +66,9 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 			throw new Exception("Sertifikats ar tadu id neeksistē");
 		}
 		
-		return sertRepo.findById(id).get();
+		Sertifikati sert = sertRepo.findById(id).get();
+		Pageable pageable = PageRequest.of(0, 1);
+		return new PageImpl<>(List.of(sert), pageable, 1);
 	}
 
 	@Override

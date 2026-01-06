@@ -2,26 +2,30 @@ package lv.sis.controller;
 
 import java.util.ArrayList;
 
-import lv.sis.service.IFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
-import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IKurssRepo;
 import lv.sis.service.ICRUDSertifikatiService;
+import lv.sis.service.IFilterService;
 
 @Controller
 @RequestMapping("sertifikati/CRUD")
 public class SertifikatiCRUDController {
-
-    @Autowired
+	@Autowired
     private ICRUDSertifikatiService sertService;
 
     @Autowired
@@ -64,14 +68,14 @@ public class SertifikatiCRUDController {
 
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
-            return "sertifikati-all-page";
+            return "sertifikati-all-page"; // ??
         }
     }
 
     @GetMapping("/show/all/{id}")
     public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
         try {
-            Sertifikati sertifikats = sertService.retrieveById(id);
+            Page<Sertifikati> sertifikats = sertService.retrieveById(id);
             model.addAttribute("sertifikati", sertifikats);
             return "sertifikati-all-page";
         } catch (Exception e) {
@@ -83,9 +87,9 @@ public class SertifikatiCRUDController {
     @GetMapping("/remove/{id}")
     public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model) {
         try {
-            Sertifikati sertifikats = sertService.retrieveById(id);
+            Sertifikati sertifikats = sertService.retrieveById(id).getContent().getFirst();
             model.addAttribute("sertifikats", sertifikats);
-            return "sertifikati-delete-confirm";
+            return "sertifikati-delete-confirm"; // ??
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
             return "error-page";
@@ -137,7 +141,7 @@ public class SertifikatiCRUDController {
     @GetMapping("/update/{id}")
     public String getControllerUpdateSertifikats(@PathVariable(name = "id") int id, Model model) {
         try {
-            Sertifikati sertifikats = sertService.retrieveById(id);
+            Sertifikati sertifikats = sertService.retrieveById(id).getContent().getFirst();
             model.addAttribute("sertifikats", sertifikats);
             return "sertifikats-update-page";
         } catch (Exception e) {

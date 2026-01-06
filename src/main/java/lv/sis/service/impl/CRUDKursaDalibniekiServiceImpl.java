@@ -1,6 +1,7 @@
 package lv.sis.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -11,6 +12,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.transaction.Transactional;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.repo.IKursaDalibniekiRepo;
+import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.ICRUDKursaDalibniekiService;
 
 @Service
@@ -25,6 +29,9 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 
 	@Autowired
 	private IKursaDalibniekiRepo kursaDalibniekiRepo;
+	
+	@Autowired
+	private IVertejumiRepo vertRepo;
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId,
@@ -97,11 +104,14 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		if (kursaDalibniekiRepo.count() == 0) {
 			throw new Exception("Tabulā nav neviena ieraksta");
 		}
-		return kursaDalibniekiRepo.findAll(pageable);
+		
+		Page<KursaDalibnieki> dalibnieki = kursaDalibniekiRepo.findAll(pageable);
+		for (KursaDalibnieki d: dalibnieki.getContent()) d.setAvgGrade(vertRepo.findAvgGrade(d.getKdid()));
+		return dalibnieki;
 	}
 
 	@Override
-	public KursaDalibnieki retrieveById(int kdid) throws Exception {
+	public Page<KursaDalibnieki> retrieveById(int kdid) throws Exception {
 		if (kdid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
@@ -111,14 +121,17 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 
 		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
-		return retrievedKursaDalibnieki;
+		retrievedKursaDalibnieki.setAvgGrade(vertRepo.findAvgGrade(kdid));
+		
+		Pageable pageable = PageRequest.of(0, 1);
+	    return new PageImpl<>(List.of(retrievedKursaDalibnieki), pageable, 1);
 	}
 
 	@Override
 	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId,
 			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss)
 			throws Exception {
-		KursaDalibnieki retrievedKursaDalibnieki = retrieveById(kdid);
+		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
 
 		if (retrievedKursaDalibnieki.getVards() != vards) {
 			retrievedKursaDalibnieki.setVards(vards);
