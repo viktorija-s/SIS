@@ -51,10 +51,22 @@ public class PasniedzejiCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemovePasniedzejs(@PathVariable(name = "id") int id, Model model) {
 		try {
+			Pasniedzeji pasniedzejs = pasnService.retrieveById(id);
+			model.addAttribute("pasniedzejs", pasniedzejs);
+			return "pasniedzeji-delete-confirm";
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+		try {
 			pasnService.deleteById(id);
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
+			e.printStackTrace();
 			return "error-page";
 		}
 	}

@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Sertifikāta dzēšana</h3>
+
+	<table>
+		<tr>
+			<td>Sertifikāta numurs:</td>
+			<td th:text="${sertifikats.certificateNo}"></td>
+		</tr>
+		<tr>
+			<td>Tips:</td>
+			<td th:text="${sertifikats.tips}"></td>
+		</tr>
+		<tr>
+			<td>Izdošanas datums:</td>
+			<td th:text="${sertifikats.izdosanasDatums}"></td>
+		</tr>
+		<tr>
+			<td>Dalībnieks:</td>
+			<td th:text="${sertifikats.dalibnieks.vards} + ' ' + ${sertifikats.dalibnieks.uzvards}"></td>
+		</tr>
+		<tr>
+			<td>Kurss:</td>
+			<td th:text="${sertifikats.kurss.nosaukums}"></td>
+		</tr>
+		<tr>
+			<td>Ir parakstīts:</td>
+			<td th:text="${sertifikats.irParakstits} ? 'Jā' : 'Nē'"></td>
+		</tr>
+	</table>
+
+	<form th:action="@{/sertifikati/CRUD/remove/{id}(id=${sertifikats.sid})}" method="post">
+		<p>Vai tiešām dzēst sertifikātu <b th:text="${sertifikats.certificateNo}"></b>?</p>
+		<button type="submit">Dzēst</button>
+		<a th:href="@{/sertifikati/CRUD/show/all}">Atcelt</a>
+	</form>
+</body>
+</html>

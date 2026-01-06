@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Pasniedzēja dzēšana</h3>
+
+	<table>
+		<tr>
+			<td>Vārds:</td>
+			<td th:text="${pasniedzejs.vards}"></td>
+		</tr>
+		<tr>
+			<td>Uzvārds:</td>
+			<td th:text="${pasniedzejs.uzvards}"></td>
+		</tr>
+		<tr>
+			<td>E-pasts:</td>
+			<td th:text="${pasniedzejs.epasts}"></td>
+		</tr>
+		<tr>
+			<td>Telefons:</td>
+			<td th:text="${pasniedzejs.telefonaNr}"></td>
+		</tr>
+	</table>
+
+	<form th:action="@{/pasniedzeji/CRUD/remove/{id}(id=${pasniedzejs.pid})}" method="post">
+		<p>Vai tiešām dzēst pasniedzēju <b th:text="${pasniedzejs.vards} + ' ' + ${pasniedzejs.uzvards}"></b>?</p>
+		<button type="submit">Dzēst</button>
+		<a th:href="@{/pasniedzeji/CRUD/show/all}">Atcelt</a>
+	</form>
+</body>
+</html>

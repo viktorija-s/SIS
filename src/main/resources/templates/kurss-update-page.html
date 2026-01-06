@@ -17,11 +17,16 @@
 			</tr>
 			
 			<tr>
-				<td>Rediģē kursa limeni:</td>
-				<td> <input  type="text" th:field="*{limenis}"  />    </td>
+			    <td>Rediģē kursa līmeni:</td>
+			    <td>
+			        <select th:field="*{limenis}">
+			            <option th:each="lvl : ${limeni}"
+			                    th:value="${lvl}"
+			                    th:text="${lvl}">
+			            </option>
+			        </select>
+			    </td>
 			</tr>
-			
-			<tr>
 							
 							<td> <button type="submit"> Saglabāt rediģēto kursu </button>     </td>
 							

@@ -54,12 +54,24 @@ public class KursaDalibniekiCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveKursaDalibnieku(@PathVariable(name = "id") int id, Model model) {
 		try {
-			kursaDalibniekiServiss.deleteById(id);
-			return "redirect:/kursaDalibnieki/CRUD/show/all";
+			KursaDalibnieki dalibnieks = kursaDalibniekiServiss.retrieveById(id);
+	        model.addAttribute("kursaDalibnieks", dalibnieks);
+	        return "kursa-dalibnieks-delete-confirm";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
+	}
+	
+	@PostMapping("/remove/{id}")
+	public String deleteConfirmed(@PathVariable(name = "id") int id) {
+	    try {
+	        kursaDalibniekiServiss.deleteById(id);
+	        return "redirect:/kursaDalibnieki/CRUD/show/all";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error-page";
+	    }
 	}
 
 	@GetMapping("/add")

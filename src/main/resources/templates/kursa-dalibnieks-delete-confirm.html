@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<h3>Dalībnieka dzēšana</h3>
+
+	<table>
+	        <tr>
+	            <td>Vārds:</td>
+	            <td th:text="${kursaDalibnieks.vards}"></td>
+	        </tr>
+	        <tr>
+	            <td>Uzvārds:</td>
+	            <td th:text="${kursaDalibnieks.uzvards}"></td>
+	        </tr>
+	        <tr>
+	            <td>Epasts:</td>
+	            <td th:text="${kursaDalibnieks.epasts}"></td>
+	        </tr>
+	        <tr>
+	            <td>Telefons:</td>
+	            <td th:text="${kursaDalibnieks.telefonaNr}"></td>
+	        </tr>
+	        <tr>
+	            <td>Personas ID:</td>
+	            <td th:text="${kursaDalibnieks.personasId}"></td>
+	        </tr>
+	        <tr>
+	            <td>Pilsēta:</td>
+	            <td th:text="${kursaDalibnieks.pilseta}"></td>
+	        </tr>
+	        <tr>
+	            <td>Valsts:</td>
+	            <td th:text="${kursaDalibnieks.valsts}"></td>
+	        </tr>
+	        <tr>
+	            <td>Ielas nosaukums un nr:</td>
+	            <td th:text="${kursaDalibnieks.ielasNosaukumsNumurs}"></td>
+	        </tr>
+	        <tr>
+	            <td>Dzīvokļa nr:</td>
+	            <td th:text="${kursaDalibnieks.dzivoklaNr}"></td>
+	        </tr>
+	        <tr>
+	            <td>Pasta indekss:</td>
+	            <td th:text="${kursaDalibnieks.pastaIndekss}"></td>
+	        </tr>
+	    </table>
+
+		<form th:action="@{/kursaDalibnieki/CRUD/remove/{id}(id=${kursaDalibnieks.kdid})}" method="post">
+		    <p>Vai tiešām dzēst dalībnieku <b th:text="${kursaDalibnieks.vards} + ' ' + ${kursaDalibnieks.uzvards}"></b>?</p>
+		    <button type="submit">Dzēst</button>
+		    <a th:href="@{/kursaDalibnieki/CRUD/show/all}">Atcelt</a>
+		</form>
+	</body>
+</html>
