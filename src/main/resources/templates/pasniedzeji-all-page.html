@@ -29,6 +29,11 @@
 			<th>Uzvārds</th>
 			<th>E-pasts</th>
 			<th>Telefona numurs</th>
+<<<<<<< HEAD
+=======
+			<th>Darbības</th>
+			
+>>>>>>> viktorija/model
 		</tr>
 		<tr th:each = "temp : ${package}">
 			<td th:text="${temp.getPid()}" ></td>
@@ -36,6 +41,11 @@
 			<td th:text="${temp.getUzvards()}" ></td>
 			<td th:text="${temp.getEpasts()}" ></td>
 			<td th:text="${temp.getTelefonaNr()}" ></td>
+			<td>
+				<a th:href="@{/pasniedzeji/CRUD/show/all/{id}(id=${temp.pid})}">Skatīt</a>
+				<a th:href="@{/pasniedzeji/CRUD/update/{id}(id=${temp.pid})}">Labot</a>
+				<a th:href="@{/pasniedzeji/CRUD/remove/{id}(id=${temp.pid})}">Dzēst</a>
+			</td>
 		</tr>
 	</table>
 	

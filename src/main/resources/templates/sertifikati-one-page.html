@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+	
+	<p>Informācija par sertifikātu:</p>
+	
+	<table border="1px" border-collapse="collapse">
+		<tr>
+			<th>ID</th>
+			<th>Tips</th>
+			<th>Izdosanas datums</th>
+			<th>Registracijas numurs</th>
+			<th>Ir parakstits?</th>
+			<th>Dalibnieks</th>
+			<th>Kurss</th>
+			
+		</tr>
+		<tr th:each = "temp : ${sertifikati}">
+			<td th:text="${temp.getSid()}" ></td>
+			<td th:text="${temp.getTips()}" ></td>
+			<td th:text="${temp.getIzdosanasDatums()}" ></td>
+			<td th:text="${temp.getCertificateNo()}" ></td>
+			<td th:text="${temp.isIrParakstits()}" ></td>
+			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}" ></td>
+			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
+		</tr>
+	</table>
+	
+	
+</body>
+</html> 

@@ -4,6 +4,7 @@
 <div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 <p> Ievadiet informaciju par sertifikatu! </p>
 
+<<<<<<< HEAD
 <form action="#" th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post">
     <table>
         <tr>
@@ -17,6 +18,48 @@
                 </select>
             </td>
         </tr>
+=======
+	<form action="#"  th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post" >
+		<table>
+			<tr>
+				<td>Tips: </td>
+				<td>
+					<select th:field="*{tips}">
+					    <option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
+					            th:value="${tips}"
+					            th:text="${tips}">
+					    </option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Izdosanas datums: </td>
+				<td> <input  type="date" th:field="*{izdosanasDatums}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Registracijas numurs: </td>
+				<td> <input  type="number" th:field="*{certificateNo}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Ir parakstits: </td>
+				<td> <input  type="checkbox" th:field="*{irParakstits}"  />    </td>
+			</tr>
+			
+			<tr>
+			    <td>Dalībnieks:</td>
+			    <td>
+			        <select th:field="*{dalibnieks}">
+			            <option th:each="d : ${dalibnieki}" 
+			                    th:value="${d.kdid}" 
+			                    th:text="${d.vards} + ' ' + ${d.uzvards} + ' (' + ${d.personasId} + ')'"> 
+			            </option>
+			        </select>
+			    </td>
+			</tr>
+>>>>>>> viktorija/model
 
         <tr>
             <td>Izdosanas datums:</td>

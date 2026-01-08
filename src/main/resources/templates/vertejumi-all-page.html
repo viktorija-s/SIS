@@ -29,13 +29,23 @@
 			<th>Datums</th>
 			<th>Kursa dalībnieki</th>
 			<th>Kursa datumi</th>
+<<<<<<< HEAD
+=======
+			<th>Darbības</th>
+			
+>>>>>>> viktorija/model
 		</tr>
 		<tr th:each = "temp : ${package}">
 			<td th:text="${temp.getVid()}" ></td>
 			<td th:text="${temp.getVertejums()}" ></td>
 			<td th:text="${temp.getDatums()}" ></td>
-			<td th:text="${temp.getKursaDalibnieki().getKdid()}" ></td>
+			<td th:text="${temp.getKursaDalibnieki().getVards() + ' ' + temp.getKursaDalibnieki().getUzvards()}" ></td>
 			<td th:text="${temp.getKursaDatumi().getKursaDatId()}" ></td>
+			<td>
+				<a th:href="@{/vertejumi/CRUD/show/all/{id}(id=${temp.vid})}">Skatīt</a>
+				<a th:href="@{/vertejumi/CRUD/update/{id}(id=${temp.vid})}">Labot</a>
+				<a th:href="@{/vertejumi/CRUD/remove/{id}(id=${temp.vid})}">Dzēst</a>
+			</td>	
 			
 		</tr>
 	</table>

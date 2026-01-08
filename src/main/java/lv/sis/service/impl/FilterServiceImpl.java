@@ -4,6 +4,7 @@ import lv.sis.model.KursaDatumi;
 import lv.sis.model.Kurss;
 import lv.sis.model.Sertifikati;
 import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.model.enums.CertificateType;
 import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.service.IFilterService;
@@ -16,36 +17,41 @@ import java.util.ArrayList;
 @Service
 public class FilterServiceImpl implements IFilterService {
 
-    @Autowired
-    private IKurssRepo kurssRepo;
+	@Autowired
+	private IKurssRepo kurssRepo;
 
-    @Autowired
-    private IKursaDatumiRepo kursaDatumiRepo;
+	@Autowired
+	private ISertifikatiRepo sertifikatiRepo;
 
-    @Autowired
-    private ISertifikatiRepo sertifikatiRepo;
+	@Autowired
+	private IKursaDatumiRepo kursaDatumiRepo;
 
-    @Override
-    public ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
-        return kurssRepo.findByNosaukumsContaining(text);
-    }
+	@Override
+	public ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
+		return kurssRepo.findByNosaukumsContaining(text);
+	}
 
-    @Override
-    public ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception {
-        if (from == null || to == null || from.isAfter(to)) {
-            throw new Exception("Nav norādīti pareizi datumi.");
-        }
-        return kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from);
-    }
+	@Override
+	public ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception {
+		if (from == null || to == null || from.isAfter(to)) {
+			throw new Exception("Nav norādīti pareizi datumi.");
+		}
+		return kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from);
+	}
 
-    @Override
-    public ArrayList<Sertifikati> findSertifikatiByDalibniekaVardsUzvards(String vards, String uzvards) throws Exception {
-        if ((vards == null || vards.isBlank()) &&
-                (uzvards == null || uzvards.isBlank())) {
-            throw new Exception("Name or surname must be provided");
-        }
-        return sertifikatiRepo.findByDalibnieks_VardsContainingIgnoreCaseAndDalibnieks_UzvardsContainingIgnoreCase(vards == null ? "" : vards.trim(), uzvards == null ? "" : uzvards.trim());
-    }
+	@Override
+	public ArrayList<Sertifikati> findSertifikatiByDalibniekaVardsUzvards(String vards, String uzvards)
+			throws Exception {
+		if ((vards == null || vards.isBlank()) && (uzvards == null || uzvards.isBlank())) {
+			throw new Exception("Name or surname must be provided");
+		}
+		return sertifikatiRepo.findByDalibnieks_VardsContainingIgnoreCaseAndDalibnieks_UzvardsContainingIgnoreCase(
+				vards == null ? "" : vards.trim(), uzvards == null ? "" : uzvards.trim());
+	}
 
+	public ArrayList<Sertifikati> findByTipsContainingIgnoreCase(String text) throws Exception {
+		CertificateType type = CertificateType.valueOf(text.toUpperCase());
+		return sertifikatiRepo.findByTips(type);
+	}
 
 }

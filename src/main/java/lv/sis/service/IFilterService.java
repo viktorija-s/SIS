@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public interface IFilterService {
 
     public abstract ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception;
+    
+    public abstract ArrayList<Sertifikati> findByTipsContainingIgnoreCase(String text) throws Exception;
 
     ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception;
 

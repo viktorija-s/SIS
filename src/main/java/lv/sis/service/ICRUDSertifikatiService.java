@@ -11,9 +11,9 @@ import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
 
 public interface ICRUDSertifikatiService {
-	public abstract void create(CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits, KursaDalibnieki dalibnieks, Kurss kurss) throws Exception;
+	public abstract void create(CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits, KursaDalibnieki dalibnieks, Kurss kurss) throws Exception;
 	public abstract Page<Sertifikati> retrieveById(int id) throws Exception;
-	public abstract void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, int regNr, boolean irParakstits) throws Exception; 
+	public abstract void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits) throws Exception; 
 	public abstract void deleteById(int id) throws Exception;
 	Page<Sertifikati> retrieveAll(Pageable pageable) throws Exception;
 }

@@ -4,6 +4,7 @@
 <div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 <p> Rediģējiet informāciju par sertifikatu! </p>
 
+<<<<<<< HEAD
 <form action="#" th:action="@{/sertifikati/CRUD/update/{id}(id=${sertifikats.sid})}" th:object="${sertifikats}"
       method="post">
     <table>
@@ -18,6 +19,38 @@
                 </select>
             </td>
         </tr>
+=======
+	<form action="#"  th:action="@{/sertifikati/CRUD/update/{id}(id=${sertifikats.sid})}" th:object="${sertifikats}" method="post" >
+		<table>
+			<tr>
+				<td>Tips: </td>
+				<td>
+					<select th:field="*{tips}">
+						<option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
+					            th:value="${tips}"
+					            th:text="${tips}">
+					    </option>
+					</select>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Izdosanas datums: </td>
+				<td> <input  type="date" th:field="*{izdosanasDatums}" th:value="*{izdosanasDatums}" />    </td>
+			</tr>
+			
+			<tr>
+				<td>Registracijas numurs: </td>
+				<td> <input  type="number" th:field="*{certificateNo}"  />    </td>
+			</tr>
+			
+			<tr>
+				<td>Ir parakstits: </td>
+				<td> 
+					<input type="hidden" th:if="${irParakstits}" name="irParakstits" value="true" />
+					<input  type="checkbox" th:field="*{irParakstits}" th:disabled="${irParakstits}" />   
+					<span th:if="${irParakstits}" style="color: gray; font-size: 0.9em;">Šis sertifikāts jau ir parakstīts</span>
+>>>>>>> viktorija/model
 
         <tr>
             <td>Izdosanas datums:</td>

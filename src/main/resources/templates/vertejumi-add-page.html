@@ -16,6 +16,7 @@
             <td><input type="date" th:field="*{datums}"/></td>
         </tr>
 
+<<<<<<< HEAD
         <tr>
             <td>Kursa dalībnieki:</td>
             <td>
@@ -35,6 +36,29 @@
             </select>
         </td>
         </tr>
+=======
+			<tr>
+				<td>Kursa dalībnieki: </td>
+				<td>
+					<select th:field="*{kursaDalibnieki}" required>
+						<option th:each="d : ${kursaDalibniekiList}" th:value="${d.kdid}"
+							th:text="${d.vards + ' ' + d.uzvards + ' (' + d.personasId + ')'}">
+						</option>
+					</select>
+				</td>
+			</tr>
+			<td>Kursa datumi:</td>
+			<td>
+			    <select th:field="*{kursaDatumi}" required>
+			        <option th:each="k : ${kursaDatumiList}"
+			                th:value="${k.kursaDatId}"
+			                th:text="${k.kurss.nosaukums + ' (' + #temporals.format(k.sakumaDatums, 'yyyy-MM-dd') + ' līdz ' + #temporals.format(k.beiguDatums, 'yyyy-MM-dd') + ')'}">
+			        </option>
+			    </select>
+			</td>
+
+			</tr>
+>>>>>>> viktorija/model
 
 
         <tr>
