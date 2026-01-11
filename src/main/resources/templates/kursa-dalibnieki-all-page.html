@@ -33,12 +33,11 @@
 			<th>Ielas nosaukums un numurs</th>
 			<th>Dzīvokļa nr</th>
 			<th>Pasta indekss</th>
-<<<<<<< HEAD
+
 			<th>Vidējā atzīme</th>
-=======
+
 			<th>Darbības</th>
 			
->>>>>>> viktorija/model
 		</tr>
 		<tr th:each = "temp : ${kursaDal}">
 			<td th:text="${temp.getKdid()}" ></td>
@@ -52,16 +51,13 @@
 			<td th:text="${temp.getIelasNosaukumsNumurs()}" ></td>
 			<td th:text="${temp.getDzivoklaNr()}" ></td>
 			<td th:text="${temp.getPastaIndekss()}" ></td>
-<<<<<<< HEAD
 			<td th:text="${temp.getAvgGrade()}"></td>
-=======
 			<td>
 				<a th:href="@{/kursaDalibnieki/CRUD/show/all/{id}(id=${temp.kdid})}">Skatīt</a>
 				<a th:href="@{/kursaDalibnieki/CRUD/update/{id}(id=${temp.kdid})}">Labot</a>
 				<a th:href="@{/kursaDalibnieki/CRUD/remove/{id}(id=${temp.kdid})}">Dzēst</a>
 			</td>
 			
->>>>>>> viktorija/model
 		</tr>
 	</table>
 	

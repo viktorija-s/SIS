@@ -1,37 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
-<<<<<<< HEAD
-	<body>
-=======
 <body>
-	
-	<p>Informācija par kursa datumiem:</p>
-	
-	<table border="1px" border-collapse="collapse">
-		<tr>
-			<th>ID</th>
-			<th>Sākuma datums</th>
-			<th>Beigu datums</th>
-			<th>Kurss</th>
-			<th>Pasniedzējs</th>
-			<th>Darbības</th>
-			
-		</tr>
-		<tr th:each = "temp : ${package}">
-			<td th:text="${temp.getKursaDatId()}" ></td>
-			<td th:text="${temp.getSakumaDatums()}" ></td>
-			<td th:text="${temp.getBeiguDatums()}" ></td>
-			<td th:text="${temp.getKurss()}" ></td>
-			<td th:text="${temp.getPasniedzejs()}"></td>
-			<td>
-				<a th:href="@{/kursaDatumi/CRUD/show/all/{id}(id=${temp.kursaDatId})}">Skatīt</a>
-				<a th:href="@{/kursaDatumi/CRUD/update/{id}(id=${temp.kursaDatId})}">Labot</a>
-				<a th:href="@{/kursaDatumi/CRUD/remove/{id}(id=${temp.kursaDatId})}">Dzēst</a>
-			</td>
-			
-		</tr>
->>>>>>> viktorija/model
+
 		
 		<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div> 
 		<p>Informācija par kursa datumiem:</p>
@@ -73,6 +43,7 @@
 		        <th>Beigu datums</th>
 		        <th>Kurss</th>
 		        <th>Pasniedzējs</th>
+                <th>Darbības</th>
 		    </tr>
 		    <tr th:each="temp : ${package}">
 		        <td th:text="${temp.getKursaDatId()}"></td>
@@ -80,6 +51,11 @@
 		        <td th:text="${temp.getBeiguDatums()}"></td>
 		        <td th:text="${temp.getKurss()}"></td>
 		        <td th:text="${temp.getPasniedzejs()}"></td>
+                <td>
+				<a th:href="@{/kursaDatumi/CRUD/show/all/{id}(id=${temp.kursaDatId})}">Skatīt</a>
+				<a th:href="@{/kursaDatumi/CRUD/update/{id}(id=${temp.kursaDatId})}">Labot</a>
+				<a th:href="@{/kursaDatumi/CRUD/remove/{id}(id=${temp.kursaDatId})}">Dzēst</a>
+			</td>
 		    </tr>
 		</table>
 		
