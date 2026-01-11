@@ -2,7 +2,6 @@
 
 
 <body>
-<<<<<<< HEAD
 
 <div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 <p>Informācija par sertifikātiem:</p>
@@ -38,39 +37,8 @@
 		
 		</div>
 
-<table border="1px" border-collapse="collapse">
-    <tr>
-        <th>ID</th>
-        <th>Tips</th>
-        <th>Izdosanas datums</th>
-        <th>Registracijas numurs</th>
-        <th>Ir parakstits?</th>
-        <th>Dalibnieks</th>
-        <th>Kurss</th>
-    </tr>
-    <tr th:each = "temp : ${sertifikati}">
-        <td th:text="${temp.getSid()}" ></td>
-        <td th:text="${temp.getTips()}" ></td>
-        <td th:text="${temp.getIzdosanasDatums()}" ></td>
-        <td th:text="${temp.getRegistracijasNr()}" ></td>
-        <td th:text="${temp.isIrParakstits()}" ></td>
-        <td th:text="${temp.getDalibnieks().getUzvards()}" ></td>
-        <td th:text="${temp.getKurss().getNosaukums()}" ></td>
-    </tr>
-</table>
-
-<div  th:if="${sertifikati.getTotalElements() > 1}">
-    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
-    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
-    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>
-</div>
-
-=======
-	
-	<p>Informācija par sertifikātiem:</p>
-	
-	<form action="/sertifikati/CRUD/show/all" method="get">
-	    <input type="text" name="search" placeholder="Search..." th:value="${search}">
+<form action="/sertifikati/CRUD/show/all" method="get">
+	    <input type="text" name="search" placeholder="Meklēt pēc tipa" th:value="${search}">
 	    <button type="submit">Meklēt</button>
 	    <button type="button" onclick="window.location.href='/sertifikati/CRUD/show/all'">Notīrīt</button>
 	</form>
@@ -102,12 +70,12 @@
 			</td>
 		</tr>
 	</table>
+
+<div  th:if="${sertifikati.getTotalElements() > 1}">
+    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
+    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
+    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>
+</div>
 	
-	<div>
-	    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
-	    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
-	    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>
-	</div>
->>>>>>> viktorija/model
 </body>
 </html> 
