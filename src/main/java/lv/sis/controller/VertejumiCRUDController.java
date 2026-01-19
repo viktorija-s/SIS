@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.validation.constraints.Min;
 import lv.sis.model.KursaDalibnieki;
 import lv.sis.model.KursaDatumi;
 import lv.sis.model.Vertejumi;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.repo.IKursaDatumiRepo;
 import lv.sis.service.ICRUDVertejumiService;
+import lv.sis.service.IFilterService;
+import lv.sis.repo.IVertejumiRepo;
 
 @Controller
 @RequestMapping("vertejumi/CRUD")
@@ -34,12 +37,23 @@ public class VertejumiCRUDController {
 	
 	@Autowired 
 	private IKursaDatumiRepo kursaDatumiRepo;
+	
+	@Autowired IFilterService filterService;
 
 	@GetMapping("/show/all")
-	public String getControllerShowAllVertejumi(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
+	public String getControllerShowAllVertejumi(Model model, @RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "3") int size,  @RequestParam(required = false) Integer min, @RequestParam(required = false) Integer max) {
 		try {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<Vertejumi> visiVertejumi = vertejumiServiss.retrieveAll(pageable); 
+			
+			if (min != null || max != null) {
+	            visiVertejumi = filterService.retrieveByMinMax(min, max, pageable);
+	            model.addAttribute("min", min);
+	            model.addAttribute("max", max);
+	        } else {
+	            visiVertejumi = vertejumiServiss.retrieveAll(pageable);
+	        }
 
 			model.addAttribute("package", visiVertejumi);
 			return "vertejumi-all-page";

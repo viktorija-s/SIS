@@ -1,7 +1,11 @@
 package lv.sis.service.impl;
 
 import java.time.LocalDate;
+
 import java.util.List;
+
+import java.util.ArrayList;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,14 +38,45 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 		if (sakumaDatums == null || beiguDatums == null || kurss == null || pasniedzejs == null) {
             throw new Exception("Ievades parametri nav pareizi");
         }
-
-        if (beiguDatums.isBefore(sakumaDatums)) {
-            throw new Exception("Beigu datums nevar būt pirms sākuma datuma!");
-        } else { 
-	        KursaDatumi kursaDatumi = new KursaDatumi(sakumaDatums, beiguDatums, kurss, pasniedzejs);
-	        kursaDatumiRepo.save(kursaDatumi);
 		
-        }
+		if (!sakumaDatums.isBefore(beiguDatums)) {
+	        throw new Exception("Sākuma datumam jābūt pirms beigu datuma!");
+	    }
+		
+		LocalDate today = LocalDate.now();
+	    if (sakumaDatums.isBefore(today)) {
+	        throw new Exception("Sākuma datums nevar būt pagātnē!");
+	    }
+	    if (beiguDatums.isBefore(today)) {
+	        throw new Exception("Beigu datums nevar būt pagātnē!");
+	    }
+	    
+	    ArrayList<KursaDatumi> visiKursaDatumi = kursaDatumiRepo.findAllByKurssKid(kurss.getKid());
+	    
+	    for (KursaDatumi existing : visiKursaDatumi) {
+	        if (existing.getPasniedzejs().getPid() == pasniedzejs.getPid()) {
+	            boolean overlaps = !(beiguDatums.isBefore(existing.getSakumaDatums()) || 
+	                               sakumaDatums.isAfter(existing.getBeiguDatums()));
+	            
+	            if (overlaps) {
+	                throw new Exception("Kursa datumi pārklājas ar esošu kursu '" + 
+	                                  existing.getKurss().getNosaukums() + 
+	                                  "' (ID: " + existing.getKursaDatId() + 
+	                                  ") tam pašam pasniedzējam!");
+	            }
+	        }
+	    }
+	    
+	    KursaDatumi kursaDatumi = new KursaDatumi(sakumaDatums, beiguDatums, kurss, pasniedzejs);
+	    kursaDatumiRepo.save(kursaDatumi);
+
+//        if (beiguDatums.isBefore(sakumaDatums)) {
+//            throw new Exception("Beigu datums nevar būt pirms sākuma datuma!");
+//        } else { 
+//	        KursaDatumi kursaDatumi = new KursaDatumi(sakumaDatums, beiguDatums, kurss, pasniedzejs);
+//	        kursaDatumiRepo.save(kursaDatumi);
+//		
+//        }
 	}
 
 	@Override
@@ -112,6 +147,11 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         }
 
         KursaDatumi retrievedKursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
+        
+        LocalDate newSakumaDatums = retrievedKursaDatumi.getSakumaDatums();
+        LocalDate newBeiguDatums = retrievedKursaDatumi.getBeiguDatums();
+        Kurss newKurss = retrievedKursaDatumi.getKurss();
+        Pasniedzeji newPasniedzejs = retrievedKursaDatumi.getPasniedzejs();
 
         if (kursaDatumi.getSakumaDatums() != null && !kursaDatumi.getSakumaDatums().equals(retrievedKursaDatumi.getSakumaDatums())) {
         	retrievedKursaDatumi.setSakumaDatums(kursaDatumi.getSakumaDatums());
@@ -128,6 +168,43 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         if (kursaDatumi.getPasniedzejs() != null && !kursaDatumi.getPasniedzejs().equals(retrievedKursaDatumi.getPasniedzejs())) {
         	retrievedKursaDatumi.setPasniedzejs(kursaDatumi.getPasniedzejs()); // TODO nestrādā ja nomaina pasniedzēju uz citu
         }
+        
+        if (!newSakumaDatums.isBefore(newBeiguDatums)) {
+            throw new Exception("Sākuma datumam jābūt pirms beigu datuma!");
+        }
+        
+        LocalDate today = LocalDate.now();
+        if (newSakumaDatums.isBefore(today)) {
+            throw new Exception("Sākuma datums nevar būt pagātnē!");
+        }
+        if (newBeiguDatums.isBefore(today)) {
+            throw new Exception("Beigu datums nevar būt pagātnē!");
+        }
+        
+        ArrayList<KursaDatumi> visiKursaDatumi = kursaDatumiRepo.findAllByKurssKid(newKurss.getKid());
+        
+        for (KursaDatumi existing : visiKursaDatumi) {
+            if (existing.getKursaDatId() == kursaDatId) {
+                continue;
+            }
+          
+            if (existing.getPasniedzejs().getPid() == newPasniedzejs.getPid()) {
+                boolean overlaps = !(newBeiguDatums.isBefore(existing.getSakumaDatums()) || 
+                                   newSakumaDatums.isAfter(existing.getBeiguDatums()));
+                
+                if (overlaps) {
+                    throw new Exception("Kursa datumi pārklājas ar esošu kursu '" + 
+                                      existing.getKurss().getNosaukums() + 
+                                      "' (ID: " + existing.getKursaDatId() + 
+                                      ") tam pašam pasniedzējam!");
+                }
+            }
+        }
+        
+        retrievedKursaDatumi.setSakumaDatums(newSakumaDatums);
+        retrievedKursaDatumi.setBeiguDatums(newBeiguDatums);
+        retrievedKursaDatumi.setKurss(newKurss);
+        retrievedKursaDatumi.setPasniedzejs(newPasniedzejs);
 
         kursaDatumiRepo.save(retrievedKursaDatumi);
 	}
