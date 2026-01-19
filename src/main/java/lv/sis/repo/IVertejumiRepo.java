@@ -17,6 +17,8 @@ public interface IVertejumiRepo extends JpaRepository<Vertejumi, Integer>{
 	Vertejumi findByKursaDalibnieki_KdidAndKursaDatumi_Kurss_Kid(int kursaDalibnieksId, int kurssId);
 
 	Page<Vertejumi> findAllByKursaDatumiPasniedzejsPid(int i, Pageable pageable);
+	
+	Page<Vertejumi> findByVertejumsBetween(Integer min, Integer max, Pageable pageable);
 
 
 }

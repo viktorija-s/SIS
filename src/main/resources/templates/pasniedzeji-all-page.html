@@ -5,6 +5,17 @@
 	
 	<p>Informācija par pasniedzējiem:</p>
 	
+	<form th:action="@{/pasniedzeji/CRUD/show/all}" method="get">
+			<label for="nosaukums">Filtrēt pēc kursa nosaukuma:</label>
+			<input type="text" id="nosaukums" name="nosaukums" 
+			       th:value="${nosaukums}" 
+			       placeholder="Ievadi kursa nosaukumu">
+			
+			<button type="submit">Filtrēt</button>
+			<a th:href="@{/pasniedzeji/CRUD/show/all}">Notīrīt filtru</a>
+	</form>
+	<br>
+	
 	<table border="1px" border-collapse="collapse">
 		<tr>
 			<th>ID</th>

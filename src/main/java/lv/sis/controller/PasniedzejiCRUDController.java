@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lv.sis.model.Pasniedzeji;
 import lv.sis.service.ICRUDPasniedzejiService;
+import lv.sis.service.IFilterService;
 
 @Controller
 @RequestMapping("/pasniedzeji/CRUD")
@@ -22,13 +23,24 @@ public class PasniedzejiCRUDController {
 	@Autowired 
 	private ICRUDPasniedzejiService pasnService;
 	
+	@Autowired
+	private IFilterService filterService;
+	
 	@GetMapping("/show/all")
 	public String getControllerShowAllPasniedzeji(Model model, 
 			@RequestParam(defaultValue = "0") int page, 
-			@RequestParam(defaultValue = "3") int size) {
+			@RequestParam(defaultValue = "3") int size, @RequestParam(required = false) String nosaukums) {
 		try {
 			Pageable pageable = PageRequest.of(page, size);
 			Page<Pasniedzeji> visiKursi = pasnService.retrieveAll(pageable); 
+			
+			if (nosaukums != null && !nosaukums.trim().isEmpty()) {
+				visiKursi = filterService.retrieveByKurss(nosaukums, pageable);
+				model.addAttribute("nosaukums", nosaukums);  
+			} else {
+				visiKursi = pasnService.retrieveAll(pageable);
+			}
+			
 			model.addAttribute("package", visiKursi);
 			return "pasniedzeji-all-page"; 
 		} catch (Exception e) {
