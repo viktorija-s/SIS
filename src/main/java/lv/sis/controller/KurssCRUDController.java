@@ -1,6 +1,5 @@
 package lv.sis.controller;
 
-import java.util.ArrayList;
 
 import lv.sis.service.IFilterService;
 
@@ -40,7 +39,7 @@ public class KurssCRUDController {
 
         try {
             if (search != null && !search.trim().isEmpty()) {
-                ArrayList<Kurss> kursi =
+                Page<Kurss> kursi =
                         filterService.findByNosaukumsContainingIgnoreCase(search.trim());
 
                 model.addAttribute("search", search);
@@ -137,6 +136,12 @@ public class KurssCRUDController {
 
     @PostMapping("/update/{id}")
     public String postControllerUpdateKurss(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
+    	if (kurss == null || kurss.getStundas() < 1) {
+            model.addAttribute("message", "Nav ievadīts kursa nosaukums vai stundas!");
+            model.addAttribute("limeni", Limeni.values());
+            return "kurss-add-page";
+        }
+    	
         try {
             kurssService.updateById(
                     id,

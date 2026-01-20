@@ -14,6 +14,7 @@ import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.IFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +36,8 @@ public class FilterServiceImpl implements IFilterService {
     @Autowired IPasniedzejiRepo pasniedzejiRepo;
 
     @Override
-    public ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
-        return kurssRepo.findByNosaukumsContaining(text);
+    public Page<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
+        return new PageImpl<>(kurssRepo.findByNosaukumsContaining(text), Pageable.unpaged(), kurssRepo.findByNosaukumsContaining(text).size());
     }
     
     @Override
@@ -75,11 +76,15 @@ public class FilterServiceImpl implements IFilterService {
 	private IKursaDatumiRepo kursaDatumiRepo;
 
 	@Override
-	public ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception {
+	public Page<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception {
 		if (from == null || to == null || from.isAfter(to)) {
 			throw new Exception("Nav norādīti pareizi datumi.");
 		}
-		return kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from);
+		return new PageImpl<>(
+				kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from), 
+				Pageable.unpaged(), 
+				kursaDatumiRepo.findBySakumaDatumsLessThanEqualAndBeiguDatumsGreaterThanEqual(to, from).size()
+				);
 	}
 
 	@Override

@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface IFilterService {
 
-    public abstract ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception;
     
     public abstract ArrayList<Sertifikati> findByTipsContainingIgnoreCase(String text) throws Exception;
 
@@ -24,7 +23,9 @@ public interface IFilterService {
     
     Page<Pasniedzeji> retrieveByKurss(String nosaukums, Pageable pageable) throws Exception;
 
-    ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception;
+    Page<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception;
 
     ArrayList<Sertifikati> findSertifikatiByDalibniekaVardsUzvards(String vards, String uzvards) throws Exception;
+
+	Page<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception;
 }

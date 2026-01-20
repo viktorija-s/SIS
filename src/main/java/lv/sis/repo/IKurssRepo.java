@@ -14,7 +14,7 @@ public interface IKurssRepo extends JpaRepository<Kurss, Integer> {
 
 	ArrayList<Kurss> findByKid(int id);
 
-    ArrayList<Kurss> findByNosaukumsContaining(String text);
-
     Page<Kurss> findAllByKursaDatumiPasniedzejsPid(int pid, Pageable pageable);
+
+	ArrayList<Kurss> findByNosaukumsContaining(String text);
 }

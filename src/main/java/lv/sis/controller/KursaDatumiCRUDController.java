@@ -51,7 +51,8 @@ public class KursaDatumiCRUDController {
 
         try {
             if (from != null && to != null) {
-                ArrayList<KursaDatumi> kursaDatumi =
+            	
+                Page<KursaDatumi> kursaDatumi =
                         filterService.findKursaDatumiBetweenDates(from, to);
 
                 model.addAttribute("from", from);

@@ -149,6 +149,10 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
+		if (nosaukums == null || nosaukums.isBlank() || stundas<0 || limenis == null) {
+			throw new Exception("Dati nav pareizi");
+		}
+		
 		Kurss selectedKurss = kurssRepo.findById(kdid).get();
 		
 		selectedKurss.setNosaukums(nosaukums);
