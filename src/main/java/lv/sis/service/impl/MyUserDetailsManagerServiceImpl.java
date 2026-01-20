@@ -18,18 +18,13 @@ import lv.sis.repo.IMyAuthorityRepo;
 import lv.sis.repo.IMyUserRepo;
 
 @Service
-@NoArgsConstructor
 public class MyUserDetailsManagerServiceImpl implements UserDetailsManager {
-	
+
+	@Autowired
 	IMyUserRepo userRepo;
+	@Autowired
 	IMyAuthorityRepo authRepo;
-	
-	
-	public MyUserDetailsManagerServiceImpl(IMyUserRepo userRepo, IMyAuthorityRepo authRepo) {
-		this.userRepo = userRepo;
-		this.authRepo = authRepo;
-	}
-	
+
 	PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
 	@Override
