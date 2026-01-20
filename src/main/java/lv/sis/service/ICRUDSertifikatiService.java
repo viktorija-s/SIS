@@ -16,4 +16,5 @@ public interface ICRUDSertifikatiService {
 	public abstract void updateById(int id, CertificateType tips, LocalDate izdosanasDatums, String certificateNo, boolean irParakstits) throws Exception; 
 	public abstract void deleteById(int id) throws Exception;
 	Page<Sertifikati> retrieveAll(Pageable pageable) throws Exception;
+	public abstract void save(Sertifikati dbSertiikats);
 }

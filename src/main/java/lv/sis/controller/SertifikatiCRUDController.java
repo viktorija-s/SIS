@@ -134,8 +134,15 @@ public class SertifikatiCRUDController {
 	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats,
 			Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		try {
-			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(),
-					sertifikats.getCertificateNo(), sertifikats.isIrParakstits());
+			Sertifikati dbSertiikats = sertService.retrieveById(id).getContent().getFirst();
+			
+			dbSertiikats.setTips(sertifikats.getTips());
+			dbSertiikats.setIzdosanasDatums(sertifikats.getIzdosanasDatums());
+			dbSertiikats.setIrParakstits(sertifikats.isIrParakstits());
+			dbSertiikats.setKurss(sertifikats.getKurss());
+			
+			sertService.save(dbSertiikats);
+			
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());

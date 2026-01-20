@@ -126,4 +126,10 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 
         sertRepo.delete(sert);
     }
+
+	@Override
+	public void save(Sertifikati dbSertiikats) {
+		// TODO Auto-generated method stub
+		
+	}
 }

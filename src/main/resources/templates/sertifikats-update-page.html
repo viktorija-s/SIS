@@ -25,11 +25,6 @@
 			</tr>
 
 			<tr>
-				<td th:text="#{certificate.registrationNo}">Registracijas numurs: </td>
-				<td><input type="number" th:field="*{certificateNo}" /></td>
-			</tr>
-
-			<tr>
 				<td th:text="#{certificate.isSigned}">Ir parakstits: </td>
 				<td>
 					<input type="hidden" th:if="${irParakstits}" name="irParakstits" value="true" />
@@ -47,6 +42,18 @@
 					<select th:name="kdid">
 						<option th:each="dalibnieks : ${sertifikats.getDalibnieks()}" th:value="${dalibnieks.getKdid()}"
 							th:text="${dalibnieks.getVards()} + ' ' + ${dalibnieks.getUzvards()} + ' (' + ${dalibnieks.getPersonasId()} + ')'">
+						</option>
+					</select>
+				</td>
+			</tr>
+
+
+			<tr>
+				<td th:text="#{certificate.course}">Kurss</td>
+				<td>
+					<select th:name="kid">
+						<option th:each="kurss : ${sertifikats.getKurss()}" th:value="${kurss.getKid()}"
+							th:text="${kurss.getNosaukums()}">
 						</option>
 					</select>
 				</td>
