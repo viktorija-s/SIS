@@ -1,7 +1,10 @@
 package lv.sis.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -42,8 +45,9 @@ public class KursaDalibniekiCRUDController {
 	@GetMapping("/show/all/{id}")
 	public String getControllerShowKursaDalibnieksByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
-			Page<KursaDalibnieki> kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
-			model.addAttribute("kursaDal", kursaDalibnieki);
+			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
+			Page<KursaDalibnieki> page = new PageImpl<>(List.of(kursaDalibnieki), PageRequest.of(0, 1), 1);
+			model.addAttribute("kursaDal", page);
 			return "kursa-dalibnieki-all-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -54,7 +58,7 @@ public class KursaDalibniekiCRUDController {
 	@GetMapping("/remove/{id}")
 	public String getControllerRemoveKursaDalibnieku(@PathVariable(name = "id") int id, Model model) {
 		try {
-			KursaDalibnieki dalibnieks = kursaDalibniekiServiss.retrieveById(id).getContent().getFirst();
+			KursaDalibnieki dalibnieks = kursaDalibniekiServiss.retrieveById(id);
 	        model.addAttribute("kursaDalibnieks", dalibnieks);
 	        return "kursa-dalibnieks-delete-confirm";
 		} catch (Exception e) {
@@ -83,7 +87,7 @@ public class KursaDalibniekiCRUDController {
 
 
     @PostMapping("/add")
-	public String postControllerAddKursaDalibnieku(@ModelAttribute KursaDalibnieki kursaDalibnieki, Model model) {
+	public String postControllerAddKursaDalibnieku(@ModelAttribute("KursaDalibnieki") KursaDalibnieki kursaDalibnieki, Model model) {
 		if (kursaDalibnieki == null) {
 			model.addAttribute("package", "The kursa dalibnieks is not given");
 		}
@@ -99,15 +103,16 @@ public class KursaDalibniekiCRUDController {
 		} catch (Exception e) {
             e.printStackTrace();
 			model.addAttribute("message", e.getMessage());
-			return "kursa-dalibnieki-update-page";
+			return "kursa-dalibnieki-add-page";
 		}
 	}
 
 	@GetMapping("/update/{id}")
 	public String getControllerUpdateKursaDalibnieks(@PathVariable(name = "id") int id, Model model) {
 		try {
-			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id).getContent().getFirst();
+			KursaDalibnieki kursaDalibnieki = kursaDalibniekiServiss.retrieveById(id);
 			model.addAttribute("kursaDalibnieki", kursaDalibnieki);
+			model.addAttribute("id", id);
 			return "kursa-dalibnieki-update-page";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());

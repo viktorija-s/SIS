@@ -1,7 +1,7 @@
 package lv.sis.service.impl;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -12,8 +12,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,9 +35,17 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	public void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId,
 			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss)
 			throws Exception {
-		if (vards == null || uzvards == null || epasts == null || telefonaNr == null || personasId == null
-				|| pilseta == null || valsts == null || ielasNosaukumsNumurs == null || dzivoklaNr < 0
-				|| pastaIndekss == null) {
+		if (
+				vards == null || vards.isBlank() ||
+				uzvards == null || uzvards.isBlank() ||
+				epasts == null || epasts.isBlank() ||
+				telefonaNr == null || telefonaNr.isBlank() ||
+				personasId == null || personasId.isBlank() ||
+				pilseta == null || pilseta.isBlank() ||
+				valsts == null || valsts.isBlank() ||
+				ielasNosaukumsNumurs == null || ielasNosaukumsNumurs.isBlank() ||
+				dzivoklaNr < 0 || 
+				pastaIndekss == null || pastaIndekss.isBlank()) {
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 
@@ -48,13 +54,11 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	        throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
 	    }
 
-		if (kursaDalibniekiRepo.existsByVardsAndUzvards(vards, uzvards)) {
-			KursaDalibnieki existingKursaDalibnieki = kursaDalibniekiRepo.findByVardsAndUzvards(vards, uzvards);
-		} else {
-			KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId,
-					pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
-			kursaDalibniekiRepo.save(newKursaDalibnieki);
-		}
+		
+		KursaDalibnieki newKursaDalibnieki = new KursaDalibnieki(vards, uzvards, epasts, telefonaNr, personasId,
+				pilseta, valsts, ielasNosaukumsNumurs, dzivoklaNr, pastaIndekss);
+		kursaDalibniekiRepo.save(newKursaDalibnieki);
+		
 	}
 
 	@Transactional
@@ -111,26 +115,40 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 	}
 
 	@Override
-	public Page<KursaDalibnieki> retrieveById(int kdid) throws Exception {
+	public KursaDalibnieki retrieveById(int kdid) throws Exception {
 		if (kdid < 0) {
 			throw new Exception("Id nevar būt negatīvs");
 		}
 
-		if (!kursaDalibniekiRepo.existsById(kdid)) {
-			throw new Exception("Kursa dalībnieks ar tādu id neeksistē");
-		}
-
-		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
-		retrievedKursaDalibnieki.setAvgGrade(vertRepo.findAvgGrade(kdid));
+		Optional<KursaDalibnieki> retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid);
+		if (retrievedKursaDalibnieki.isEmpty()) throw new Exception("Kursa dalībnieks neeksistē");
 		
-		Pageable pageable = PageRequest.of(0, 1);
-	    return new PageImpl<>(List.of(retrievedKursaDalibnieki), pageable, 1);
+		KursaDalibnieki dal = retrievedKursaDalibnieki.get();
+		dal.setAvgGrade(vertRepo.findAvgGrade(kdid));
+		
+	    return dal;
 	}
 
 	@Override
 	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId,
 			String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss)
 			throws Exception {
+		
+		
+		if (
+				vards == null || vards.isBlank() ||
+				uzvards == null || uzvards.isBlank() ||
+				epasts == null || epasts.isBlank() ||
+				telefonaNr == null || telefonaNr.isBlank() ||
+				personasId == null || personasId.isBlank() ||
+				pilseta == null || pilseta.isBlank() ||
+				valsts == null || valsts.isBlank() ||
+				ielasNosaukumsNumurs == null || ielasNosaukumsNumurs.isBlank() ||
+				dzivoklaNr < 0 || 
+				pastaIndekss == null || pastaIndekss.isBlank()) {
+			throw new Exception("Ievades parametri nav pareizi");
+		}
+		
 		KursaDalibnieki retrievedKursaDalibnieki = kursaDalibniekiRepo.findById(kdid).get();
 
 		if (retrievedKursaDalibnieki.getVards() != vards) {

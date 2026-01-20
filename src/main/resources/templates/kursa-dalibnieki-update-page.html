@@ -6,9 +6,10 @@
 
 	<p th:text="#{edit.title}"> Lūdzu rediģē eksistējošo kursa dalībibleafnieku!</p>
 
-	<form action="#" th:action="@{/kursaDalibnieki/CRUD/update/{id}(id=${kursaDalibnieki.kdid})}"
+	<form action="#" th:action="@{/kursaDalibnieki/CRUD/update/{id}(id=${id})}"
 		th:object="${kursaDalibnieki}" method="post">
 		<table>
+			<input type="hidden" th:field="*{kdid}" />
 			<tr>
 				<td th:text="#{edit.firstName}">Rediģē kursa dalībnieka vārdu:</td>
 				<td><input type="text" th:field="*{vards}" /></td>

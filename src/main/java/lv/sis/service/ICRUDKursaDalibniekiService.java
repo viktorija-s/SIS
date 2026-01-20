@@ -15,7 +15,7 @@ public interface ICRUDKursaDalibniekiService {
 	public abstract void create(String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception;
 			
 	//R - retrieve by id
-	public abstract Page<KursaDalibnieki> retrieveById(int kdid) throws Exception;
+	public abstract KursaDalibnieki retrieveById(int kdid) throws Exception;
 			
 	//U - update
 	public abstract void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr, String personasId, String pilseta, String valsts, String ielasNosaukumsNumurs, int dzivoklaNr, String pastaIndekss) throws Exception;
