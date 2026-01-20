@@ -1,44 +1,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Ievadiet informāciju par vērtējumu! </p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+	<p th:text="#{grade.add.title}"> Ievadiet informāciju par vērtējumu! </p>
 
-<form action="#" th:action="@{/vertejumi/CRUD/add}" th:object="${vertejumi}" method="post">
-    <table>
-        <tr>
-            <td>Vērtējums:</td>
-            <td><input type="number" step="0.01" th:field="*{vertejums}"/></td>
-        </tr>
-
-        <tr>
-            <td>Datums:</td>
-            <td><input type="date" th:field="*{datums}"/></td>
-        </tr>
-
-<<<<<<< HEAD
-        <tr>
-            <td>Kursa dalībnieki:</td>
-            <td>
-                <select th:field="*{kursaDalibnieki}" required>
-                    <option th:each="d : ${kursaDalibniekiList}" th:value="${d.kdid}"
-                            th:text="${d.vards + ' ' + d.uzvards + ' (' + d.personasId + ')'}">
-                    </option>
-                </select>
-            </td>
-        </tr>
-        <td>Kursa datumi:</td>
-        <td>
-            <select th:field="*{kursaDatumi}" required>
-                <option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
-                        th:text="${#temporals.format(k.sakumaDatums, 'yyyy-MM-dd')} + ' līdz ' + ${#temporals.format(k.beiguDatums, 'yyyy-MM-dd')}">
-                </option>
-            </select>
-        </td>
-        </tr>
-=======
+	<form action="#" th:action="@{/vertejumi/CRUD/add}" th:object="${vertejumi}" method="post">
+		<table>
 			<tr>
-				<td>Kursa dalībnieki: </td>
+				<td th:text="#{grade.value}">Vērtējums:</td>
+				<td><input type="number" step="0.01" th:field="*{vertejums}" /></td>
+			</tr>
+
+			<tr>
+				<td th:text="#{grade.date}">Datums:</td>
+				<td><input type="date" th:field="*{datums}" /></td>
+			</tr>
+
+			<tr>
+				<td th:text="#{grade.participants}">Kursa dalībnieki: </td>
 				<td>
 					<select th:field="*{kursaDalibnieki}" required>
 						<option th:each="d : ${kursaDalibniekiList}" th:value="${d.kdid}"
@@ -47,32 +26,26 @@
 					</select>
 				</td>
 			</tr>
-			<td>Kursa datumi:</td>
+
+			<td th:text="#{grade.courseDates}">Kursa datumi:</td>
 			<td>
-			    <select th:field="*{kursaDatumi}" required>
-			        <option th:each="k : ${kursaDatumiList}"
-			                th:value="${k.kursaDatId}"
-			                th:text="${k.kurss.nosaukums + ' (' + #temporals.format(k.sakumaDatums, 'yyyy-MM-dd') + ' līdz ' + #temporals.format(k.beiguDatums, 'yyyy-MM-dd') + ')'}">
-			        </option>
-			    </select>
+				<select th:field="*{kursaDatumi}" required>
+					<option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
+						th:text="${k.kurss.nosaukums + ' (' + #temporals.format(k.sakumaDatums, 'yyyy-MM-dd') + ' ' + #{grade.until} + ' ' + #temporals.format(k.beiguDatums, 'yyyy-MM-dd') + ')'}">
+					</option>
+				</select>
 			</td>
 
 			</tr>
->>>>>>> viktorija/model
 
+			<tr>
+				<td>
+					<button type="submit" th:text="#{grade.save}"> Save</button>
+				</td>
+			</tr>
 
-        <tr>
-
-            <td>
-                <button type="submit"> Save</button>
-            </td>
-
-        </tr>
-
-    </table>
-
-
-</form>
+		</table>
+	</form>
 </body>
 
 </html>

@@ -1,31 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<h3>Pasniedzēja dzēšana</h3>
+	<h3 th:text="#{teacher.delete.title}">Pasniedzēja dzēšana</h3>
 
 	<table>
 		<tr>
-			<td>Vārds:</td>
+			<td th:text="#{teacher.firstName}">Vārds:</td>
 			<td th:text="${pasniedzejs.vards}"></td>
 		</tr>
 		<tr>
-			<td>Uzvārds:</td>
+			<td th:text="#{teacher.lastName}">Uzvārds:</td>
 			<td th:text="${pasniedzejs.uzvards}"></td>
 		</tr>
 		<tr>
-			<td>E-pasts:</td>
+			<td th:text="#{teacher.email}">E-pasts:</td>
 			<td th:text="${pasniedzejs.epasts}"></td>
 		</tr>
 		<tr>
-			<td>Telefons:</td>
+			<td th:text="#{teacher.phone}">Telefons:</td>
 			<td th:text="${pasniedzejs.telefonaNr}"></td>
 		</tr>
 	</table>
 
 	<form th:action="@{/pasniedzeji/CRUD/remove/{id}(id=${pasniedzejs.pid})}" method="post">
-		<p>Vai tiešām dzēst pasniedzēju <b th:text="${pasniedzejs.vards} + ' ' + ${pasniedzejs.uzvards}"></b>?</p>
-		<button type="submit">Dzēst</button>
-		<a th:href="@{/pasniedzeji/CRUD/show/all}">Atcelt</a>
+		<p>
+			<span th:text="#{teacher.delete.confirm}">Vai tiešām dzēst pasniedzēju</span>
+			<b th:text="${pasniedzejs.vards} + ' ' + ${pasniedzejs.uzvards}"></b>?
+		</p>
+		<button type="submit" th:text="#{teacher.delete.button}">Dzēst</button>
+		<a th:href="@{/pasniedzeji/CRUD/show/all}" th:text="#{teacher.delete.cancel}">Atcelt</a>
 	</form>
 </body>
+
 </html>

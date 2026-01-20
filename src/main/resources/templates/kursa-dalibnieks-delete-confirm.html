@@ -1,55 +1,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<h3>Dalībnieka dzēšana</h3>
+	<h3 th:text="#{delete.title}">Dalībnieka dzēšana</h3>
 
 	<table>
 	        <tr>
-	            <td>Vārds:</td>
+	            <td th:text="#{delete.firstName}">Vārds:</td>
 	            <td th:text="${kursaDalibnieks.vards}"></td>
 	        </tr>
 	        <tr>
-	            <td>Uzvārds:</td>
+	            <td th:text="#{delete.lastName}">Uzvārds:</td>
 	            <td th:text="${kursaDalibnieks.uzvards}"></td>
 	        </tr>
 	        <tr>
-	            <td>Epasts:</td>
+	            <td th:text="#{delete.email}">Epasts:</td>
 	            <td th:text="${kursaDalibnieks.epasts}"></td>
 	        </tr>
 	        <tr>
-	            <td>Telefons:</td>
+	            <td th:text="#{delete.phone}">Telefons:</td>
 	            <td th:text="${kursaDalibnieks.telefonaNr}"></td>
 	        </tr>
 	        <tr>
-	            <td>Personas ID:</td>
+	            <td th:text="#{delete.personId}">Personas ID:</td>
 	            <td th:text="${kursaDalibnieks.personasId}"></td>
 	        </tr>
 	        <tr>
-	            <td>Pilsēta:</td>
+	            <td th:text="#{delete.city}">Pilsēta:</td>
 	            <td th:text="${kursaDalibnieks.pilseta}"></td>
 	        </tr>
 	        <tr>
-	            <td>Valsts:</td>
+	            <td th:text="#{delete.country}">Valsts:</td>
 	            <td th:text="${kursaDalibnieks.valsts}"></td>
 	        </tr>
 	        <tr>
-	            <td>Ielas nosaukums un nr:</td>
+	            <td th:text="#{delete.street}">Ielas nosaukums un nr:</td>
 	            <td th:text="${kursaDalibnieks.ielasNosaukumsNumurs}"></td>
 	        </tr>
 	        <tr>
-	            <td>Dzīvokļa nr:</td>
+	            <td th:text="#{delete.apartment}">Dzīvokļa nr:</td>
 	            <td th:text="${kursaDalibnieks.dzivoklaNr}"></td>
 	        </tr>
 	        <tr>
-	            <td>Pasta indekss:</td>
+	            <td th:text="#{delete.postalCode}">Pasta indekss:</td>
 	            <td th:text="${kursaDalibnieks.pastaIndekss}"></td>
 	        </tr>
 	    </table>
 
 		<form th:action="@{/kursaDalibnieki/CRUD/remove/{id}(id=${kursaDalibnieks.kdid})}" method="post">
-		    <p>Vai tiešām dzēst dalībnieku <b th:text="${kursaDalibnieks.vards} + ' ' + ${kursaDalibnieks.uzvards}"></b>?</p>
-		    <button type="submit">Dzēst</button>
-		    <a th:href="@{/kursaDalibnieki/CRUD/show/all}">Atcelt</a>
+		    <p>
+		        <span th:text="#{delete.confirm}">Vai tiešām dzēst dalībnieku</span>
+		        <b th:text="${kursaDalibnieks.vards} + ' ' + ${kursaDalibnieks.uzvards}"></b>?
+		    </p>
+		    <button type="submit" th:text="#{delete.button}">Dzēst</button>
+		    <a th:href="@{/kursaDalibnieki/CRUD/show/all}" th:text="#{delete.cancel}">Atcelt</a>
 		</form>
-	</body>
+</body>
 </html>

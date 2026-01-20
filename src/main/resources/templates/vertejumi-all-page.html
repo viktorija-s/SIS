@@ -1,27 +1,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
-	
-	<p>Informācija par vērtējumiem:</p>
-	
+
+	<p th:text="#{grade.list.title}">Informācija par vērtējumiem:</p>
+
 	<div th:if="${package.getTotalElements() > 1}">
-					
-		<span>Rādīt ierakstu:</span>
-	
+
+		<span th:text="#{pagination.show}">Rādīt ierakstu:</span>
+
 		<form th:method="get" th:action="@{/vertejumi/CRUD/show/all}">
-			<input type="hidden" name="page" value="0"/>
+			<input type="hidden" name="page" value="0" />
 			<select name="size" onchange="this.form.submit()">
-				<option th:value="3"  th:selected="${package.size == 3}">3</option>
-				<option th:value="5"  th:selected="${package.size == 5}">5</option>
+				<option th:value="3" th:selected="${package.size == 3}">3</option>
+				<option th:value="5" th:selected="${package.size == 5}">5</option>
 				<option th:value="10" th:selected="${package.size == 10}">10</option>
 				<option th:value="15" th:selected="${package.size == 15}">15</option>
 				<option th:value="20" th:selected="${package.size == 20}">20</option>
 			</select>
 		</form>
-	
+
 	</div>
 
+<<<<<<< HEAD
 	<form th:action="@{/vertejumi/CRUD/show/all}" method="get">
 			<label for="min">Min vērtējums:</label>
 			<input type="number" id="min" name="min" min="0" max="10" step="0.1" th:value="${min}">
@@ -34,35 +34,53 @@
 	</form>
 	<br>
 	
+=======
+>>>>>>> 98dcb890c3c4444150bbfb3c06ddf7ef5c9ff690
 	<table border="1px" border-collapse="collapse">
 		<tr>
-			<th>ID</th>
-			<th>Vērtējums</th>
-			<th>Datums</th>
-			<th>Kursa dalībnieki</th>
-			<th>Kursa datumi</th>
-			<th>Darbības</th>
+			<th th:text="#{table.id}">ID</th>
+			<th th:text="#{grade.table.value}">Vērtējums</th>
+			<th th:text="#{grade.table.date}">Datums</th>
+			<th th:text="#{grade.table.participants}">Kursa dalībnieki</th>
+			<th th:text="#{grade.table.courseDates}">Kursa datumi</th>
+			<th th:text="#{table.actions}">Darbības</th>
 		</tr>
-		<tr th:each = "temp : ${package}">
-			<td th:text="${temp.getVid()}" ></td>
-			<td th:text="${temp.getVertejums()}" ></td>
-			<td th:text="${temp.getDatums()}" ></td>
-			<td th:text="${temp.getKursaDalibnieki().getVards() + ' ' + temp.getKursaDalibnieki().getUzvards()}" ></td>
-			<td th:text="${temp.getKursaDatumi().getKursaDatId()}" ></td>
+
+		<tr th:each="temp : ${package}">
+			<td th:text="${temp.getVid()}"></td>
+			<td th:text="${temp.getVertejums()}"></td>
+			<td th:text="${temp.getDatums()}"></td>
+			<td th:text="${temp.getKursaDalibnieki().getVards() + ' ' + temp.getKursaDalibnieki().getUzvards()}"></td>
+			<td th:text="${temp.getKursaDatumi().getKursaDatId()}"></td>
 			<td>
-				<a th:href="@{/vertejumi/CRUD/show/all/{id}(id=${temp.vid})}">Skatīt</a>
-				<a th:href="@{/vertejumi/CRUD/update/{id}(id=${temp.vid})}">Labot</a>
-				<a th:href="@{/vertejumi/CRUD/remove/{id}(id=${temp.vid})}">Dzēst</a>
-			</td>	
-			
+				<a th:href="@{/vertejumi/CRUD/show/all/{id}(id=${temp.vid})}" th:text="#{action.view}">Skatīt</a>
+				<a th:href="@{/vertejumi/CRUD/update/{id}(id=${temp.vid})}" th:text="#{action.edit}">Labot</a>
+				<a th:href="@{/vertejumi/CRUD/remove/{id}(id=${temp.vid})}" th:text="#{action.delete}">Dzēst</a>
+			</td>
 		</tr>
 	</table>
-	
+
 	<div th:if="${package.getTotalElements() > 1}">
-	    <a th:if="${!package.first}" th:href="@{/vertejumi/CRUD/show/all?page={page}&size={size}(page=${package.number - 1}, size=${package.size})}">Iepriekšējā</a>
-	    <span>Lapa <span th:text="${package.number + 1}"></span> no <span th:text="${package.totalPages}"></span></span>
-	    <a th:if="${!package.last}" th:href="@{/vertejumi/CRUD/show/all?page={page}&size={size}(page=${package.number + 1}, size=${package.size})}">Nākamā</a>
+		<a th:if="${!package.first}"
+			th:href="@{/vertejumi/CRUD/show/all?page={page}&size={size}(page=${package.number - 1}, size=${package.size})}"
+			th:text="#{pagination.previous}">
+			Iepriekšējā
+		</a>
+
+		<span>
+			<span th:text="#{pagination.page}">Lapa</span>
+			<span th:text="${package.number + 1}"></span>
+			<span th:text="#{pagination.of}">no</span>
+			<span th:text="${package.totalPages}"></span>
+		</span>
+
+		<a th:if="${!package.last}"
+			th:href="@{/vertejumi/CRUD/show/all?page={page}&size={size}(page=${package.number + 1}, size=${package.size})}"
+			th:text="#{pagination.next}">
+			Nākamā
+		</a>
 	</div>
-	
+
 </body>
-</html> 
+
+</html>

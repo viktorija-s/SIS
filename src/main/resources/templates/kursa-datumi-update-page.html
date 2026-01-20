@@ -3,23 +3,24 @@
 
 <body>
 <div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Rediģē eksistējošo kursa datumus!</p>
+
+<p th:text="#{dates.edit.title}"> Rediģē eksistējošo kursa datumus!</p>
 
 <form action="#" th:action="@{/kursaDatumi/CRUD/update/{id}(id=${kursaDatumi.kursaDatId})}" th:object="${kursaDatumi}"
       method="post">
     <table>
         <tr>
-            <td>Rediģē kursa sākuma datumu:</td>
+            <td th:text="#{dates.edit.startDate}">Rediģē kursa sākuma datumu:</td>
             <td><input type="date" th:field="*{sakumaDatums}"/></td>
         </tr>
 
         <tr>
-            <td>Rediģē kursa beigu datumu:</td>
+            <td th:text="#{dates.edit.endDate}">Rediģē kursa beigu datumu:</td>
             <td><input type="date" th:field="*{beiguDatums}"/></td>
         </tr>
 
         <tr>
-            <td>Rediģē kursa pasniedzēju:</td>
+            <td th:text="#{dates.edit.teacher}">Rediģē kursa pasniedzēju:</td>
             <td><select th:field="*{pasniedzejs.pid}" required>
                 <option th:each="p : ${pasniedzejiList}"
                         th:value="${p.pid}"
@@ -31,16 +32,13 @@
         </tr>
 
         <tr>
-
             <td>
-                <button type="submit"> Saglabāt rediģētos kursa datumus</button>
+                <button type="submit" th:text="#{dates.edit.saveButton}"> Saglabāt rediģētos kursa datumus</button>
             </td>
-
         </tr>
-
 
     </table>
 </form>
 </body>
 
-</html> 
+</html>

@@ -1,32 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
-	
-	<p>Informācija par sertifikātu:</p>
-	
+
+	<p th:text="#{certificate.view.title}">Informācija par sertifikātu:</p>
+
 	<table border="1px" border-collapse="collapse">
 		<tr>
-			<th>ID</th>
-			<th>Tips</th>
-			<th>Izdosanas datums</th>
-			<th>Registracijas numurs</th>
-			<th>Ir parakstits?</th>
-			<th>Dalibnieks</th>
-			<th>Kurss</th>
-			
+			<th th:text="#{table.id}">ID</th>
+			<th th:text="#{certificate.table.type}">Tips</th>
+			<th th:text="#{certificate.table.issueDate}">Izdosanas datums</th>
+			<th th:text="#{certificate.table.registrationNo}">Registracijas numurs</th>
+			<th th:text="#{certificate.table.signed}">Ir parakstits?</th>
+			<th th:text="#{certificate.table.participant}">Dalibnieks</th>
+			<th th:text="#{certificate.table.course}">Kurss</th>
 		</tr>
-		<tr th:each = "temp : ${sertifikati}">
-			<td th:text="${temp.getSid()}" ></td>
-			<td th:text="${temp.getTips()}" ></td>
-			<td th:text="${temp.getIzdosanasDatums()}" ></td>
-			<td th:text="${temp.getCertificateNo()}" ></td>
-			<td th:text="${temp.isIrParakstits()}" ></td>
-			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}" ></td>
-			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
+
+		<tr th:each="temp : ${sertifikati}">
+			<td th:text="${temp.getSid()}"></td>
+			<td th:text="${temp.getTips()}"></td>
+			<td th:text="${temp.getIzdosanasDatums()}"></td>
+			<td th:text="${temp.getCertificateNo()}"></td>
+			<td th:text="${temp.isIrParakstits()}"></td>
+			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}"></td>
+			<td th:text="${temp.getKurss().getNosaukums()}"></td>
 		</tr>
 	</table>
-	
-	
+
 </body>
-</html> 
+
+</html>

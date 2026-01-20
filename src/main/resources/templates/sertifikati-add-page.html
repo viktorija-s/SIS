@@ -1,117 +1,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Ievadiet informaciju par sertifikatu! </p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 
-<<<<<<< HEAD
-<form action="#" th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post">
-    <table>
-        <tr>
-            <td>Tips:</td>
-            <td>
-                <select th:field="*{tips}">
-                    <option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
-                            th:value="${tips}"
-                            th:text="${tips}">
-                    </option>
-                </select>
-            </td>
-        </tr>
-=======
-	<form action="#"  th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post" >
+	<p th:text="#{certificate.add.title}"> Ievadiet informaciju par sertifikatu! </p>
+
+	<form action="#" th:action="@{/sertifikati/CRUD/add}" th:object="${sertifikats}" method="post">
 		<table>
 			<tr>
-				<td>Tips: </td>
+				<td th:text="#{certificate.type}">Tips: </td>
 				<td>
 					<select th:field="*{tips}">
-					    <option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
-					            th:value="${tips}"
-					            th:text="${tips}">
-					    </option>
+						<option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}" th:value="${tips}"
+							th:text="${tips}">
+						</option>
 					</select>
 				</td>
 			</tr>
-			
+
 			<tr>
-				<td>Izdosanas datums: </td>
-				<td> <input  type="date" th:field="*{izdosanasDatums}"  />    </td>
+				<td th:text="#{certificate.issueDate}">Izdosanas datums: </td>
+				<td><input type="date" th:field="*{izdosanasDatums}" /></td>
 			</tr>
-			
+
 			<tr>
-				<td>Registracijas numurs: </td>
-				<td> <input  type="number" th:field="*{certificateNo}"  />    </td>
+				<td th:text="#{certificate.registrationNo}">Registracijas numurs: </td>
+				<td><input type="number" th:field="*{certificateNo}" /></td>
 			</tr>
-			
+
 			<tr>
-				<td>Ir parakstits: </td>
-				<td> <input  type="checkbox" th:field="*{irParakstits}"  />    </td>
+				<td th:text="#{certificate.isSigned}">Ir parakstits: </td>
+				<td><input type="checkbox" th:field="*{irParakstits}" /></td>
 			</tr>
-			
+
 			<tr>
-			    <td>Dalībnieks:</td>
-			    <td>
-			        <select th:field="*{dalibnieks}">
-			            <option th:each="d : ${dalibnieki}" 
-			                    th:value="${d.kdid}" 
-			                    th:text="${d.vards} + ' ' + ${d.uzvards} + ' (' + ${d.personasId} + ')'"> 
-			            </option>
-			        </select>
-			    </td>
+				<td th:text="#{certificate.participant}">Dalībnieks:</td>
+				<td>
+					<select th:field="*{dalibnieks}">
+						<option th:each="d : ${dalibnieki}" th:value="${d.kdid}"
+							th:text="${d.vards} + ' ' + ${d.uzvards} + ' (' + ${d.personasId} + ')'">
+						</option>
+					</select>
+				</td>
 			</tr>
->>>>>>> viktorija/model
 
-        <tr>
-            <td>Izdosanas datums:</td>
-            <td><input type="date" th:field="*{izdosanasDatums}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{certificate.course}">Kurss:</td>
+				<td>
+					<select th:field="*{kurss}">
+						<option th:each="k : ${kursi}" th:value="${k.kid}" th:text="${k.nosaukums}">
+						</option>
+					</select>
+				</td>
+			</tr>
 
-        <tr>
-            <td>Registracijas numurs:</td>
-            <td><input type="number" th:field="*{registracijasNr}"/></td>
-        </tr>
+			<tr>
+				<td>
+					<button type="submit" th:text="#{certificate.save}"> Save</button>
+				</td>
+			</tr>
 
-        <tr>
-            <td>Ir parakstits:</td>
-            <td><input type="checkbox" th:field="*{irParakstits}"/></td>
-        </tr>
-
-        <tr>
-            <td>Dalībnieks:</td>
-            <td>
-                <select th:field="*{dalibnieks}">
-                    <option th:each="d : ${dalibnieki}"
-                            th:value="${d.kdid}"
-                            th:text="${d.vards} + ' ' + ${d.uzvards} + ' (' + ${d.personasId} + ')'">
-                    </option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Kurss:</td>
-            <td>
-                <select th:field="*{kurss}">
-                    <option th:each="k : ${kursi}"
-                            th:value="${k.kid}"
-                            th:text="${k.nosaukums}">
-                    </option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-
-            <td>
-                <button type="submit"> Save</button>
-            </td>
-
-        </tr>
-
-    </table>
-
-
-</form>
+		</table>
+	</form>
 </body>
 
 </html>

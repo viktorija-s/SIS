@@ -1,58 +1,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Enter information about the kursa datumi! </p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 
-<form action="#" th:action="@{/kursaDatumi/CRUD/add}" th:object="${kursaDatumi}" method="post">
-    <table>
-        <tr>
-            <td>Sākuma datums:</td>
-            <td><input type="date" th:field="*{sakumaDatums}"/></td>
-        </tr>
+	<p th:text="#{dates.add.title}"> Enter information about the kursa datumi! </p>
 
-        <tr>
-            <td>Beigu datums:</td>
-            <td><input type="date" th:field="*{beiguDatums}"/></td>
-        </tr>
+	<form action="#" th:action="@{/kursaDatumi/CRUD/add}" th:object="${kursaDatumi}" method="post">
+		<table>
+			<tr>
+				<td th:text="#{dates.startDate}">Sākuma datums:</td>
+				<td><input type="date" th:field="*{sakumaDatums}" /></td>
+			</tr>
 
-        <tr>
-            <td>Kurss:</td>
-            <td>
-                <select th:field="*{kurss}" required>
-                    <option th:each="k : ${kurssList}"
-                            th:value="${k.kid}"
-                            th:text="${k.nosaukums} + ' (' + ${k.stundas} + 'h, ' + ${k.limenis} + ')'">
-                    </option>
-                </select>
-            </td>
-        </tr>
+			<tr>
+				<td th:text="#{dates.endDate}">Beigu datums:</td>
+				<td><input type="date" th:field="*{beiguDatums}" /></td>
+			</tr>
 
-        <tr>
-            <td>Pasniedzējs:</td>
-            <td>
-                <select th:field="*{pasniedzejs}" required>
-                    <option th:each="p : ${pasniedzejiList}" th:value="${p.pid}"
-                            th:text="${p.vards} + ' ' + ${p.uzvards}">
-                    </option>
-                </select>
-            </td>
-        </tr>
+			<tr>
+				<td th:text="#{dates.course}">Kurss:</td>
+				<td>
+					<select th:field="*{kurss}" required>
+						<option th:each="k : ${kurssList}" th:value="${k.kid}"
+							th:text="${k.nosaukums} + ' (' + ${k.stundas} + 'h, ' + ${k.limenis} + ')'">
+						</option>
+					</select>
+				</td>
+			</tr>
 
+			<tr>
+				<td th:text="#{dates.teacher}">Pasniedzējs:</td>
+				<td>
+					<select th:field="*{pasniedzejs}" required>
+						<option th:each="p : ${pasniedzejiList}" th:value="${p.pid}"
+							th:text="${p.vards} + ' ' + ${p.uzvards}">
+						</option>
+					</select>
+				</td>
+			</tr>
 
-        <tr>
+			<tr>
+				<td>
+					<button type="submit" th:text="#{dates.save}"> Save</button>
+				</td>
+			</tr>
+		</table>
+	</form>
 
-            <td>
-                <button type="submit"> Save</button>
-            </td>
-
-        </tr>
-
-    </table>
-
-
-</form>
 </body>
 
 </html>
