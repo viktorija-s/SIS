@@ -1,6 +1,5 @@
 package lv.sis.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +19,14 @@ import lv.sis.service.IFilterService;
 @Controller
 @RequestMapping("/pasniedzeji/CRUD")
 public class PasniedzejiCRUDController {
-	@Autowired 
-	private ICRUDPasniedzejiService pasnService;
+	 
+	private final ICRUDPasniedzejiService pasnService;
+	private final IFilterService filterService;
 	
-	@Autowired
-	private IFilterService filterService;
+	public PasniedzejiCRUDController(ICRUDPasniedzejiService pasnService, IFilterService filterService) {
+		this.pasnService = pasnService;
+		this.filterService = filterService;
+	}
 	
 	@GetMapping("/show/all")
 	public String getControllerShowAllPasniedzeji(Model model, 

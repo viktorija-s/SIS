@@ -3,7 +3,6 @@ package lv.sis.controller;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +13,14 @@ import lv.sis.service.impl.EmailSendingServiceImpl;
 
 @Controller
 public class EmailController {
-	@Autowired
-	EmailSendingServiceImpl emailService = new EmailSendingServiceImpl();
 	
-	@Autowired
-	ICRUDKursaDalibniekiService dalService;
+	private final EmailSendingServiceImpl emailService;
+	private final ICRUDKursaDalibniekiService dalService;
+	
+	public EmailController(EmailSendingServiceImpl emailService, ICRUDKursaDalibniekiService dalService) {
+		this.emailService = emailService;
+		this.dalService = dalService;
+	}
 	
 	@GetMapping("/email")
 	public String sendEmail(Model model) {
