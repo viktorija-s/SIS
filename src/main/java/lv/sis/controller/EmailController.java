@@ -25,7 +25,7 @@ public class EmailController {
 	@GetMapping("/email")
 	public String sendEmail(Model model) {
 		
-		ArrayList<String> emails = new ArrayList<String>();
+		ArrayList<String> emails = new ArrayList<>();
 		
 		try {
 			for (KursaDalibnieki dal: dalService.retrieveAll()) {

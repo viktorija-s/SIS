@@ -10,7 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lv.sis.model.MyUser;
 
 public class MyUserDetails implements UserDetails {
-	private MyUser user;
+	
+	private final MyUser user;
 	
 	public MyUserDetails(MyUser user) {
 		this.user = user;

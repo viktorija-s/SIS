@@ -34,7 +34,7 @@ public class PasniedzejiCRUDController {
 			@RequestParam(defaultValue = "3") int size, @RequestParam(required = false) String nosaukums) {
 		try {
 			Pageable pageable = PageRequest.of(page, size);
-			Page<Pasniedzeji> visiKursi = pasnService.retrieveAll(pageable); 
+			Page<Pasniedzeji> visiKursi; 
 			
 			if (nosaukums != null && !nosaukums.trim().isEmpty()) {
 				visiKursi = filterService.retrieveByKurss(nosaukums, pageable);
