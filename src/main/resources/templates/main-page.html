@@ -6,6 +6,16 @@
 			th:text="#{home.signIn}">Sign in</button>
 		<button type="button" style="background-color: red; color: white; margin-left: 8px;"
 			onclick="window.location.href='/logout'" th:text="#{home.logOut}">Log out</button>
+			
+		<br>
+		
+		<form method="get" th:action="@{/}">
+		    <select name="lang" onchange="this.form.submit()">
+		        <option value="lv" th:selected="${#locale.language == 'lv'}">LV</option>
+		        <option value="en" th:selected="${#locale.language == 'en'}">EN</option>
+		    </select>
+		</form>
+
 	</header>
 
 	<h1><b>SIS</b> <span th:text="#{home.title}">galvenā lapa</span></h1>
