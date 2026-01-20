@@ -1,5 +1,6 @@
 package lv.sis.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,14 +22,10 @@ import lv.sis.repo.IMyUserRepo;
 @NoArgsConstructor
 public class MyUserDetailsManagerServiceImpl implements UserDetailsManager {
 	
+	@Autowired
 	IMyUserRepo userRepo;
+	@Autowired
 	IMyAuthorityRepo authRepo;
-	
-	
-	public MyUserDetailsManagerServiceImpl(IMyUserRepo userRepo, IMyAuthorityRepo authRepo) {
-		this.userRepo = userRepo;
-		this.authRepo = authRepo;
-	}
 	
 	PasswordEncoder passEnc = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
