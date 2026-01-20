@@ -26,8 +26,13 @@ import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.IPDFCreatorService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class PDFCreatorImpl implements IPDFCreatorService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PDFCreatorImpl.class);
 
     @Autowired
     private IKursaDalibniekiRepo kursaDalibniekiRepo;
@@ -54,6 +59,7 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 
             return new Font(baseFont, size, style, color);
         } catch (Exception e) {
+        	logger.error("Failed to load font from {}: {}", FONT_PATH, e.getMessage(), e);
             throw new RuntimeException("Neizdevās ielādēt fontu: " + FONT_PATH, e);
         }
     }
@@ -66,18 +72,22 @@ public class PDFCreatorImpl implements IPDFCreatorService {
 
     @Override
     public void createCertificateAsPDF(int kdId, int kId) throws Exception {
+    	logger.info("Generating PDF certificate for participant ID {} and course ID {}", kdId, kId);
 
         if (!kursaDalibniekiRepo.existsById(kdId)) {
+        	logger.error("Cannot generate PDF: participant with ID {} does not exist", kdId);
             throw new Exception("Kursa dalībnieks ar id: " + kdId + " neeksistē");
         }
 
         if (!kurssRepo.existsById(kId)) {
+        	logger.error("Cannot generate PDF: course with ID {} does not exist", kId);
             throw new Exception("Kurss ar id: " + kId + " neeksistē");
         }
 
         Vertejumi vertejumiFromDB = vertejumiRepo.findByKursaDalibnieki_KdidAndKursaDatumi_Kurss_Kid(kdId, kId);
 
         if (vertejumiFromDB == null) {
+        	logger.error("No evaluation found for participant ID {} in course ID {}", kdId, kId);
             throw new Exception("Kursa dalībniekam ar id: " + kdId + " neeksistē vērtējuma kursā ar id: " + kId);
         } else {
 
@@ -174,6 +184,8 @@ public class PDFCreatorImpl implements IPDFCreatorService {
                     writer.getDirectContent().addImage(apaksa);
 
                     document.close();
+                    logger.info("PDF certificate generated successfully for participant {} (ID {}) in course '{}' (ID {})",
+                            kursaDalibniekaVardsUnUzvards, kdId, kursaNosaukums, kId);
                 }
             }
 

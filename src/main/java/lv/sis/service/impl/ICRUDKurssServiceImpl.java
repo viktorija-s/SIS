@@ -21,11 +21,17 @@ import lv.sis.repo.IMacibuRezultatiRepo;
 import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.repo.ISertifikatiRepo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import lv.sis.service.ICRUDKurssService;
 import lv.sis.service.IUserService;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
+	
+	private static final Logger logger = LoggerFactory.getLogger(ICRUDKurssServiceImpl.class);
+	
 	@Autowired
 	ICRUDKurssRepo kurssRepo;
 	
@@ -44,20 +50,28 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
+		  logger.info("Attempting to create new course: name={}, stundas={}, limenis={}", nosaukums, stundas, limenis);
+		
 		if (nosaukums == null || stundas<0 || limenis == null) {
+			logger.warn("Course creation failed due to missing input parameters");
 			throw new Exception("Dati nav pareizi");
 		}
 		if (kurssRepo.existsByNosaukums(nosaukums)) {
+			logger.warn("Course already exists with the name={}", nosaukums);
 			throw new Exception("Tads kurss jau eksistē");
 		}
 		
 		Kurss newKurss = new Kurss(nosaukums, stundas, limenis);
 		kurssRepo.save(newKurss);
+		logger.info("Course successfully created: {}", nosaukums);
 	}
 
 	@Override
 	public Page<Kurss> retrieveAll(Pageable pageable) throws Exception {
+		logger.info("Request received to retrieve course list");
+		
 		if (kurssRepo.count() == 0) {
+			logger.warn("No courses found in database");
 			throw new Exception("Tabula ir tukša");
 		}
 		
@@ -66,21 +80,27 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
+				logger.info("Admin access detected - returning all courses");
 				return kurssRepo.findAll(pageable); 
 			}
 		}
 		
 		Pasniedzeji professor = pasnRepo.findByUserUsername(username);
 		return kurssRepo.findAllByKursaDatumiPasniedzejsPid(professor.getPid(), pageable);
+		
 	
 	}
 
 	@Override
 	public Kurss retrieveById(int kdid) throws Exception {
+		logger.info("Request received to retrieve course details: ID={}", kdid);
+		
 		if (kdid < 0) {
+			logger.warn("Negative course ID provided: {}", kdid);
 			throw new Exception("ID nav pareizs");
 		}
 		if (!kurssRepo.existsById(kdid)) {
+			logger.warn("Course not found: ID={}", kdid);
 			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
@@ -89,6 +109,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
+				logger.info("Admin access granted to course: ID={}", kdid);
 				return kurssRepo.findById(kdid).get(); 
 			}
 		}
@@ -106,10 +127,14 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 	@Override
 	public void updateById(int kdid, String nosaukums, int stundas, Limeni limenis) throws Exception {
+		logger.info("Request received to update course: ID={}", kdid);
+		
 		if (kdid < 0) {
+			logger.warn("Negative course ID provided for update: {}", kdid);
 			throw new Exception("ID nav pareizs");
 		}
 		if (!kurssRepo.existsById(kdid)) {
+			logger.warn("Attempt to update non-existing course: ID={}", kdid);
 			throw new Exception("Kurss ar tadu id neeksistē");
 		}
 		
@@ -120,15 +145,20 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		selectedKurss.setLimenis(limenis);
 		
 		kurssRepo.save(selectedKurss);
+		logger.info("Course successfully updated ID={}", kdid);
 	}
 
 	@Override
 	public void deleteById(int kid) throws Exception {
+		logger.info("Request received to delete course schedule: ID={}", kid);
+		
 		if(kid < 0) {
+			logger.warn("Negative course ID provided for deletion: {}", kid);
 			throw new Exception("Id nevar būt negatīvs");
 		}
 		
 		if(!kurssRepo.existsById(kid)) {
+			logger.warn("Attempt to delete non-existing course: ID={}", kid);
 			throw new Exception("Kurss ar tādu id neeksistē");
 		}
 		
@@ -144,6 +174,7 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 		}
 		
 		kurssRepo.deleteById(kid);
+		logger.info("Course successfully deleted: ID={}", kid);
 	}
 
 }
