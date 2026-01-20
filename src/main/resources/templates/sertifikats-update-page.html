@@ -25,25 +25,30 @@
 			</tr>
 
 			<tr>
-				<td th:text="#{certificate.isSigned}">Ir parakstits: </td>
+				<td th:text="#{certificate.isSigned}">Ir parakstīts:</td>
 				<td>
-					<input type="hidden" th:if="${irParakstits}" name="irParakstits" value="true" />
-					<input type="checkbox" th:field="*{irParakstits}" th:disabled="${irParakstits}" />
-					<span th:if="${irParakstits}" style="color: gray; font-size: 0.9em;"
+					<input type="checkbox" th:field="*{irParakstits}" th:disabled="*{irParakstits}" />
+
+					<input type="hidden" th:if="*{irParakstits}" th:field="*{irParakstits}" />
+
+					<span th:if="*{irParakstits}" style="color: gray; font-size: 0.9em;"
 						th:text="#{certificate.alreadySigned}">
 						Šis sertifikāts jau ir parakstīts
 					</span>
 				</td>
 			</tr>
 
+
 			<tr>
 				<td th:text="#{certificate.participant}">Dalibnieks:</td>
 				<td>
-					<select th:name="kdid">
-						<option th:each="dalibnieks : ${sertifikats.getDalibnieks()}" th:value="${dalibnieks.getKdid()}"
-							th:text="${dalibnieks.getVards()} + ' ' + ${dalibnieks.getUzvards()} + ' (' + ${dalibnieks.getPersonasId()} + ')'">
+					<select name="kdid">
+						<option th:each="d : ${dalibnieki}" th:value="${d.kdid}"
+							th:text="${d.vards + ' ' + d.uzvards + ' (' + d.personasId + ')'}"
+							th:selected="${sertifikats.dalibnieks != null and d.kdid == sertifikats.dalibnieks.kdid}">
 						</option>
 					</select>
+
 				</td>
 			</tr>
 
@@ -51,9 +56,9 @@
 			<tr>
 				<td th:text="#{certificate.course}">Kurss</td>
 				<td>
-					<select th:name="kid">
-						<option th:each="kurss : ${sertifikats.getKurss()}" th:value="${kurss.getKid()}"
-							th:text="${kurss.getNosaukums()}">
+					<select name="kid">
+						<option th:each="k : ${kursi}" th:value="${k.kid}" th:text="${k.nosaukums}"
+							th:selected="${sertifikats.kurss != null and k.kid == sertifikats.kurss.kid}">
 						</option>
 					</select>
 				</td>

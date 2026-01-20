@@ -129,7 +129,7 @@ public class ICRUDSertifikatiServiceImpl implements ICRUDSertifikatiService {
 
 	@Override
 	public void save(Sertifikati dbSertiikats) {
-		// TODO Auto-generated method stub
+		sertRepo.save(dbSertiikats);
 		
 	}
 }

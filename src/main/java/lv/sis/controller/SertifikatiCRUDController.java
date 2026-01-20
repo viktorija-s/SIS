@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.validation.Valid;
 import lv.sis.model.Sertifikati;
 import lv.sis.model.enums.CertificateType;
 import lv.sis.repo.IKurssRepo;
@@ -119,10 +121,14 @@ public class SertifikatiCRUDController {
 	}
 
 	@GetMapping("/update/{id}")
-	public String getControllerUpdateSertifikats(@PathVariable(name = "id") int id, Model model) {
+	public String getControllerUpdateSertifikats(@PathVariable int id, Model model) {
 		try {
-			Sertifikati sertifikats = sertService.retrieveById(id).getContent().getFirst();
-			model.addAttribute("sertifikats", sertifikats);
+			Sertifikati found = sertService.retrieveById(id).getContent().getFirst();
+
+			model.addAttribute("sertifikats", found);
+			model.addAttribute("kursi", kurssRepo.findAll());
+			model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
+
 			return "sertifikats-update-page";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -131,23 +137,34 @@ public class SertifikatiCRUDController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats,
-			Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+	public String postControllerUpdateSertifikats(@PathVariable int id, @Valid Sertifikati sertifikats,
+			BindingResult result, @RequestParam int kid, @RequestParam int kdid, Model model,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("kursi", kurssRepo.findAll());
+			model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
+			return "sertifikats-update-page";
+		}
+
 		try {
-			Sertifikati dbSertiikats = sertService.retrieveById(id).getContent().getFirst();
-			
-			dbSertiikats.setTips(sertifikats.getTips());
-			dbSertiikats.setIzdosanasDatums(sertifikats.getIzdosanasDatums());
-			dbSertiikats.setIrParakstits(sertifikats.isIrParakstits());
-			dbSertiikats.setKurss(sertifikats.getKurss());
-			
-			sertService.save(dbSertiikats);
-			
+			Sertifikati db = sertService.retrieveById(id).getContent().getFirst();
+
+			db.setTips(sertifikats.getTips());
+			db.setIzdosanasDatums(sertifikats.getIzdosanasDatums());
+			db.setIrParakstits(sertifikats.isIrParakstits());
+
+			db.setKurss(kurssRepo.findById(kid).orElseThrow());
+			db.setDalibnieks(dalibniekiRepo.findById(kdid).orElseThrow());
+
+			sertService.save(db);
+
 			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
 			return "error-page";
 		}
 	}
+
 }
