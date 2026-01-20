@@ -52,7 +52,8 @@
 			<td th:text="${temp.getKurss()}"></td>
 			<td th:text="${temp.getPasniedzejs()}"></td>
 			<td>
-				<a th:href="@{/kursaDatumi/CRUD/show/all/{id}(id=${temp.kursaDatId})}"
+				<a th:if="${package.totalElements > 1}"
+					th:href="@{/kursaDatumi/CRUD/show/all/{id}(id=${temp.kursaDatId})}"
 					th:text="#{action.view}">Skatīt</a>
 				<a th:href="@{/kursaDatumi/CRUD/update/{id}(id=${temp.kursaDatId})}" th:text="#{action.edit}">Labot</a>
 				<a th:href="@{/kursaDatumi/CRUD/remove/{id}(id=${temp.kursaDatId})}"

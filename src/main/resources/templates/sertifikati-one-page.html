@@ -13,6 +13,7 @@
 			<th th:text="#{certificate.table.signed}">Ir parakstits?</th>
 			<th th:text="#{certificate.table.participant}">Dalibnieks</th>
 			<th th:text="#{certificate.table.course}">Kurss</th>
+			<th th:text="#{table.actions}">Darbības</th>
 		</tr>
 
 		<tr th:each="temp : ${sertifikati}">
@@ -23,6 +24,10 @@
 			<td th:text="${temp.isIrParakstits()}"></td>
 			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}"></td>
 			<td th:text="${temp.getKurss().getNosaukums()}"></td>
+			<td>
+				<a th:href="@{/sertifikati/CRUD/update/{id}(id=${temp.sid})}" th:text="#{action.edit}">Labot</a>
+				<a th:href="@{/sertifikati/CRUD/remove/{id}(id=${temp.sid})}" th:text="#{action.delete}">Dzēst</a>
+			</td>
 		</tr>
 	</table>
 

@@ -38,7 +38,8 @@
 			<td th:text="${temp.getEpasts()}"></td>
 			<td th:text="${temp.getTelefonaNr()}"></td>
 			<td>
-				<a th:href="@{/pasniedzeji/CRUD/show/all/{id}(id=${temp.pid})}" th:text="#{action.view}">Skatīt</a>
+				<a th:if="${package.totalElements > 1 }" th:href="@{/pasniedzeji/CRUD/show/all/{id}(id=${temp.pid})}"
+					th:text="#{action.view}">Skatīt</a>
 				<a th:href="@{/pasniedzeji/CRUD/update/{id}(id=${temp.pid})}" th:text="#{action.edit}">Labot</a>
 				<a th:href="@{/pasniedzeji/CRUD/remove/{id}(id=${temp.pid})}" th:text="#{action.delete}">Dzēst</a>
 			</td>

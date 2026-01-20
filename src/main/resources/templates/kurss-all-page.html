@@ -1,81 +1,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
 <body>
 
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p th:text="#{course.list.title}">Informācija par kursiem:</p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+	<p th:text="#{course.list.title}">Informācija par kursiem:</p>
 
-<form action="/kurss/CRUD/show/all" method="get">
-    <input type="text" name="search"
-           th:placeholder="#{course.search.placeholder}"
-           placeholder="Search..."
-           th:value="${search}">
-    <button type="submit" th:text="#{course.search.button}">Meklēt</button>
-    <button type="button"
-            onclick="window.location.href='/kurss/CRUD/show/all'"
-            th:text="#{course.search.clear}">
-        Notīrīt
-    </button>
-</form>
-
-<div th:if="${package.getTotalElements() > 1}">
-
-	<span th:text="#{pagination.show}">Rādīt ierakstu:</span>
-
-	<form th:method="get" th:action="@{/kurss/CRUD/show/all}">
-		<input type="hidden" name="page" value="0"/>
-		<select name="size" onchange="this.form.submit()">
-			<option th:value="3"  th:selected="${package.size == 3}">3</option>
-			<option th:value="5"  th:selected="${package.size == 5}">5</option>
-			<option th:value="10" th:selected="${package.size == 10}">10</option>
-			<option th:value="15" th:selected="${package.size == 15}">15</option>
-			<option th:value="20" th:selected="${package.size == 20}">20</option>
-		</select>
+	<form action="/kurss/CRUD/show/all" method="get">
+		<input type="text" name="search" th:placeholder="#{course.search.placeholder}" placeholder="Search..."
+			th:value="${search}">
+		<button type="submit" th:text="#{course.search.button}">Meklēt</button>
+		<button type="button" onclick="window.location.href='/kurss/CRUD/show/all'" th:text="#{course.search.clear}">
+			Notīrīt
+		</button>
 	</form>
 
-</div>
+	<div th:if="${package.getTotalElements() > 1}">
 
-<table border="1px" style="border-collapse: collapse;">
-    <tr>
-        <th th:text="#{table.id}">ID</th>
-        <th th:text="#{course.table.name}">Nosaukums</th>
-        <th th:text="#{course.table.hours}">Stundas</th>
-        <th th:text="#{course.table.level}">Līmenis</th>
-		<th th:text="#{table.actions}">Darbības</th>
-    </tr>
+		<span th:text="#{pagination.show}">Rādīt ierakstu:</span>
 
-    <tr th:each="temp : ${package}">
-        <td th:text="${temp.kid}"></td>
-        <td th:text="${temp.nosaukums}"></td>
-        <td th:text="${temp.stundas}"></td>
-        <td th:text="${temp.limenis}"></td>
-		<td>
-			<a th:href="@{/kurss/CRUD/show/all/{id}(id=${temp.kid})}" th:text="#{action.view}">Skatīt</a>
-			<a th:href="@{/kurss/CRUD/update/{id}(id=${temp.kid})}" th:text="#{action.edit}">Labot</a>
-			<a th:href="@{/kurss/CRUD/remove/{id}(id=${temp.kid})}" th:text="#{action.delete}">Dzēst</a>
-		</td>
-    </tr>
-</table>
+		<form th:method="get" th:action="@{/kurss/CRUD/show/all}">
+			<input type="hidden" name="page" value="0" />
+			<select name="size" onchange="this.form.submit()">
+				<option th:value="3" th:selected="${package.size == 3}">3</option>
+				<option th:value="5" th:selected="${package.size == 5}">5</option>
+				<option th:value="10" th:selected="${package.size == 10}">10</option>
+				<option th:value="15" th:selected="${package.size == 15}">15</option>
+				<option th:value="20" th:selected="${package.size == 20}">20</option>
+			</select>
+		</form>
 
-<div th:if="${package.getTotalElements() > 1}">
-    <a th:if="${!package.first}"
-       th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number - 1}, size=${package.size})}"
-       th:text="#{pagination.previous}">
-        Iepriekšējā
-    </a>
+	</div>
 
-    <span>
-        <span th:text="#{pagination.page}">Lapa</span>
-        <span th:text="${package.number + 1}"></span>
-        <span th:text="#{pagination.of}">no</span>
-        <span th:text="${package.totalPages}"></span>
-    </span>
+	<table border="1px" style="border-collapse: collapse;">
+		<tr>
+			<th th:text="#{table.id}">ID</th>
+			<th th:text="#{course.table.name}">Nosaukums</th>
+			<th th:text="#{course.table.hours}">Stundas</th>
+			<th th:text="#{course.table.level}">Līmenis</th>
+			<th th:text="#{table.actions}">Darbības</th>
+		</tr>
 
-    <a th:if="${!package.last}"
-       th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number + 1}, size=${package.size})}"
-       th:text="#{pagination.next}">
-        Nākamā
-    </a>
-</div>
+		<tr th:each="temp : ${package}">
+			<td th:text="${temp.kid}"></td>
+			<td th:text="${temp.nosaukums}"></td>
+			<td th:text="${temp.stundas}"></td>
+			<td th:text="${temp.limenis}"></td>
+			<td>
+				<a th:if="${package.totalElements > 1}" th:href="@{/kurss/CRUD/show/all/{id}(id=${temp.kid})}"
+					th:text="#{action.view}">Skatīt</a>
+				<a th:href="@{/kurss/CRUD/update/{id}(id=${temp.kid})}" th:text="#{action.edit}">Labot</a>
+				<a th:href="@{/kurss/CRUD/remove/{id}(id=${temp.kid})}" th:text="#{action.delete}">Dzēst</a>
+			</td>
+		</tr>
+	</table>
+
+	<div th:if="${package.getTotalElements() > 1}">
+		<a th:if="${!package.first}"
+			th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number - 1}, size=${package.size})}"
+			th:text="#{pagination.previous}">
+			Iepriekšējā
+		</a>
+
+		<span>
+			<span th:text="#{pagination.page}">Lapa</span>
+			<span th:text="${package.number + 1}"></span>
+			<span th:text="#{pagination.of}">no</span>
+			<span th:text="${package.totalPages}"></span>
+		</span>
+
+		<a th:if="${!package.last}"
+			th:href="@{/kurss/CRUD/show/all?page={page}&size={size}(page=${package.number + 1}, size=${package.size})}"
+			th:text="#{pagination.next}">
+			Nākamā
+		</a>
+	</div>
 
 </body>
+
 </html>
