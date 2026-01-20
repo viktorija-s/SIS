@@ -9,7 +9,6 @@ import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.ISertifikatiRepo;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.model.Vertejumi;
-import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.IFilterService;
@@ -30,8 +29,6 @@ public class FilterServiceImpl implements IFilterService {
 	@Autowired
 	private ISertifikatiRepo sertifikatiRepo;
 
-    @Autowired
-    private IKurssRepo kurssRepo;
     
     @Autowired IVertejumiRepo vertejumiRepo;
     
@@ -76,11 +73,6 @@ public class FilterServiceImpl implements IFilterService {
 
 	@Autowired
 	private IKursaDatumiRepo kursaDatumiRepo;
-
-	@Override
-	public ArrayList<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
-		return kurssRepo.findByNosaukumsContaining(text);
-	}
 
 	@Override
 	public ArrayList<KursaDatumi> findKursaDatumiBetweenDates(LocalDate from, LocalDate to) throws Exception {
