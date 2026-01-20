@@ -25,17 +25,18 @@ import lv.sis.service.ICRUDKursaDatumiService;
 @RequestMapping("kursaDatumi/CRUD")
 public class KursaDatumiCRUDController {
 
-	@Autowired
-	private ICRUDKursaDatumiService kursaDatumiService;
-	
-	@Autowired
-	private IPasniedzejiRepo pasniedzejiRepo;
-	
-	@Autowired
-	private IKurssRepo kurssRepo;
-
-    @Autowired
-    private IFilterService filterService;
+	private final ICRUDKursaDatumiService kursaDatumiService;
+    private final IPasniedzejiRepo pasniedzejiRepo;
+    private final IKurssRepo kurssRepo;
+    private final IFilterService filterService;
+    
+    public KursaDatumiCRUDController(ICRUDKursaDatumiService kursaDatumiService, IPasniedzejiRepo pasniedzejiRepo,
+            IKurssRepo kurssRepo, IFilterService filterService) {
+        this.kursaDatumiService = kursaDatumiService;
+        this.pasniedzejiRepo = pasniedzejiRepo;
+        this.kurssRepo = kurssRepo;
+        this.filterService = filterService;
+    }
 
     @GetMapping("/show/all")
     public String getControllerShowAllKursaDatumi(

@@ -27,11 +27,13 @@ import lv.sis.service.ICRUDKursaDatumiService;
 @Service
 public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	
-	@Autowired
-	private IKursaDatumiRepo kursaDatumiRepo;
-	
-	@Autowired
-	private IPasniedzejiRepo pasnRepo;
+	private final IKursaDatumiRepo kursaDatumiRepo;
+    private final IPasniedzejiRepo pasnRepo;
+    
+    public CRUDKursaDatumiServiceImpl(IKursaDatumiRepo kursaDatumiRepo, IPasniedzejiRepo pasnRepo) {
+        this.kursaDatumiRepo = kursaDatumiRepo;
+        this.pasnRepo = pasnRepo;
+    }
 
 	@Override
 	public void create(LocalDate sakumaDatums, LocalDate beiguDatums, Kurss kurss, Pasniedzeji pasniedzejs) throws Exception {	
@@ -70,13 +72,6 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
 	    KursaDatumi kursaDatumi = new KursaDatumi(sakumaDatums, beiguDatums, kurss, pasniedzejs);
 	    kursaDatumiRepo.save(kursaDatumi);
 
-//        if (beiguDatums.isBefore(sakumaDatums)) {
-//            throw new Exception("Beigu datums nevar būt pirms sākuma datuma!");
-//        } else { 
-//	        KursaDatumi kursaDatumi = new KursaDatumi(sakumaDatums, beiguDatums, kurss, pasniedzejs);
-//	        kursaDatumiRepo.save(kursaDatumi);
-//		
-//        }
 	}
 
 	@Override

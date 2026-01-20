@@ -24,11 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 @RequestMapping("kurss/CRUD")
 public class KurssCRUDController {
-    @Autowired
-    private ICRUDKurssService kurssService;
+	
+	private final ICRUDKurssService kurssService;
+	private final IFilterService filterService;
 
-    @Autowired
-    private IFilterService filterService;
+	public KurssCRUDController(ICRUDKurssService kurssService, IFilterService filterService) {
+        this.kurssService = kurssService;
+        this.filterService = filterService;
+    }
 
     @GetMapping("/show/all") // localhost:8080/kurss/CRUD/show/all?page=0&size=3
     public String getControllerShowAllKursi(

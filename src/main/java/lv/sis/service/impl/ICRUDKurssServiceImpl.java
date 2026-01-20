@@ -2,6 +2,7 @@ package lv.sis.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.transaction.Transactional;
 import lv.sis.repo.*;
@@ -34,20 +35,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ICRUDKurssServiceImpl implements ICRUDKurssService{
-	@Autowired
-    IKurssRepo kurssRepo;
-
-	@Autowired
-	ISertifikatiRepo sertRepo;
-
-    @Autowired
-    IMacibuRezultatiRepo macRezRepo;
-
-    @Autowired
-    IPasniedzejiRepo pasnRepo;
-
-    @Autowired
-    IUserService userService;
+	
+	private final IKurssRepo kurssRepo;
+    private final ISertifikatiRepo sertRepo;
+    private final IMacibuRezultatiRepo macRezRepo;
+    private final IPasniedzejiRepo pasnRepo;
+    private final IUserService userService;
+    
+    public ICRUDKurssServiceImpl(IKurssRepo kurssRepo, ISertifikatiRepo sertRepo, IMacibuRezultatiRepo macRezRepo,
+            IPasniedzejiRepo pasnRepo, IUserService userService) {
+        this.kurssRepo = kurssRepo;
+        this.sertRepo = sertRepo;
+        this.macRezRepo = macRezRepo;
+        this.pasnRepo = pasnRepo;
+        this.userService = userService;
+    }
 
 	@Override
 	public void create(String nosaukums, int stundas, Limeni limenis) throws Exception {
@@ -122,14 +124,26 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-	Kurss kurss = kurssRepo.findById(kdid).get(); 
+				
+				Optional<Kurss> kurssOpt = kurssRepo.findById(kdid);
+	            if (!kurssOpt.isPresent()) {
+	                throw new Exception("Kurss neeksistē");
+	            }
+	            Kurss kurss = kurssOpt.get();
+				
 				Pageable pageable = PageRequest.of(0, 1);
 				return new PageImpl<>(List.of(kurss), pageable, 1);
 			}
 		}
 
 		Pasniedzeji pasn = pasnRepo.findByUserUsername(username);
-		Kurss course = kurssRepo.findById(kdid).get();
+		
+		Optional<Kurss> courseOpt = kurssRepo.findById(kdid);
+	    if (!courseOpt.isPresent()) {
+	        throw new Exception("Kurss neeksistē");
+	    }
+	    Kurss course = courseOpt.get();
+		
 		for (KursaDatumi kd : course.getKursaDatumi()) {
 			if (pasn.getPid() == kd.getPasniedzejs().getPid()) {
 				Pageable pageable = PageRequest.of(0, 1);
@@ -153,7 +167,11 @@ public class ICRUDKurssServiceImpl implements ICRUDKurssService{
 			throw new Exception("Dati nav pareizi");
 		}
 		
-		Kurss selectedKurss = kurssRepo.findById(kdid).get();
+		Optional<Kurss> kurssOpt = kurssRepo.findById(kdid);
+	    if (!kurssOpt.isPresent()) {
+	        throw new Exception("Kurss neeksistē");
+	    }
+	    Kurss selectedKurss = kurssOpt.get();
 		
 		selectedKurss.setNosaukums(nosaukums);
 		selectedKurss.setStundas(stundas);
