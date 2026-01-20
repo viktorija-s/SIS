@@ -61,17 +61,14 @@ public class SecurityConfig {
                 .requestMatchers("/pasniedzeji/CRUD/remove/**").hasAuthority("ADMIN")
                 .requestMatchers("/pasniedzeji/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR")
 
-                .requestMatchers("/sertifikati/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO can see
-                // only certificates for his courses
+                .requestMatchers("/sertifikati/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR") 
                 .requestMatchers("/sertifikati/CRUD/add").hasAuthority("ADMIN")
                 .requestMatchers("/sertifikati/CRUD/update/**").hasAuthority("ADMIN")
                 .requestMatchers("/sertifikati/CRUD/remove/**").hasAuthority("ADMIN")
-                .requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO can
-                // see only certificates for his courses
+                .requestMatchers("/sertifikati/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR") 
 
                 .requestMatchers("/vertejumi/CRUD/show/all").hasAnyAuthority("ADMIN", "PROFESSOR")
-                .requestMatchers("/vertejumi/CRUD/add").hasAnyAuthority("ADMIN", "PROFESSOR") // TODO  only for his
-                // courses
+                .requestMatchers("/vertejumi/CRUD/add").hasAnyAuthority("ADMIN", "PROFESSOR") 
                 .requestMatchers("/vertejumi/CRUD/update/**").hasAnyAuthority("ADMIN", "PROFESSOR")
                 .requestMatchers("/vertejumi/CRUD/remove/**").hasAnyAuthority("ADMIN", "PROFESSOR")
                 .requestMatchers("/vertejumi/CRUD/show/all/**").hasAnyAuthority("ADMIN", "PROFESSOR")

@@ -30,8 +30,10 @@ public class EmailSendingServiceImpl {
 			helper.setSubject(subject);
 			helper.setText(text);
 			
-			FileSystemResource file = new FileSystemResource(attachment);
-			helper.addAttachment(file.getFilename(), file);
+			if (attachment != null) {
+				FileSystemResource file = new FileSystemResource(attachment);
+				helper.addAttachment(file.getFilename(), file);
+			}
 			
 			mailSender.send(msg);
 		} catch (Exception e) {

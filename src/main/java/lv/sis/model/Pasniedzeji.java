@@ -36,13 +36,13 @@ public class Pasniedzeji {
     private int pid;
 
     @NotNull
-	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")
+	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ][a-zēūīļķģšāžčņ]+")
 	@Size(min = 3, max = 20)
 	@Column(name = "Vards")
 	private String vards;
 	
 	@NotNull
-	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")
+	@Pattern(regexp = "[A-ZĒŪĪĻĶĢŠĀČŅ][a-zēūīļķģšāžčņ]+")
 	@Size(min = 3, max = 20)
 	@Column(name = "Uzvards")
 	private String uzvards;
@@ -53,7 +53,7 @@ public class Pasniedzeji {
 	private String epasts;
 	
 	@NotNull
-	@Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
+	@Pattern(regexp = "^\\+[1-9]\\d{1,3}([\\s-]?\\d{2,4}){2,4}$")
 	@Column(name = "TelefonaNr")
 	private String telefonaNr; 
 	

@@ -15,14 +15,13 @@ import org.springframework.stereotype.Service;
 import lv.sis.model.Pasniedzeji;
 import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDPasniedzejiService;
-import lv.sis.service.IUserService;
 
 @Service
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 	
     private final IPasniedzejiRepo pasnRepo;
 	
-	public ICRUDPasniedzejiServiceimpl(IPasniedzejiRepo pasnRepo, IUserService userService) {
+	public ICRUDPasniedzejiServiceimpl(IPasniedzejiRepo pasnRepo) {
 		this.pasnRepo = pasnRepo;
 	}
 
