@@ -2,7 +2,6 @@ package lv.sis.service.impl;
 
 import java.io.File;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,8 +12,11 @@ import jakarta.mail.internet.MimeMessage;
 @Service
 public class EmailSendingServiceImpl {
 	
-	@Autowired
-	JavaMailSender mailSender;
+	private final JavaMailSender mailSender;
+	
+	public EmailSendingServiceImpl(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
 	
 	public void sendSimpleMsg(String from, String to, String subject, String text, File attachment) {
 

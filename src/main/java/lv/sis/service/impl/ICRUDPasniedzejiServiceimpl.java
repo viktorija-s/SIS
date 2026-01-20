@@ -1,8 +1,8 @@
 package lv.sis.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +19,12 @@ import lv.sis.service.IUserService;
 
 @Service
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
-	@Autowired
-    IPasniedzejiRepo pasnRepo;
 	
-	@Autowired
-	IUserService userService;
+    private final IPasniedzejiRepo pasnRepo;
+	
+	public ICRUDPasniedzejiServiceimpl(IPasniedzejiRepo pasnRepo, IUserService userService) {
+		this.pasnRepo = pasnRepo;
+	}
 
 	@Override
 	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
@@ -64,7 +65,9 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				Pasniedzeji pasn =  pasnRepo.findById(kdid).get(); 
+				Optional<Pasniedzeji> opt = pasnRepo.findById(kdid);
+				if (opt.isEmpty()) throw new Exception("Pasniedzējs neeksistē");
+				Pasniedzeji pasn = opt.get(); 
 				Pageable pageable = PageRequest.of(0, 1);
 				return new PageImpl<>(List.of(pasn), pageable, 1);
 			}
@@ -97,7 +100,9 @@ public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				pasn = pasnRepo.findById(kdid).get(); 
+				Optional<Pasniedzeji> opt = pasnRepo.findById(kdid);
+				if (opt.isEmpty()) throw new Exception("Pasniedzējs neeksistē");
+				pasn = opt.get(); 
 			}
 		}
 		
