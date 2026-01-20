@@ -2,71 +2,72 @@
 
 
 <body>
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Lūdzu rediģē eksistējošo kursa dalībnieku!</p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 
-<form action="#" th:action="@{/kursaDalibnieki/CRUD/update/{id}(id=${kursaDalibnieki.kdid})}"
-      th:object="${kursaDalibnieki}" method="post">
-    <table>
-        <tr>
-            <td>Rediģē kursa dalībnieka vārdu:</td>
-            <td><input type="text" th:field="*{vards}"/></td>
-        </tr>
+	<p th:text="#{edit.title}"> Lūdzu rediģē eksistējošo kursa dalībibleafnieku!</p>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka uzvārdu:</td>
-            <td><input type="text" th:field="*{uzvards}"/></td>
-        </tr>
+	<form action="#" th:action="@{/kursaDalibnieki/CRUD/update/{id}(id=${kursaDalibnieki.kdid})}"
+		th:object="${kursaDalibnieki}" method="post">
+		<table>
+			<tr>
+				<td th:text="#{edit.firstName}">Rediģē kursa dalībnieka vārdu:</td>
+				<td><input type="text" th:field="*{vards}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka e-pastu:</td>
-            <td><input type="text" th:field="*{epasts}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.lastName}">Rediģē kursa dalībnieka uzvārdu:</td>
+				<td><input type="text" th:field="*{uzvards}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka telefona numuru:</td>
-            <td><input type="text" th:field="*{telefonaNr}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.email}">Rediģē kursa dalībnieka e-pastu:</td>
+				<td><input type="text" th:field="*{epasts}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka personas ID:</td>
-            <td><input type="text" th:field="*{personasId}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.phone}">Rediģē kursa dalībnieka telefona numuru:</td>
+				<td><input type="text" th:field="*{telefonaNr}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka pilsētu:</td>
-            <td><input type="text" th:field="*{pilseta}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.personId}">Rediģē kursa dalībnieka personas ID:</td>
+				<td><input type="text" th:field="*{personasId}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka valsti:</td>
-            <td><input type="text" th:field="*{valsts}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.city}">Rediģē kursa dalībnieka pilsētu:</td>
+				<td><input type="text" th:field="*{pilseta}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka ielas nosaukumu un numuru:</td>
-            <td><input type="text" th:field="*{ielasNosaukumsNumurs}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.country}">Rediģē kursa dalībnieka valsti:</td>
+				<td><input type="text" th:field="*{valsts}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka dzīvokļa numuru:</td>
-            <td><input type="text" th:field="*{dzivoklaNr}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.street}">Rediģē kursa dalībnieka ielas nosaukumu un numuru:</td>
+				<td><input type="text" th:field="*{ielasNosaukumsNumurs}" /></td>
+			</tr>
 
-        <tr>
-            <td>Rediģē kursa dalībnieka pasta indeksu:</td>
-            <td><input type="text" th:field="*{pastaIndekss}"/></td>
-        </tr>
+			<tr>
+				<td th:text="#{edit.apartment}">Rediģē kursa dalībnieka dzīvokļa numuru:</td>
+				<td><input type="text" th:field="*{dzivoklaNr}" /></td>
+			</tr>
 
-        <td>
-            <button type="submit"> Saglabāt rediģēto kursa dalībnieku</button>
-        </td>
+			<tr>
+				<td th:text="#{edit.postalCode}">Rediģē kursa dalībnieka pasta indeksu:</td>
+				<td><input type="text" th:field="*{pastaIndekss}" /></td>
+			</tr>
 
-        </tr>
+			<td>
+				<button type="submit" th:text="#{edit.saveButton}"> Saglabāt rediģēto kursa dalībnieku</button>
+			</td>
+
+			</tr>
 
 
-    </table>
-</form>
+		</table>
+	</form>
 </body>
 
-</html> 
+</html>

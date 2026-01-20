@@ -1,31 +1,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<h3>Kursa datumu dzēšana</h3>
+	<h3 th:text="#{dates.delete.title}">Kursa datumu dzēšana</h3>
 
 	<table>
 		<tr>
-			<td>Kurss:</td>
+			<td th:text="#{dates.course}">Kurss:</td>
 			<td th:text="${kursaDatumi.kurss.nosaukums}"></td>
 		</tr>
 		<tr>
-			<td>Pasniedzējs:</td>
+			<td th:text="#{dates.teacher}">Pasniedzējs:</td>
 			<td th:text="${kursaDatumi.pasniedzejs.vards} + ' ' + ${kursaDatumi.pasniedzejs.uzvards}"></td>
 		</tr>
 		<tr>
-			<td>Sākuma datums:</td>
+			<td th:text="#{dates.startDate}">Sākuma datums:</td>
 			<td th:text="${kursaDatumi.sakumaDatums}"></td>
 		</tr>
 		<tr>
-			<td>Beigu datums:</td>
+			<td th:text="#{dates.endDate}">Beigu datums:</td>
 			<td th:text="${kursaDatumi.beiguDatums}"></td>
 		</tr>
 	</table>
 
 	<form th:action="@{/kursaDatumi/CRUD/remove/{id}(id=${kursaDatumi.kursaDatId})}" method="post">
-		<p>Vai tiešām dzēst šos kursa datumus?</p>
-		<button type="submit">Dzēst</button>
-		<a th:href="@{/kursaDatumi/CRUD/show/all}">Atcelt</a>
+		<p th:text="#{dates.delete.confirm}">Vai tiešām dzēst šos kursa datumus?</p>
+		<button type="submit" th:text="#{dates.delete.button}">Dzēst</button>
+		<a th:href="@{/kursaDatumi/CRUD/show/all}" th:text="#{dates.delete.cancel}">Atcelt</a>
 	</form>
 </body>
+
 </html>

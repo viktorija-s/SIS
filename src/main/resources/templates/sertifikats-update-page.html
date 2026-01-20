@@ -1,66 +1,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p> Rediģējiet informāciju par sertifikatu! </p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
 
-	<form action="#"  th:action="@{/sertifikati/CRUD/update/{id}(id=${sertifikats.sid})}" th:object="${sertifikats}" method="post" >
+	<p th:text="#{certificate.edit.title}"> Rediģējiet informāciju par sertifikatu! </p>
+
+	<form action="#" th:action="@{/sertifikati/CRUD/update/{id}(id=${sertifikats.sid})}" th:object="${sertifikats}"
+		method="post">
 		<table>
 			<tr>
-				<td>Tips: </td>
+				<td th:text="#{certificate.type}">Tips: </td>
 				<td>
 					<select th:field="*{tips}">
-						<option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}"
-					            th:value="${tips}"
-					            th:text="${tips}">
-					    </option>
+						<option th:each="tips : ${T(lv.sis.model.enums.CertificateType).values()}" th:value="${tips}"
+							th:text="${tips}">
+						</option>
 					</select>
 				</td>
 			</tr>
-			
+
 			<tr>
-				<td>Izdosanas datums: </td>
-				<td> <input  type="date" th:field="*{izdosanasDatums}" th:value="*{izdosanasDatums}" />    </td>
+				<td th:text="#{certificate.issueDate}">Izdosanas datums: </td>
+				<td><input type="date" th:field="*{izdosanasDatums}" th:value="*{izdosanasDatums}" /></td>
 			</tr>
-			
+
 			<tr>
-				<td>Registracijas numurs: </td>
-				<td> <input  type="number" th:field="*{certificateNo}"  />    </td>
+				<td th:text="#{certificate.registrationNo}">Registracijas numurs: </td>
+				<td><input type="number" th:field="*{certificateNo}" /></td>
 			</tr>
-			
+
 			<tr>
-				<td>Ir parakstits: </td>
-				<td> 
+				<td th:text="#{certificate.isSigned}">Ir parakstits: </td>
+				<td>
 					<input type="hidden" th:if="${irParakstits}" name="irParakstits" value="true" />
-					<input  type="checkbox" th:field="*{irParakstits}" th:disabled="${irParakstits}" />   
-					<span th:if="${irParakstits}" style="color: gray; font-size: 0.9em;">Šis sertifikāts jau ir parakstīts</span>
+					<input type="checkbox" th:field="*{irParakstits}" th:disabled="${irParakstits}" />
+					<span th:if="${irParakstits}" style="color: gray; font-size: 0.9em;"
+						th:text="#{certificate.alreadySigned}">
+						Šis sertifikāts jau ir parakstīts
+					</span>
+				</td>
+			</tr>
 
+			<tr>
+				<td th:text="#{certificate.participant}">Dalibnieks:</td>
+				<td>
+					<select th:name="kdid">
+						<option th:each="dalibnieks : ${sertifikats.getDalibnieks()}" th:value="${dalibnieks.getKdid()}"
+							th:text="${dalibnieks.getVards()} + ' ' + ${dalibnieks.getUzvards()} + ' (' + ${dalibnieks.getPersonasId()} + ')'">
+						</option>
+					</select>
+				</td>
+			</tr>
 
-        <tr>
-            <td>Dalibnieks:</td>
-            <td>
-                <select th:name="kdid">
-                    <option th:each="dalibnieks : ${sertifikats.getDalibnieks()}"
-                            th:value="${dalibnieks.getKdid()}"
-                            th:text="${dalibnieks.getVards()} + ' ' + ${dalibnieks.getUzvards()} + ' (' + ${dalibnieks.getPersonasId()} + ')'">
-                    </option>
-                </select>
-            </td>
-        </tr>
+			<tr>
+				<td>
+					<button type="submit" th:text="#{certificate.edit.save}"> Save</button>
+				</td>
+			</tr>
 
-
-        <tr>
-
-            <td>
-                <button type="submit"> Save</button>
-            </td>
-
-        </tr>
-
-    </table>
-
-
-</form>
+		</table>
+	</form>
 </body>
 
 </html>

@@ -1,39 +1,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<h3>Sertifikāta dzēšana</h3>
+	<h3 th:text="#{certificate.delete.title}">Sertifikāta dzēšana</h3>
 
 	<table>
 		<tr>
-			<td>Sertifikāta numurs:</td>
+			<td th:text="#{certificate.number}">Sertifikāta numurs:</td>
 			<td th:text="${sertifikats.certificateNo}"></td>
 		</tr>
 		<tr>
-			<td>Tips:</td>
+			<td th:text="#{certificate.type}">Tips:</td>
 			<td th:text="${sertifikats.tips}"></td>
 		</tr>
 		<tr>
-			<td>Izdošanas datums:</td>
+			<td th:text="#{certificate.issueDate}">Izdošanas datums:</td>
 			<td th:text="${sertifikats.izdosanasDatums}"></td>
 		</tr>
 		<tr>
-			<td>Dalībnieks:</td>
+			<td th:text="#{certificate.participant}">Dalībnieks:</td>
 			<td th:text="${sertifikats.dalibnieks.vards} + ' ' + ${sertifikats.dalibnieks.uzvards}"></td>
 		</tr>
 		<tr>
-			<td>Kurss:</td>
+			<td th:text="#{certificate.course}">Kurss:</td>
 			<td th:text="${sertifikats.kurss.nosaukums}"></td>
 		</tr>
 		<tr>
-			<td>Ir parakstīts:</td>
-			<td th:text="${sertifikats.irParakstits} ? 'Jā' : 'Nē'"></td>
+			<td th:text="#{certificate.signed}">Ir parakstīts:</td>
+			<td th:text="${sertifikats.irParakstits} ? #{certificate.yes} : #{certificate.no}"></td>
 		</tr>
 	</table>
 
 	<form th:action="@{/sertifikati/CRUD/remove/{id}(id=${sertifikats.sid})}" method="post">
-		<p>Vai tiešām dzēst sertifikātu <b th:text="${sertifikats.certificateNo}"></b>?</p>
-		<button type="submit">Dzēst</button>
-		<a th:href="@{/sertifikati/CRUD/show/all}">Atcelt</a>
+		<p>
+			<span th:text="#{certificate.delete.confirm}">Vai tiešām dzēst sertifikātu</span>
+			<b th:text="${sertifikats.certificateNo}"></b>?
+		</p>
+		<button type="submit" th:text="#{certificate.delete.button}">Dzēst</button>
+		<a th:href="@{/sertifikati/CRUD/show/all}" th:text="#{certificate.delete.cancel}">Atcelt</a>
 	</form>
 </body>
+
 </html>

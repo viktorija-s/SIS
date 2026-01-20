@@ -1,11 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
 	<div class="error-container">
-		<p>There is an error in system:</p>
-		<p th:text="${package}" >  </p>
+		<p th:text="#{error.title}">There is an error in system:</p>
+		<p th:text="${package}"></p>
 	</div>
 </body>
 
-</html> 
+</html>

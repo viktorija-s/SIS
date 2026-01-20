@@ -1,81 +1,100 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-
 <body>
 
-<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
-<p>Informācija par sertifikātiem:</p>
+	<div th:if="${message}" style="color:red; font-weight:bold;" th:text="${message}"></div>
+	<p th:text="#{certificate.list.title}">Informācija par sertifikātiem:</p>
 
-<form method="get" th:action="@{/sertifikati/CRUD/show/all}">
-    Vārds:
-    <input type="text" name="vards" th:value="${vards}">
+	<form method="get" th:action="@{/sertifikati/CRUD/show/all}">
+		<span th:text="#{certificate.filter.firstName}">Vārds:</span>
+		<input type="text" name="vards" th:value="${vards}">
 
-    Uzvārds:
-    <input type="text" name="uzvards" th:value="${uzvards}">
+		<span th:text="#{certificate.filter.lastName}">Uzvārds:</span>
+		<input type="text" name="uzvards" th:value="${uzvards}">
 
-    <button type="submit">Filtrēt</button>
-    <button type="button"
-            onclick="window.location.href='/sertifikati/CRUD/show/all'">
-        Notīrīt
-    </button>
-</form>
-
-<div th:if="${sertifikati.getTotalElements() > 1}">
-					
-			<span>Rādīt ierakstu:</span>
-			
-			<form th:method="get" th:action="@{/sertifikati/CRUD/show/all}">
-				<input type="hidden" name="page" value="0"/>
-				<select name="size" onchange="this.form.submit()">
-					<option th:value="3"  th:selected="${sertifikati.size == 3}">3</option>
-					<option th:value="5"  th:selected="${sertifikati.size == 5}">5</option>
-					<option th:value="10" th:selected="${sertifikati.size == 10}">10</option>
-					<option th:value="15" th:selected="${sertifikati.size == 15}">15</option>
-					<option th:value="20" th:selected="${sertifikati.size == 20}">20</option>
-				</select>
-			</form>
-		
-		</div>
-
-<form action="/sertifikati/CRUD/show/all" method="get">
-	    <input type="text" name="search" placeholder="Meklēt pēc tipa" th:value="${search}">
-	    <button type="submit">Meklēt</button>
-	    <button type="button" onclick="window.location.href='/sertifikati/CRUD/show/all'">Notīrīt</button>
+		<button type="submit" th:text="#{certificate.filter.button}">Filtrēt</button>
+		<button type="button" onclick="window.location.href='/sertifikati/CRUD/show/all'"
+			th:text="#{certificate.filter.clear}">
+			Notīrīt
+		</button>
 	</form>
-	
+
+	<div th:if="${sertifikati.getTotalElements() > 1}">
+
+		<span th:text="#{pagination.show}">Rādīt ierakstu:</span>
+
+		<form th:method="get" th:action="@{/sertifikati/CRUD/show/all}">
+			<input type="hidden" name="page" value="0" />
+			<select name="size" onchange="this.form.submit()">
+				<option th:value="3" th:selected="${sertifikati.size == 3}">3</option>
+				<option th:value="5" th:selected="${sertifikati.size == 5}">5</option>
+				<option th:value="10" th:selected="${sertifikati.size == 10}">10</option>
+				<option th:value="15" th:selected="${sertifikati.size == 15}">15</option>
+				<option th:value="20" th:selected="${sertifikati.size == 20}">20</option>
+			</select>
+		</form>
+
+	</div>
+
+	<form action="/sertifikati/CRUD/show/all" method="get">
+		<input type="text" name="search" th:placeholder="#{certificate.search.placeholder}"
+			placeholder="Meklēt pēc tipa" th:value="${search}">
+		<button type="submit" th:text="#{certificate.search.button}">Meklēt</button>
+		<button type="button" onclick="window.location.href='/sertifikati/CRUD/show/all'"
+			th:text="#{certificate.search.clear}">
+			Notīrīt
+		</button>
+	</form>
+
 	<table border="1px" border-collapse="collapse">
 		<tr>
-			<th>ID</th>
-			<th>Tips</th>
-			<th>Izdosanas datums</th>
-			<th>Registracijas numurs</th>
-			<th>Ir parakstits?</th>
-			<th>Dalibnieks</th>
-			<th>Kurss</th>
-			<th>Darbības</th>
-			
+			<th th:text="#{table.id}">ID</th>
+			<th th:text="#{certificate.table.type}">Tips</th>
+			<th th:text="#{certificate.table.issueDate}">Izdosanas datums</th>
+			<th th:text="#{certificate.table.registrationNo}">Registracijas numurs</th>
+			<th th:text="#{certificate.table.signed}">Ir parakstits?</th>
+			<th th:text="#{certificate.table.participant}">Dalibnieks</th>
+			<th th:text="#{certificate.table.course}">Kurss</th>
+			<th th:text="#{table.actions}">Darbības</th>
 		</tr>
-		<tr th:each = "temp : ${sertifikati}">
-			<td th:text="${temp.getSid()}" ></td>
-			<td th:text="${temp.getTips()}" ></td>
-			<td th:text="${temp.getIzdosanasDatums()}" ></td>
-			<td th:text="${temp.getCertificateNo()}" ></td>
-			<td th:text="${temp.isIrParakstits()}" ></td>
-			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}" ></td>
-			<td th:text="${temp.getKurss().getNosaukums()}" ></td>
+
+		<tr th:each="temp : ${sertifikati}">
+			<td th:text="${temp.getSid()}"></td>
+			<td th:text="${temp.getTips()}"></td>
+			<td th:text="${temp.getIzdosanasDatums()}"></td>
+			<td th:text="${temp.getCertificateNo()}"></td>
+			<td th:text="${temp.isIrParakstits()}"></td>
+			<td th:text="${temp.getDalibnieks().getVards() + ' ' + temp.getDalibnieks().getUzvards()}"></td>
+			<td th:text="${temp.getKurss().getNosaukums()}"></td>
 			<td>
-				<a th:href="@{/sertifikati/CRUD/show/all/{id}(id=${temp.sid})}">Skatīt</a>
-				<a th:href="@{/sertifikati/CRUD/update/{id}(id=${temp.sid})}">Labot</a>
-				<a th:href="@{/sertifikati/CRUD/remove/{id}(id=${temp.sid})}">Dzēst</a>
+				<a th:href="@{/sertifikati/CRUD/show/all/{id}(id=${temp.sid})}" th:text="#{action.view}">Skatīt</a>
+				<a th:href="@{/sertifikati/CRUD/update/{id}(id=${temp.sid})}" th:text="#{action.edit}">Labot</a>
+				<a th:href="@{/sertifikati/CRUD/remove/{id}(id=${temp.sid})}" th:text="#{action.delete}">Dzēst</a>
 			</td>
 		</tr>
 	</table>
 
-<div  th:if="${sertifikati.getTotalElements() > 1}">
-    <a th:if="${!sertifikati.first}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}">Iepriekšējā</a>
-    <span>Lapa <span th:text="${sertifikati.number + 1}"></span> no <span th:text="${sertifikati.totalPages}"></span></span>
-    <a th:if="${!sertifikati.last}" th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}">Nākamā</a>
-</div>
-	
+	<div th:if="${sertifikati.getTotalElements() > 1}">
+		<a th:if="${!sertifikati.first}"
+			th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number - 1}, size=${sertifikati.size})}"
+			th:text="#{pagination.previous}">
+			Iepriekšējā
+		</a>
+
+		<span>
+			<span th:text="#{pagination.page}">Lapa</span>
+			<span th:text="${sertifikati.number + 1}"></span>
+			<span th:text="#{pagination.of}">no</span>
+			<span th:text="${sertifikati.totalPages}"></span>
+		</span>
+
+		<a th:if="${!sertifikati.last}"
+			th:href="@{/sertifikati/CRUD/show/all?page={page}&size={size}(page=${sertifikati.number + 1}, size=${sertifikati.size})}"
+			th:text="#{pagination.next}">
+			Nākamā
+		</a>
+	</div>
+
 </body>
-</html> 
+
+</html>
