@@ -60,6 +60,16 @@
 			</tr>
 
 			<tr>
+				<td th:text="#{certificate.registrationNo}">Sertifikāta numurs:</td>
+				<td>
+					<span th:text="*{certificateNo}"></span>
+
+					<input type="hidden" th:field="*{certificateNo}" />
+				</td>
+			</tr>
+
+
+			<tr>
 				<td>
 					<button type="submit" th:text="#{certificate.edit.save}"> Save</button>
 				</td>
