@@ -49,8 +49,10 @@
 			<td th:text="${temp.getKursaDatId()}"></td>
 			<td th:text="${temp.getSakumaDatums()}"></td>
 			<td th:text="${temp.getBeiguDatums()}"></td>
-			<td th:text="${temp.getKurss()}"></td>
-			<td th:text="${temp.getPasniedzejs()}"></td>
+			<td
+				th:text="${temp.getKurss().getNosaukums() + ' (' + temp.getSakumaDatums() + ' - ' + temp.getBeiguDatums() + ')'}">
+			</td>
+			<td th:text="${temp.getPasniedzejs().getVards() + ' ' + temp.getPasniedzejs().getUzvards()}"></td>
 			<td>
 				<a th:if="${package.totalElements > 1}"
 					th:href="@{/kursaDatumi/CRUD/show/all/{id}(id=${temp.kursaDatId})}"
