@@ -1,6 +1,5 @@
 package lv.sis.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +10,11 @@ import lv.sis.service.IPDFCreatorService;
 @Controller
 public class PDFCreatorTestController {
 	
-	@Autowired
-	private IPDFCreatorService pdfService;
+	private final IPDFCreatorService pdfService;
+
+    public PDFCreatorTestController(IPDFCreatorService pdfService) {
+        this.pdfService = pdfService;
+    }
 	
 	@GetMapping("/pdf/{kdid}/{kid}") // localhost:8080/pdf/1/2
 	public String getPDFController(Model model, @PathVariable(name = "kdid") int kdid, @PathVariable(name = "kid") int kid) {

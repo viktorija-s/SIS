@@ -48,7 +48,7 @@ public class Sertifikati {
 	private LocalDate izdosanasDatums;
 
 	@NotBlank
-	@Pattern(regexp = "[A-Z]{2}[0-9]{4}")
+	@Pattern(regexp = "[A-Z]{2}\\d{4}")
 	@Column(name = "CertificateNo", unique = true)
 	private String certificateNo;
 

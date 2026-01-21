@@ -2,7 +2,8 @@ package lv.sis.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -28,15 +29,43 @@ import lv.sis.service.IFilterService;
 @Controller
 @RequestMapping("sertifikati/CRUD")
 public class SertifikatiCRUDController {
-	@Autowired
-	private ICRUDSertifikatiService sertService;
-	@Autowired
-	private IKursaDalibniekiRepo dalibniekiRepo;
-	@Autowired
-	private IKurssRepo kurssRepo;
 
-	@Autowired
-	private IFilterService filterService;
+	private final ICRUDSertifikatiService sertService;
+	private final IKursaDalibniekiRepo dalibniekiRepo;
+	private final IKurssRepo kurssRepo;
+	private final IFilterService filterService;
+	
+	
+	private static final String ATTR_SERTIFIKATI = "sertifikati";
+	private static final String ATTR_ERROR = "package";
+
+	private static final String VIEW_ERROR = "error-page";
+	private static final String VIEW_ALL = "sertifikati-all-page";
+	private static final String VIEW_ONE = "sertifikati-one-page";
+
+	private static final String REDIRECT_SHOW_ALL = "redirect:/sertifikati/CRUD/show/all?page=";
+	private static final String PARAM_SIZE = "&size=";
+	
+	private static final String ATTR_DALIBNIEKI = "dalibnieki";
+	private static final String ATTR_KURSI = "kursi";
+	private static final String ATTR_SERTIFIKATS = "sertifikats";
+	private static final String ATTR_TIPS = "tips";
+
+	private static final String VIEW_ADD = "sertifikati-add-page";
+	private static final String VIEW_UPDATE = "sertifikats-update-page";
+
+	private static final Logger logger =
+	        LoggerFactory.getLogger(SertifikatiCRUDController.class);
+
+
+	public SertifikatiCRUDController(ICRUDSertifikatiService sertService, IKursaDalibniekiRepo dalibniekiRepo,
+			IKurssRepo kurssRepo, IFilterService filterService) {
+
+		this.sertService = sertService;
+		this.dalibniekiRepo = dalibniekiRepo;
+		this.kurssRepo = kurssRepo;
+		this.filterService = filterService;
+	}
 
 	@GetMapping("/show/all")
 	public String getControllerShowAllSertifikati(Model model, @RequestParam(defaultValue = "0") int page,
@@ -56,12 +85,12 @@ public class SertifikatiCRUDController {
 				sertifikatiPage = sertService.retrieveAll(pageable);
 			}
 
-			model.addAttribute("sertifikati", sertifikatiPage);
-			return "sertifikati-all-page";
+			model.addAttribute(ATTR_SERTIFIKATI, sertifikatiPage);
+			return VIEW_ALL;
 
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			return VIEW_ERROR;
 		}
 	}
 
@@ -69,11 +98,11 @@ public class SertifikatiCRUDController {
 	public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
 		try {
 			Page<Sertifikati> sertifikats = sertService.retrieveById(id);
-			model.addAttribute("sertifikati", sertifikats);
-			return "sertifikati-one-page";
+			model.addAttribute(ATTR_SERTIFIKATI, sertifikats);
+			return VIEW_ONE;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			return VIEW_ERROR;
 		}
 	}
 
@@ -83,40 +112,41 @@ public class SertifikatiCRUDController {
 		try {
 			sertService.deleteById(id);
 			Pageable pageable = PageRequest.of(page, size);
-			model.addAttribute("sertifikati", sertService.retrieveAll(pageable));
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+			model.addAttribute(ATTR_SERTIFIKATI, sertService.retrieveAll(pageable));
+			return REDIRECT_SHOW_ALL + page + PARAM_SIZE + size;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			return VIEW_ERROR;
 		}
 	}
 
 	@GetMapping("/add")
 	public String getControllerAddSertifikats(Model model) {
 		Sertifikati sertifikats = new Sertifikati();
-		model.addAttribute("tips", CertificateType.values());
-		model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
-		model.addAttribute("kursi", kurssRepo.findAll());
-		model.addAttribute("sertifikats", sertifikats);
-		return "sertifikati-add-page";
+		model.addAttribute(ATTR_TIPS, CertificateType.values());
+		model.addAttribute(ATTR_DALIBNIEKI, dalibniekiRepo.findAll());
+		model.addAttribute(ATTR_KURSI, kurssRepo.findAll());
+		model.addAttribute(ATTR_SERTIFIKATS, sertifikats);
+		return VIEW_ADD;
 	}
 
 	@PostMapping("/add")
 	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 		if (sertifikats == null) {
-			model.addAttribute("package", "Sertifikats netika iedots");
+			model.addAttribute(ATTR_ERROR, "Sertifikats netika iedots");
+			return VIEW_ERROR;
 		}
 
 		try {
-			System.out.println(sertifikats);
+			logger.info("Creating sertifikats: {}", sertifikats);
 			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getCertificateNo(),
 					sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+			return REDIRECT_SHOW_ALL + page + PARAM_SIZE + size;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			logger.error("Error while creating sertifikats", e);
+			return VIEW_ERROR;
 		}
 	}
 
@@ -125,14 +155,14 @@ public class SertifikatiCRUDController {
 		try {
 			Sertifikati found = sertService.retrieveById(id).getContent().getFirst();
 
-			model.addAttribute("sertifikats", found);
-			model.addAttribute("kursi", kurssRepo.findAll());
-			model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
+			model.addAttribute(ATTR_SERTIFIKATS, found);
+			model.addAttribute(ATTR_KURSI, kurssRepo.findAll());
+			model.addAttribute(ATTR_DALIBNIEKI, dalibniekiRepo.findAll());
 
-			return "sertifikats-update-page";
+			return VIEW_UPDATE;
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			return VIEW_ERROR;
 		}
 	}
 
@@ -142,9 +172,9 @@ public class SertifikatiCRUDController {
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("kursi", kurssRepo.findAll());
-			model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
-			return "sertifikats-update-page";
+			model.addAttribute(ATTR_KURSI, kurssRepo.findAll());
+			model.addAttribute(ATTR_DALIBNIEKI, dalibniekiRepo.findAll());
+			return VIEW_UPDATE;
 		}
 
 		try {
@@ -159,11 +189,11 @@ public class SertifikatiCRUDController {
 
 			sertService.save(db);
 
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+			return REDIRECT_SHOW_ALL + page + PARAM_SIZE + size;
 
 		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
+			model.addAttribute(ATTR_ERROR, e.getMessage());
+			return VIEW_ERROR;
 		}
 	}
 
