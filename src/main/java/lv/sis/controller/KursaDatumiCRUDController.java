@@ -141,6 +141,13 @@ public class KursaDatumiCRUDController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", e.getMessage());
+
+            model.addAttribute("kurssList", kurssRepo.findAll());
+
+            List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
+            pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
+            model.addAttribute("pasniedzejiList", pasniedzejiList);
+
             return "kursa-datumi-add-page";
         }
     }
@@ -150,6 +157,8 @@ public class KursaDatumiCRUDController {
         try {
             KursaDatumi kursaDatumi = kursaDatumiService.retrieveById(id).getContent().getFirst();
             model.addAttribute("kursaDatumi", kursaDatumi);
+
+            model.addAttribute("kurssList", kurssRepo.findAll());
 
             List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
             pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
@@ -163,14 +172,37 @@ public class KursaDatumiCRUDController {
     }
 
     @PostMapping("/update/{id}")
-    public String postControllerUpdateKursaDatumi(@PathVariable(name = "id") int id, KursaDatumi kursaDatumi,
+    public String postControllerUpdateKursaDatumi(@PathVariable(name = "id") int id,
+                                                  @ModelAttribute KursaDatumi kursaDatumi,
                                                   Model model) {
         try {
+            KursaDatumi existing = kursaDatumiService.retrieveById(id).getContent().getFirst();
+
+            if (kursaDatumi.getKurss() == null) {
+                kursaDatumi.setKurss(existing.getKurss());
+            }
+            if (kursaDatumi.getPasniedzejs() == null) {
+                kursaDatumi.setPasniedzejs(existing.getPasniedzejs());
+            }
+            if (kursaDatumi.getSakumaDatums() == null) {
+                kursaDatumi.setSakumaDatums(existing.getSakumaDatums());
+            }
+            if (kursaDatumi.getBeiguDatums() == null) {
+                kursaDatumi.setBeiguDatums(existing.getBeiguDatums());
+            }
+
             kursaDatumiService.updateById(id, kursaDatumi);
             return "redirect:/kursaDatumi/CRUD/show/all";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", e.getMessage());
+
+            model.addAttribute("kurssList", kurssRepo.findAll());
+
+            List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
+            pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
+            model.addAttribute("pasniedzejiList", pasniedzejiList);
+
             return "kursa-datumi-update-page";
         }
     }

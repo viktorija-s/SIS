@@ -1,89 +1,105 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
 <body>
 
-	<p th:text="#{participants.list.title}">
-		Informācija par kursa dalībniekiem:
-	</p>
+<p th:text="#{participants.list.title}">Informācija par kursa dalībniekiem:</p>
 
-	<div th:if="${kursaDal.getTotalElements() > 1}">
-		<span th:text="#{pagination.show}">Rādīt ierakstu:</span>
+<!-- SEARCH / FILTER -->
+<form th:action="@{/kursaDalibnieki/CRUD/show/all}" method="get">
+    <input type="hidden" name="page" value="0"/>
+    <input type="hidden" name="size" th:value="${kursaDal.size}"/>
 
-		<form th:method="get" th:action="@{/kursaDalibnieki/CRUD/show/all}">
-			<input type="hidden" name="page" value="0" />
-			<select name="size" onchange="this.form.submit()">
-				<option th:value="3" th:selected="${kursaDal.size == 3}">3</option>
-				<option th:value="5" th:selected="${kursaDal.size == 5}">5</option>
-				<option th:value="10" th:selected="${kursaDal.size == 10}">10</option>
-				<option th:value="15" th:selected="${kursaDal.size == 15}">15</option>
-				<option th:value="20" th:selected="${kursaDal.size == 20}">20</option>
-			</select>
-		</form>
-	</div>
+    <input type="text" name="q" th:value="${q}" placeholder="Meklēt pēc vārda vai uzvārda"/>
+    <button type="submit">Meklēt</button>
 
-	<table border="1px">
-		<tr>
-			<th th:text="#{table.id}">ID</th>
-			<th th:text="#{table.firstName}">Vārds</th>
-			<th th:text="#{table.lastName}">Uzvārds</th>
-			<th th:text="#{table.email}">E-pasts</th>
-			<th th:text="#{table.phone}">Telefona nr</th>
-			<th th:text="#{table.personId}">Personas ID</th>
-			<th th:text="#{table.city}">Pilsēta</th>
-			<th th:text="#{table.country}">Valsts</th>
-			<th th:text="#{table.street}">Ielas nosaukums un numurs</th>
-			<th th:text="#{table.apartment}">Dzīvokļa nr</th>
-			<th th:text="#{table.postalCode}">Pasta indekss</th>
-			<th th:text="#{table.avgGrade}">Vidējā atzīme</th>
-			<th th:text="#{table.actions}">Darbības</th>
-		</tr>
+    <a th:href="@{/kursaDalibnieki/CRUD/show/all(page=0, size=${kursaDal.size})}">Notīrīt</a>
+</form>
 
-		<tr th:each="temp : ${kursaDal}">
-			<td th:text="${temp.kdid}"></td>
-			<td th:text="${temp.vards}"></td>
-			<td th:text="${temp.uzvards}"></td>
-			<td th:text="${temp.epasts}"></td>
-			<td th:text="${temp.telefonaNr}"></td>
-			<td th:text="${temp.personasId}"></td>
-			<td th:text="${temp.pilseta}"></td>
-			<td th:text="${temp.valsts}"></td>
-			<td th:text="${temp.ielasNosaukumsNumurs}"></td>
-			<td th:text="${temp.dzivoklaNr}"></td>
-			<td th:text="${temp.pastaIndekss}"></td>
-			<td th:text="${temp.avgGrade}"></td>
-			<td>
-				<a th:if="${kursaDal.totalElements > 1}"
-					th:href="@{/kursaDalibnieki/CRUD/show/all/{id}(id=${temp.kdid})}" th:text="#{action.view}">
-					Skatīt
-				</a>
+<div th:if="${kursaDal.getTotalElements() > 1}">
+    <span th:text="#{pagination.show}">Rādīt ierakstu:</span>
 
-				<a th:href="@{/kursaDalibnieki/CRUD/update/{id}(id=${temp.kdid})}" th:text="#{action.edit}">Labot</a>
-				<a th:href="@{/kursaDalibnieki/CRUD/remove/{id}(id=${temp.kdid})}" th:text="#{action.delete}">Dzēst</a>
-			</td>
-		</tr>
-	</table>
+    <form th:method="get" th:action="@{/kursaDalibnieki/CRUD/show/all}">
+        <input type="hidden" name="page" value="0"/>
+        <input type="hidden" name="q" th:value="${q}"/>
 
-	<div th:if="${kursaDal.getTotalElements() > 1}">
-		<a th:if="${!kursaDal.first}"
-			th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number - 1}, size=${kursaDal.size})}"
-			th:text="#{pagination.previous}">
-			Iepriekšējā
-		</a>
+        <select name="size" onchange="this.form.submit()">
+            <option th:value="3" th:selected="${kursaDal.size == 3}">3</option>
+            <option th:value="5" th:selected="${kursaDal.size == 5}">5</option>
+            <option th:value="10" th:selected="${kursaDal.size == 10}">10</option>
+            <option th:value="15" th:selected="${kursaDal.size == 15}">15</option>
+            <option th:value="20" th:selected="${kursaDal.size == 20}">20</option>
+        </select>
+    </form>
+</div>
 
-		<span>
-			<span th:text="#{pagination.page}">Lapa</span>
-			<span th:text="${kursaDal.number + 1}"></span>
-			<span th:text="#{pagination.of}">no</span>
-			<span th:text="${kursaDal.totalPages}"></span>
-		</span>
+<table border="1px">
+    <tr>
+        <th th:text="#{table.id}">ID</th>
+        <th th:text="#{table.firstName}">Vārds</th>
+        <th th:text="#{table.lastName}">Uzvārds</th>
+        <th th:text="#{table.email}">E-pasts</th>
+        <th th:text="#{table.phone}">Telefona nr</th>
+        <th th:text="#{table.personId}">Personas ID</th>
+        <th th:text="#{table.city}">Pilsēta</th>
+        <th th:text="#{table.country}">Valsts</th>
+        <th th:text="#{table.street}">Ielas nosaukums un numurs</th>
+        <th th:text="#{table.apartment}">Dzīvokļa nr</th>
+        <th th:text="#{table.postalCode}">Pasta indekss</th>
+        <th th:text="#{table.avgGrade}">Vidējā atzīme</th>
+        <th th:text="#{table.actions}">Darbības</th>
+    </tr>
 
-		<a th:if="${!kursaDal.last}"
-			th:href="@{/kursaDalibnieki/CRUD/show/all?page={page}&size={size}(page=${kursaDal.number + 1}, size=${kursaDal.size})}"
-			th:text="#{pagination.next}">
-			Nākamā
-		</a>
-	</div>
+    <!-- svarīgi: iterējam pa kursaDal.content -->
+    <tr th:each="temp : ${kursaDal.content}">
+        <td th:text="${temp.kdid}"></td>
+        <td th:text="${temp.vards}"></td>
+        <td th:text="${temp.uzvards}"></td>
+        <td th:text="${temp.epasts}"></td>
+        <td th:text="${temp.telefonaNr}"></td>
+        <td th:text="${temp.personasId}"></td>
+        <td th:text="${temp.pilseta}"></td>
+        <td th:text="${temp.valsts}"></td>
+        <td th:text="${temp.ielasNosaukumsNumurs}"></td>
+        <td th:text="${temp.dzivoklaNr}"></td>
+        <td th:text="${temp.pastaIndekss}"></td>
+        <td th:text="${temp.avgGrade}"></td>
+        <td>
+            <a th:if="${kursaDal.totalElements > 1}"
+               th:href="@{/kursaDalibnieki/CRUD/show/all/{id}(id=${temp.kdid})}"
+               th:text="#{action.view}">
+                Skatīt
+            </a>
+
+            <a th:href="@{/kursaDalibnieki/CRUD/update/{id}(id=${temp.kdid})}" th:text="#{action.edit}">
+                Labot
+            </a>
+            <a th:href="@{/kursaDalibnieki/CRUD/remove/{id}(id=${temp.kdid})}" th:text="#{action.delete}">
+                Dzēst
+            </a>
+        </td>
+    </tr>
+</table>
+
+<div th:if="${kursaDal.getTotalElements() > 1}">
+    <a th:if="${!kursaDal.first}"
+       th:href="@{/kursaDalibnieki/CRUD/show/all(page=${kursaDal.number - 1}, size=${kursaDal.size}, q=${q})}"
+       th:text="#{pagination.previous}">
+        Iepriekšējā
+    </a>
+
+    <span>
+        <span th:text="#{pagination.page}">Lapa</span>
+        <span th:text="${kursaDal.number + 1}"></span>
+        <span th:text="#{pagination.of}">no</span>
+        <span th:text="${kursaDal.totalPages}"></span>
+        <span th:text="' (' + ${kursaDal.totalElements} + ' ieraksti)'"></span>
+    </span>
+
+    <a th:if="${!kursaDal.last}"
+       th:href="@{/kursaDalibnieki/CRUD/show/all(page=${kursaDal.number + 1}, size=${kursaDal.size}, q=${q})}"
+       th:text="#{pagination.next}">
+        Nākamā
+    </a>
+</div>
 
 </body>
-
 </html>

@@ -1,12 +1,6 @@
 package lv.sis.service;
 
-import lv.sis.model.KursaDatumi;
-import lv.sis.model.Kurss;
-
-import lv.sis.model.Sertifikati;
-
-import lv.sis.model.Pasniedzeji;
-import lv.sis.model.Vertejumi;
+import lv.sis.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,4 +22,6 @@ public interface IFilterService {
     ArrayList<Sertifikati> findSertifikatiByDalibniekaVardsUzvards(String vards, String uzvards) throws Exception;
 
 	Page<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception;
+
+    Page<KursaDalibnieki> findDalibniekiByNameQuery(String q, Pageable pageable);
 }
