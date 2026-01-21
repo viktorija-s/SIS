@@ -108,7 +108,7 @@ public class SisApplication {
 				Pasniedzeji p6 = new Pasniedzeji("Andris", "Liepa", "andris.liepa@tdl.com", "+37125555555");
 				Pasniedzeji p7 = new Pasniedzeji("Eva", "Zariņa", "eva.zarina@tdl.com", "+37126666666");
 				Pasniedzeji p8 = new Pasniedzeji("Mārtiņš", "Grīnbergs", "martins.grinbergs@tdl.com", "+37127777777");
-				p1.setUser(u2);
+				p1.setUser(u1);
 				p2.setUser(u3);
 				pasnRepo.save(p1);
 				pasnRepo.save(p2);
@@ -135,8 +135,8 @@ public class SisApplication {
 				kursaDatumiRepo.save(kdat6);
 				kursaDatumiRepo.save(kdat7);
 
-				Vertejumi v1 = new Vertejumi(8.7f, LocalDate.of(2025, 3, 15), kd1, kdat1);
-				Vertejumi v2 = new Vertejumi(6.5f, LocalDate.of(2025, 4, 10), kd3, kdat2);
+				Vertejumi v1 = new Vertejumi(8.7f, LocalDate.of(2025, 3, 15), kd1, kdat6);
+				Vertejumi v2 = new Vertejumi(6.5f, LocalDate.of(2025, 4, 10), kd3, kdat7);
 				Vertejumi v3 = new Vertejumi(9.2f, LocalDate.of(2025, 5, 5), kd5, kdat1);
 				Vertejumi v4 = new Vertejumi(7.8f, LocalDate.of(2025, 6, 1), kd7, kdat2);
 				Vertejumi v5 = new Vertejumi(3.2f, LocalDate.of(2025, 6, 12), kd2, kdat1);
