@@ -110,9 +110,12 @@ public class PasniedzejiCRUDController {
 		try {
 			Pasniedzeji pasniedzejs = pasnService.retrieveById(id).getContent().getFirst();
 			model.addAttribute("pasniedzejs", pasniedzejs);
+			model.addAttribute("id", id);
 			return "pasniedzeji-update-page";
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
+			model.addAttribute("id", id);
+			model.addAttribute("pasniedzejs", new Pasniedzeji());
 			return "pasniedzeji-update-page";
 		}
 	}
@@ -124,6 +127,8 @@ public class PasniedzejiCRUDController {
 			return "redirect:/pasniedzeji/CRUD/show/all";
 		} catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("id", id);
+            model.addAttribute("pasniedzejs", pasniedzejs);
 			model.addAttribute("message", e.getMessage());
 			return "pasniedzeji-update-page";
 		}

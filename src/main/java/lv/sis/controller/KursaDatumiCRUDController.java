@@ -163,6 +163,7 @@ public class KursaDatumiCRUDController {
             List<Pasniedzeji> pasniedzejiList = new ArrayList<>();
             pasniedzejiRepo.findAll().forEach(pasniedzejiList::add);
             model.addAttribute("pasniedzejiList", pasniedzejiList);
+            model.addAttribute("id", id);
 
             return "kursa-datumi-update-page";
         } catch (Exception e) {

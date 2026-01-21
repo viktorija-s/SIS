@@ -5,7 +5,7 @@
 
 	<p th:text="#{teacher.edit.title}"> Rediģējiet informāciju par pasniedzēju! </p>
 
-	<form action="#" th:action="@{/pasniedzeji/CRUD/update/{id}(id=${pasniedzejs.pid})}" th:object="${pasniedzejs}"
+	<form action="#" th:action="@{/pasniedzeji/CRUD/update/{id}(id=${id})}" th:object="${pasniedzejs}"
 		method="post">
 		<table>
 			<tr>
