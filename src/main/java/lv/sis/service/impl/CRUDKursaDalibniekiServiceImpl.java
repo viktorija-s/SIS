@@ -49,6 +49,17 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 			throw new Exception("Ievades parametri nav pareizi");
 		}
 
+        if (!vards.matches("[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")) {
+            throw new Exception("Vārdam jāsākas ar lielo burtu");
+        }
+
+        if (!uzvards.matches("[A-ZĒŪĪĻĶĢŠĀČŅ]{1}[a-zēūīļķģšāžčņ]+")) {
+            throw new Exception("Uzvārdam jāsākas ar lielo burtu");
+        }
+
+        if (!epasts.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new Exception("Nepareizs e-pasta formāts");
+        }
 
 		if (kursaDalibniekiRepo.existsByPersonasId(personasId)) {
 	        throw new Exception("Kursa dalībnieks ar tādu personasId jau eksistē: " + personasId);
@@ -205,7 +216,6 @@ public class CRUDKursaDalibniekiServiceImpl implements ICRUDKursaDalibniekiServi
 		}
 
 		kursaDalibniekiRepo.deleteById(kdid);
-		;
 
 	}
 	

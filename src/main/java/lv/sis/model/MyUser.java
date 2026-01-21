@@ -41,8 +41,6 @@ public class MyUser {
     @NotNull
     private String password;
 
-    // many to one
-
     @ManyToOne
     @JoinColumn(name = "AId")
     private MyAuthority authority;

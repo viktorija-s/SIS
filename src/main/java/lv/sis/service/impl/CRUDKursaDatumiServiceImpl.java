@@ -147,26 +147,26 @@ public class CRUDKursaDatumiServiceImpl implements ICRUDKursaDatumiService {
         }
 
         KursaDatumi retrievedKursaDatumi = kursaDatumiRepo.findById(kursaDatId).get();
-        
+
         LocalDate newSakumaDatums = retrievedKursaDatumi.getSakumaDatums();
         LocalDate newBeiguDatums = retrievedKursaDatumi.getBeiguDatums();
         Kurss newKurss = retrievedKursaDatumi.getKurss();
         Pasniedzeji newPasniedzejs = retrievedKursaDatumi.getPasniedzejs();
 
-        if (kursaDatumi.getSakumaDatums() != null && !kursaDatumi.getSakumaDatums().equals(retrievedKursaDatumi.getSakumaDatums())) {
-        	retrievedKursaDatumi.setSakumaDatums(kursaDatumi.getSakumaDatums());
+        if (kursaDatumi.getSakumaDatums() != null) {
+            newSakumaDatums = kursaDatumi.getSakumaDatums();
         }
 
-        if (kursaDatumi.getBeiguDatums() != null && !kursaDatumi.getBeiguDatums().equals(retrievedKursaDatumi.getBeiguDatums())) {
-        	retrievedKursaDatumi.setBeiguDatums(kursaDatumi.getBeiguDatums());
+        if (kursaDatumi.getBeiguDatums() != null) {
+            newBeiguDatums = kursaDatumi.getBeiguDatums();
         }
 
-        if (kursaDatumi.getKurss() != null && !kursaDatumi.getKurss().equals(retrievedKursaDatumi.getKurss())) {
-        	retrievedKursaDatumi.setKurss(kursaDatumi.getKurss());
+        if (kursaDatumi.getKurss() != null) {
+            newKurss = kursaDatumi.getKurss();
         }
 
-        if (kursaDatumi.getPasniedzejs() != null && !kursaDatumi.getPasniedzejs().equals(retrievedKursaDatumi.getPasniedzejs())) {
-        	retrievedKursaDatumi.setPasniedzejs(kursaDatumi.getPasniedzejs()); // TODO nestrādā ja nomaina pasniedzēju uz citu
+        if (kursaDatumi.getPasniedzejs() != null) {
+            newPasniedzejs = kursaDatumi.getPasniedzejs();
         }
         
         if (!newSakumaDatums.isBefore(newBeiguDatums)) {
