@@ -19,109 +19,166 @@ import lv.sis.repo.IKurssRepo;
 import lv.sis.repo.IKursaDalibniekiRepo;
 import lv.sis.service.ICRUDSertifikatiService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping("sertifikati/CRUD")
 public class SertifikatiCRUDController {
-	@Autowired 
-	private ICRUDSertifikatiService sertService;
-	@Autowired
-	private IKursaDalibniekiRepo dalibniekiRepo;
-	@Autowired
-	private IKurssRepo kurssRepo;
-	
-	@GetMapping("/show/all")
-	public String getControllerShowAllSertifikati(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
-		try {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Sertifikati> visiSertifikati = sertService.retrieveAll(pageable); 
-			model.addAttribute("sertifikati", visiSertifikati);
-			return "sertifikati-all-page"; 
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
-	@GetMapping("/show/all/{id}")
-	public String getControllerShowSertifikatsByID(@PathVariable(name = "id") Integer id, Model model) {
-		try {
-			Sertifikati sertifikats = sertService.retrieveById(id);
-			model.addAttribute("sertifikati", sertifikats);
-			return "sertifikati-all-page";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
-	
-	@GetMapping("/remove/{id}")
-	public String getControllerRemoveSertifikats(@PathVariable(name = "id") int id, Model model) {
-		try {
-			Sertifikati sertifikats = sertService.retrieveById(id);
-			model.addAttribute("sertifikats", sertifikats);
-			return "sertifikati-delete-confirm";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
 
-	@PostMapping("/remove/{id}")
-	public String deleteConfirmed(@PathVariable(name = "id") int id) {
-		try {
-			sertService.deleteById(id);
-			return "redirect:/sertifikati/CRUD/show/all";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error-page";
-		}
-	}
-	
-	@GetMapping("/add")
-	public String getControllerAddSertifikats(Model model) {
-		Sertifikati sertifikats = new Sertifikati();
-		model.addAttribute("tips", CertificateType.values());
-		model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
-	    model.addAttribute("kursi", kurssRepo.findAll());
-		model.addAttribute("sertifikats", sertifikats);
-		return "sertifikati-add-page";
-	}
-	@PostMapping("/add")
-	public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
-		if (sertifikats == null) {
-			model.addAttribute("package", "Sertifikats netika iedots");
-		}
-		
-		try {
-			System.out.println(sertifikats);
-			sertService.create(sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits(), sertifikats.getDalibnieks(), sertifikats.getKurss());
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			e.printStackTrace();
-			return "error-page";
-		}
-	}
-	@GetMapping("/update/{id}")
-	public String getControllerUpdateSertifikats(@PathVariable(name = "id") int id, Model model) {
-		try {
-			Sertifikati sertifikats = sertService.retrieveById(id);
-			model.addAttribute("sertifikats", sertifikats);
-			return "sertifikats-update-page";
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage());
-			return "error-page";
-		}
-	}
-	
-	@PostMapping("/update/{id}")
-	public String postControllerUpdateSertifikats(@PathVariable(name = "id") int id, Sertifikati sertifikats, Model model,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "4") int size) {
-		try {
-			sertService.updateById(id, sertifikats.getTips(), sertifikats.getIzdosanasDatums(), sertifikats.getRegistracijasNr(), sertifikats.isIrParakstits());
-			return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
-		} catch (Exception e) {
-			model.addAttribute("package", e.getMessage()); 
-			e.printStackTrace();
-			return "error-page"; 
-		}
-	}
+    private static final Logger logger = LoggerFactory.getLogger(SertifikatiCRUDController.class);
+
+    @Autowired
+    private ICRUDSertifikatiService sertService;
+    @Autowired
+    private IKursaDalibniekiRepo dalibniekiRepo;
+    @Autowired
+    private IKurssRepo kurssRepo;
+
+    @GetMapping("/show/all")
+    public String getControllerShowAllSertifikati(Model model,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "4") int size) {
+
+        logger.info("Request to show all certificates (page={}, size={})", page, size);
+
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Sertifikati> visiSertifikati = sertService.retrieveAll(pageable);
+            model.addAttribute("sertifikati", visiSertifikati);
+            logger.info("Successfully retrieved certificate list");
+            return "sertifikati-all-page";
+        } catch (Exception e) {
+            logger.error("Failed to retrieve certificates", e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/show/all/{id}")
+    public String getControllerShowSertifikatsByID(@PathVariable Integer id, Model model) {
+        logger.info("Request to retrieve certificate by id={}", id);
+
+        try {
+            Sertifikati sertifikats = sertService.retrieveById(id);
+            model.addAttribute("sertifikati", sertifikats);
+            return "sertifikati-all-page";
+        } catch (Exception e) {
+            logger.error("Failed to retrieve certificate id={}", id, e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/remove/{id}")
+    public String getControllerRemoveSertifikats(@PathVariable int id, Model model) {
+        logger.info("Opening delete confirmation for certificate id={}", id);
+
+        try {
+            Sertifikati sertifikats = sertService.retrieveById(id);
+            model.addAttribute("sertifikats", sertifikats);
+            return "sertifikati-delete-confirm";
+        } catch (Exception e) {
+            logger.error("Failed to open delete confirmation for certificate id={}", id, e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @PostMapping("/remove/{id}")
+    public String deleteConfirmed(@PathVariable int id) {
+        logger.warn("Delete confirmed for certificate id={}", id);
+
+        try {
+            sertService.deleteById(id);
+            logger.info("Certificate deleted id={}", id);
+            return "redirect:/sertifikati/CRUD/show/all";
+        } catch (Exception e) {
+            logger.error("Failed to delete certificate id={}", id, e);
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/add")
+    public String getControllerAddSertifikats(Model model) {
+        logger.info("Opening add certificate form");
+
+        Sertifikati sertifikats = new Sertifikati();
+        model.addAttribute("tips", CertificateType.values());
+        model.addAttribute("dalibnieki", dalibniekiRepo.findAll());
+        model.addAttribute("kursi", kurssRepo.findAll());
+        model.addAttribute("sertifikats", sertifikats);
+        return "sertifikati-add-page";
+    }
+
+    @PostMapping("/add")
+    public String postControllerAddSertifikats(@ModelAttribute Sertifikati sertifikats,
+                                               Model model,
+                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "4") int size) {
+
+        logger.info("Request to create new certificate");
+
+        if (sertifikats == null) {
+            logger.warn("Certificate object is null");
+            model.addAttribute("package", "Sertifikats netika iedots");
+        }
+
+        try {
+            logger.debug("Certificate data: {}", sertifikats);
+            sertService.create(
+                    sertifikats.getTips(),
+                    sertifikats.getIzdosanasDatums(),
+                    sertifikats.getRegistracijasNr(),
+                    sertifikats.isIrParakstits(),
+                    sertifikats.getDalibnieks(),
+                    sertifikats.getKurss());
+            logger.info("Certificate created successfully");
+            return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+        } catch (Exception e) {
+            logger.error("Failed to create certificate", e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @GetMapping("/update/{id}")
+    public String getControllerUpdateSertifikats(@PathVariable int id, Model model) {
+        logger.info("Opening update form for certificate id={}", id);
+
+        try {
+            Sertifikati sertifikats = sertService.retrieveById(id);
+            model.addAttribute("sertifikats", sertifikats);
+            return "sertifikats-update-page";
+        } catch (Exception e) {
+            logger.error("Failed to open update form for certificate id={}", id, e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
+
+    @PostMapping("/update/{id}")
+    public String postControllerUpdateSertifikats(@PathVariable int id,
+                                                  Sertifikati sertifikats,
+                                                  Model model,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "4") int size) {
+
+        logger.info("Request to update certificate id={}", id);
+
+        try {
+            sertService.updateById(
+                    id,
+                    sertifikats.getTips(),
+                    sertifikats.getIzdosanasDatums(),
+                    sertifikats.getRegistracijasNr(),
+                    sertifikats.isIrParakstits());
+            logger.info("Certificate updated id={}", id);
+            return "redirect:/sertifikati/CRUD/show/all?page=" + page + "&size=" + size;
+        } catch (Exception e) {
+            logger.error("Failed to update certificate id={}", id, e);
+            model.addAttribute("package", e.getMessage());
+            return "error-page";
+        }
+    }
 }

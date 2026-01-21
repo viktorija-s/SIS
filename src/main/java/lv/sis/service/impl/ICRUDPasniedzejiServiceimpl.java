@@ -13,111 +13,121 @@ import lv.sis.repo.IPasniedzejiRepo;
 import lv.sis.service.ICRUDPasniedzejiService;
 import lv.sis.service.IUserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class ICRUDPasniedzejiServiceimpl implements ICRUDPasniedzejiService {
-	@Autowired
+
+    private static final Logger logger = LoggerFactory.getLogger(ICRUDPasniedzejiServiceimpl.class);
+
+    @Autowired
     IPasniedzejiRepo pasnRepo;
-	
-	@Autowired
-	IUserService userService;
 
-	@Override
-	public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
-		if (vards == null || uzvards == null || epasts == null || telefonaNr == null) {
-			throw new Exception("Dati nav pareizi");
-		}
-		if (pasnRepo.existsByVardsAndUzvards(vards, uzvards) && pasnRepo.existsByEpasts(epasts)) {
-			throw new Exception("Pasniedzējs ar e-pastu " + epasts + " jau eksistē");
-		}
-		if (pasnRepo.existsByTelefonaNr(telefonaNr)) {
-			throw new Exception("Pasniedzējs ar numuru " + telefonaNr + " jau eksistē");
-		}
+    @Autowired
+    IUserService userService;
 
-		Pasniedzeji newSert = new Pasniedzeji(vards, uzvards, epasts, telefonaNr);
-		pasnRepo.save(newSert);
-	}
+    @Override
+    public void create(String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
+        logger.info("Creating teacher");
+        if (vards == null || uzvards == null || epasts == null || telefonaNr == null) {
+            throw new Exception("Dati nav pareizi");
+        }
+        if (pasnRepo.existsByVardsAndUzvards(vards, uzvards) && pasnRepo.existsByEpasts(epasts)) {
+            throw new Exception("Pasniedzējs ar e-pastu " + epasts + " jau eksistē");
+        }
+        if (pasnRepo.existsByTelefonaNr(telefonaNr)) {
+            throw new Exception("Pasniedzējs ar numuru " + telefonaNr + " jau eksistē");
+        }
 
-	@Override
-	public Page<Pasniedzeji> retrieveAll(Pageable pageable) throws Exception {
-		if (pasnRepo.count() == 0) {
-			throw new Exception("Tabula ir tukša");
-		}
-		
-		return pasnRepo.findAll(pageable); 
-	}
+        Pasniedzeji newSert = new Pasniedzeji(vards, uzvards, epasts, telefonaNr);
+        pasnRepo.save(newSert);
+        logger.info("Teacher created successfully");
+    }
 
-	@Override
-	public Pasniedzeji retrieveById(int kdid) throws Exception {
-		if (kdid < 0) {
-			throw new Exception("ID nav pareizs");
-		}
-		if (!pasnRepo.existsById(kdid)) {
-			throw new Exception("Sertifikats ar tadu id neeksistē");
-		}
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		
-		for (GrantedAuthority a: auth.getAuthorities()) {
-			if (a.getAuthority().equals("ADMIN")) {
-				return pasnRepo.findById(kdid).get(); 
-			}
-		}
-		
-		Pasniedzeji pasniedzejs = pasnRepo.findByUserUsername(username);
-		if (pasniedzejs == null) {
-		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
-		}
-		if (pasniedzejs.getPid() == kdid) {
-			return pasniedzejs;
-		}
+    @Override
+    public Page<Pasniedzeji> retrieveAll(Pageable pageable) throws Exception {
+        logger.info("Retrieving teachers");
+        if (pasnRepo.count() == 0) {
+            throw new Exception("Tabula ir tukša");
+        }
+        return pasnRepo.findAll(pageable);
+    }
 
-		throw new Exception("This user does not have rights to watch this page."); 
-	}
+    @Override
+    public Pasniedzeji retrieveById(int kdid) throws Exception {
+        logger.info("Retrieving teacher id={}", kdid);
+        if (kdid < 0) {
+            throw new Exception("ID nav pareizs");
+        }
+        if (!pasnRepo.existsById(kdid)) {
+            throw new Exception("Sertifikats ar tadu id neeksistē");
+        }
 
-	@Override
-	public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
-		if (kdid < 0) {
-			throw new Exception("ID nav pareizs");
-		}
-		if (!pasnRepo.existsById(kdid)) {
-			throw new Exception("Pasniedzējs ar tadu id neeksistē");
-		}
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		Pasniedzeji pasn;
-		
-		for (GrantedAuthority a: auth.getAuthorities()) {
-			if (a.getAuthority().equals("ADMIN")) {
-				pasn = pasnRepo.findById(kdid).get(); 
-			}
-		}
-		
-		pasn = pasnRepo.findByUserUsername(username);
-		if (pasn == null) {
-		    throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
-		}
+        for (GrantedAuthority a: auth.getAuthorities()) {
+            if (a.getAuthority().equals("ADMIN")) {
+                return pasnRepo.findById(kdid).get();
+            }
+        }
 
-		pasn.setVards(vards);
-		pasn.setUzvards(uzvards);
-		pasn.setEpasts(epasts);
-		pasn.setTelefonaNr(telefonaNr);
+        Pasniedzeji pasniedzejs = pasnRepo.findByUserUsername(username);
+        if (pasniedzejs == null) {
+            throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+        }
+        if (pasniedzejs.getPid() == kdid) {
+            return pasniedzejs;
+        }
 
-		pasnRepo.save(pasn);
-	}
+        throw new Exception("This user does not have rights to watch this page.");
+    }
 
-	@Override
-	public void deleteById(int kdid) throws Exception {
-		if (kdid < 0) {
-			throw new Exception("Id nevar būt negatīvs");
-		}
+    @Override
+    public void updateById(int kdid, String vards, String uzvards, String epasts, String telefonaNr) throws Exception {
+        logger.info("Updating teacher id={}", kdid);
+        if (kdid < 0) {
+            throw new Exception("ID nav pareizs");
+        }
+        if (!pasnRepo.existsById(kdid)) {
+            throw new Exception("Pasniedzējs ar tadu id neeksistē");
+        }
 
-		if (!pasnRepo.existsById(kdid)) {
-			throw new Exception("Pasniedzējs ar tādu id neeksistē");
-		}
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Pasniedzeji pasn;
 
-		pasnRepo.deleteById(kdid);
-	}
+        for (GrantedAuthority a: auth.getAuthorities()) {
+            if (a.getAuthority().equals("ADMIN")) {
+                pasn = pasnRepo.findById(kdid).get();
+            }
+        }
 
+        pasn = pasnRepo.findByUserUsername(username);
+        if (pasn == null) {
+            throw new Exception("Šim lietotājam nav piesaistīts pasniedzējs");
+        }
+
+        pasn.setVards(vards);
+        pasn.setUzvards(uzvards);
+        pasn.setEpasts(epasts);
+        pasn.setTelefonaNr(telefonaNr);
+
+        pasnRepo.save(pasn);
+        logger.info("Teacher updated id={}", kdid);
+    }
+
+    @Override
+    public void deleteById(int kdid) throws Exception {
+        logger.warn("Deleting teacher id={}", kdid);
+        if (kdid < 0) {
+            throw new Exception("Id nevar būt negatīvs");
+        }
+        if (!pasnRepo.existsById(kdid)) {
+            throw new Exception("Pasniedzējs ar tādu id neeksistē");
+        }
+        pasnRepo.deleteById(kdid);
+        logger.info("Teacher deleted id={}", kdid);
+    }
 }
