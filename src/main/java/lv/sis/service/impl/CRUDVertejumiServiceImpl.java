@@ -142,7 +142,8 @@ public class CRUDVertejumiServiceImpl implements ICRUDVertejumiService {
 		
 		for (GrantedAuthority a: auth.getAuthorities()) {
 			if (a.getAuthority().equals("ADMIN")) {
-				vertejumiRepo.deleteById(vid); 
+				vertejumiRepo.deleteById(vid);
+				return;
 			}
 		}
 		
