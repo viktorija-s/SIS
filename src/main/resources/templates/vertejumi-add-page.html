@@ -27,14 +27,16 @@
 				</td>
 			</tr>
 
-			<td th:text="#{grade.courseDates}">Kursa datumi:</td>
-			<td>
-				<select th:field="*{kursaDatumi}" required>
-					<option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
-						th:text="${k.kurss.nosaukums + ' (' + #temporals.format(k.sakumaDatums, 'yyyy-MM-dd') + ' ' + #{grade.until} + ' ' + #temporals.format(k.beiguDatums, 'yyyy-MM-dd') + ')'}">
-					</option>
-				</select>
-			</td>
+			<tr>
+				<td th:text="#{grade.courseDates}">Kursa datumi:</td>
+				<td>
+					<select th:field="*{kursaDatumi}" required>
+						<option th:each="k : ${kursaDatumiList}" th:value="${k.kursaDatId}"
+							th:text="|${k.kurss.nosaukums} (${#temporals.format(k.sakumaDatums,'yyyy-MM-dd')} #{grade.until} ${#temporals.format(k.beiguDatums,'yyyy-MM-dd')})|">
+						</option>
+
+					</select>
+				</td>
 
 			</tr>
 
