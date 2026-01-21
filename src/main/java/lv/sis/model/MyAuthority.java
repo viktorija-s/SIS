@@ -39,8 +39,6 @@ public class MyAuthority {
     @Column(name = "Title")
     private String title;
 
-    // one to many
-
     @OneToMany(mappedBy = "authority", fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<MyUser> users;

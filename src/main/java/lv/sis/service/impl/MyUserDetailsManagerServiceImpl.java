@@ -19,6 +19,7 @@ import lv.sis.repo.IMyAuthorityRepo;
 import lv.sis.repo.IMyUserRepo;
 
 @Service
+@NoArgsConstructor
 public class MyUserDetailsManagerServiceImpl implements UserDetailsManager {
 
 	@Autowired
