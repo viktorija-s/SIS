@@ -2,6 +2,8 @@ package lv.sis.model;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,7 @@ public class Vertejumi {
 	@Column(name = "Vertejums")
 	private float vertejums;
 	
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@NotNull
 	@PastOrPresent
 	@Column(name = "Datums")
