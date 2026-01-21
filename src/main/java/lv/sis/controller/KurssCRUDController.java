@@ -136,13 +136,18 @@ public class KurssCRUDController {
 
     @PostMapping("/update/{id}")
     public String postControllerUpdateKurss(@PathVariable(name = "id") int id, Kurss kurss, Model model) {
-    	if (kurss == null || kurss.getStundas() < 1) {
+        if (kurss == null || kurss.getStundas() < 1) {
             model.addAttribute("message", "Nav ievadīts kursa nosaukums vai stundas!");
             model.addAttribute("limeni", Limeni.values());
-            return "kurss-add-page";
+            return "kurss-update-page";
         }
-    	
+
         try {
+            if (kurss.getLimenis() == null) {
+                Kurss existing = kurssService.retrieveById(id).getContent().getFirst();
+                kurss.setLimenis(existing.getLimenis());
+            }
+
             kurssService.updateById(
                     id,
                     kurss.getNosaukums(),
@@ -153,6 +158,7 @@ public class KurssCRUDController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", e.getMessage());
+            model.addAttribute("limeni", Limeni.values());
             return "kurss-update-page";
         }
     }

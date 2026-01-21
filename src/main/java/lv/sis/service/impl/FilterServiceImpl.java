@@ -1,16 +1,8 @@
 package lv.sis.service.impl;
 
-import lv.sis.model.KursaDatumi;
-import lv.sis.model.Kurss;
-import lv.sis.model.Sertifikati;
-import lv.sis.repo.IKursaDatumiRepo;
+import lv.sis.model.*;
+import lv.sis.repo.*;
 import lv.sis.model.enums.CertificateType;
-import lv.sis.repo.IKurssRepo;
-import lv.sis.repo.ISertifikatiRepo;
-import lv.sis.model.Pasniedzeji;
-import lv.sis.model.Vertejumi;
-import lv.sis.repo.IPasniedzejiRepo;
-import lv.sis.repo.IVertejumiRepo;
 import lv.sis.service.IFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,10 +22,12 @@ public class FilterServiceImpl implements IFilterService {
 	@Autowired
 	private ISertifikatiRepo sertifikatiRepo;
 
-    
     @Autowired IVertejumiRepo vertejumiRepo;
     
     @Autowired IPasniedzejiRepo pasniedzejiRepo;
+
+    @Autowired
+    private IKursaDalibniekiRepo kursaDalibniekiRepo;
 
     @Override
     public Page<Kurss> findByNosaukumsContainingIgnoreCase(String text) throws Exception {
@@ -101,5 +95,21 @@ public class FilterServiceImpl implements IFilterService {
 		CertificateType type = CertificateType.valueOf(text.toUpperCase());
 		return sertifikatiRepo.findByTips(type);
 	}
+
+    @Override
+    public Page<KursaDalibnieki> findDalibniekiByNameQuery(String q, Pageable pageable) {
+        if (q == null || q.isBlank()) {
+            return kursaDalibniekiRepo.findAll(pageable);
+        }
+
+        String trimmed = q.trim();
+
+        if (!trimmed.matches("^[\\p{L} \\-]+$")) {
+            return kursaDalibniekiRepo.findAll(pageable);
+        }
+
+        return kursaDalibniekiRepo
+                .findByVardsContainingIgnoreCaseOrUzvardsContainingIgnoreCase(trimmed, trimmed, pageable);
+    }
 
 }
