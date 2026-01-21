@@ -6,7 +6,7 @@
 
 <p th:text="#{dates.edit.title}"> Rediģē eksistējošo kursa datumus!</p>
 
-<form action="#" th:action="@{/kursaDatumi/CRUD/update/{id}(id=${kursaDatumi.kursaDatId})}" th:object="${kursaDatumi}"
+<form action="#" th:action="@{/kursaDatumi/CRUD/update/{id}(id=${id})}" th:object="${kursaDatumi}"
       method="post">
     <table>
         <tr>

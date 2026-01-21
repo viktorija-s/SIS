@@ -127,6 +127,7 @@ public class KurssCRUDController {
         	Kurss kurss = kurssService.retrieveById(id).getContent().getFirst();
             model.addAttribute("kurss", kurss);
             model.addAttribute("limeni", Limeni.values()); // added 
+            model.addAttribute("id", id);
             return "kurss-update-page";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
